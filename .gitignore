@@ -1,0 +1,7 @@
+# env stuff
+.venv
+.opencode
+*__pycache__/
+
+# data stuff
+data/raw/Ishigaki18
