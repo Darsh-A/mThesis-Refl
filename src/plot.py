@@ -25,13 +25,16 @@ def plot_yields(
 ) -> None:
 
     masses = [e["params"]["mass"] for e in data]
+    # lfejs = [e["params"]["lfej"] for e in data]
     norm = plt.Normalize(min(masses), max(masses))
+    # norm = plt.Normalize(min(lfejs), max(lfejs))
     cmap = plt.colormaps["viridis"]
 
     fig, ax = plt.subplots(figsize=(8, 5)) 
 
     for entry in data:
         mass = entry["params"]["mass"]
+        # lfej = entry["params"]["lfej"]
         yields = entry["yields"]
         if combine_elements:
             yields = _combine_elements(yields)
@@ -44,6 +47,9 @@ def plot_yields(
             abundance_ratio(iso, wrt, yields[iso], yields.get(wrt, 0.0))
             for iso in isotopes
         ]
+        # for e, v in zip(isotopes, values):
+        #     if v < -5:
+                # print(f"Warning: Abundance ratio for {e} is very low ({v:.2f}) for params {entry['params']}")
 
         ax.plot(isotopes, values,color=cmap(norm(mass)),marker="o",markersize=5,linewidth=1.2,markeredgecolor="white",markeredgewidth=0.5,alpha=0.85)
 

@@ -1,5 +1,27 @@
 import re
 
+def _get_element(data: list[dict], isotope: str) -> float:
+    """Get the element mass value from data
+
+    Args:
+        data: A list of dictionaries containing yield data.
+        isotope: The isotope name (e.g., "C12", "He4").
+    NOTE: This is meant to use after yield summation, so it will return the mass of the element, not the isotope.
+    it may return wrong mass if summation is not done!!!
+
+    Returns:
+        The mass of the element
+    """
+    # Normalize isotope name to element symbol
+    element = _isotope_to_element(isotope)
+
+    # Check if the element is in the data
+    for entry in data:
+        if element in entry["yields"]:
+            return entry["yields"][element]
+
+    raise ValueError(f"Element {element} not found in data.")
+
 def _isotope_label(raw: str) -> str:
     """Normalize an isotope name like 'h1' or 'he4' to 'H1', 'He4'."""
     name = raw.strip().lower()

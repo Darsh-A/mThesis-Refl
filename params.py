@@ -1,8 +1,13 @@
 # Data locations
 heger_woosley_2002_yields = "data/raw/HW2002/yields.txt"
 ishigaki_2018_yields = "data/raw/Ishigaki18"
+ishigaki18_selected_yields = "data/raw/Ishigaki18_full.tsv"
 
 # Constants
+
+# Salvadori constants:
+f_star_by_f_dil = [1e-4, 1e-1]
+f_dil = [0.02, 10]
 
 # A(X) values from Asplund+09, Table 1
 """

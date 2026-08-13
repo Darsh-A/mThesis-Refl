@@ -3,7 +3,7 @@ import os
 import re
 
 from .utils import _isotope_label
-from params import heger_woosley_2002_yields, ishigaki_2018_yields
+from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
     """Load Heger & Woosley 2002 yields.
@@ -29,7 +29,7 @@ def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
 
     header_parts = lines[0].split()
     mass_he_values = [float(v) for v in header_parts[1:]]
-    mass_he_to_total = lambda mass_he: mass_he * 2
+    mass_he_to_total = lambda mass_he: mass_he * 2 + 10
 
     entries = []
     for ei, mass_he in enumerate(mass_he_values):
@@ -58,6 +58,8 @@ def load_ishigaki(data_dir: str=ishigaki_2018_yields) -> list[dict]:
     Tab-separated, header row with isotope names, one data row per model.
     First 6 columns after the index are parameters; remaining columns are
     per-isotope mass yields.
+
+    Mass values: [11, 13, 15, 25, 40, 100]
 
     Returns:
     [
@@ -106,3 +108,54 @@ def load_ishigaki(data_dir: str=ishigaki_2018_yields) -> list[dict]:
 
     return entries
 
+def load_ishigaki_selected(data_dir: str = ishigaki18_selected_yields,) -> list[dict]:
+    """Load Ishigaki+18 selected yields from a TSV file (from hartwig chi2 analysis)"""
+
+    entries = []
+
+    with open(data_dir) as f:
+        lines = f.readlines()
+
+    if len(lines) < 2:
+        return entries
+
+    header = lines[0].strip().split("\t")
+
+    # First 12 columns are metadata; everything after starname is an element.
+    element_names = header[12:]
+
+    for line in lines[1:]:
+        parts = line.strip().split("\t")
+
+        if len(parts) < 12:
+            continue
+
+        mass = float(parts[0])
+        energy = float(parts[1])
+        mout = float(parts[2])
+        lfej = float(parts[3])
+        mcut = float(parts[4])
+        mco = float(parts[5])
+
+        # Elements start at column 12.
+        yield_vals = [float(v) for v in parts[12:]]
+
+        yields = {
+            element: value
+            for element, value in zip(element_names, yield_vals)
+        }
+
+        entries.append({
+            "label": f"M={mass:.0f}",
+            "params": {
+                "mass": mass,
+                "energy": energy,
+                "Mcut": mcut,
+                "MCO": mco,
+                "Mout": mout,
+                "lfej": lfej,
+            },
+            "yields": yields,
+        })
+
+    return entries

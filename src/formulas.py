@@ -36,3 +36,5 @@ def abundance_ratio(elem1: str, elem2: str, mass1: float, mass2: float) -> float
     abundance_ratio = np.log10((mass1 / atomic_mass[elem1]) / (mass2 / atomic_mass[elem2])) - (A1 - A2)
 
     return abundance_ratio
+        
+
