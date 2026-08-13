@@ -5,7 +5,7 @@ import json
 
 import numpy as np
 
-from .utils import _combine_elements
+from .utils import _combine_elements, _get_element
 from params import asplund, atomic_mass
 
 
@@ -124,3 +124,112 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2)
 
     return abundance_ratio
+
+def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float) -> float:
+    """Compute the combined abundance ratio for a mixture of PISN and SN yields.
+        Refer to Eq. 13 of Salvadori et al. 2019.
+
+    Args:
+        pisn_data:
+        {
+            "label": "M=65",
+            "params": {"mass":130, "mass_he": 65},
+            "yields": {"H1": 0.1, "He4": 0.2, ...},
+        }
+        sn_data: (Same as pisn_data)
+    Returns:
+        The combined abundance ratio [elem1/elem2].
+    """
+
+    pisn_data["yields"] = _combine_elements(pisn_data["yields"])
+    sn_data["yields"] = _combine_elements(sn_data["yields"])
+
+    pisn_yields = pisn_data
+    sn_yields = sn_data
+
+    if elem1_pisn not in pisn_yields["yields"] or elem2_pisn not in pisn_yields["yields"]:
+        raise ValueError(f"Element {elem1_pisn} or {elem2_pisn} not found in PISN yields.")
+    if elem1_sn not in sn_yields["yields"] or elem2_sn not in sn_yields["yields"]:
+        raise ValueError(f"Element {elem1_sn} or {elem2_sn} not found in SN yields.")
+    
+    with open(asplund, "r") as f:
+        solar = json.load(f)
+
+    A1 = solar[elem1_pisn]["val"]
+    A2 = solar[elem2_pisn]["val"]
+
+    beta = (1-f_pisn)/f_pisn
+
+    Yz_pisn = sum(
+        e for element, e in pisn_yields["yields"].items()
+        if "H" not in element and "He" not in element
+    )
+    Yz_sn = sum(
+        e for element, e in sn_yields["yields"].items()
+        if "H" not in element and "He" not in element
+    )
+
+    
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
+    Yx2_pisn = _get_element(pisn_yields, elem2_pisn) / pisn_yields["params"]["mass"]
+    Yx1_sn = _get_element(sn_yields, elem1_sn) / sn_yields["params"]["mass"]
+    Yx2_sn = _get_element(sn_yields, elem2_sn) / sn_yields["params"]["mass"]
+
+    combined_ratio = np.log10(
+        (Yx1_pisn + beta*(Yz_pisn/Yz_sn)*Yx1_sn)/(Yx2_pisn + beta*(Yz_pisn/Yz_sn)*Yx2_sn)
+    ) - (A1 - A2)
+
+    return combined_ratio
+
+def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float, f_ratio: float) -> float:
+    """Compute the X/H abundance ratio for a mixture of PISN and SN yields.
+        Refer to Eq. 12 of Salvadori et al. 2019.
+
+    Args:
+        pisn_data:
+        {
+            "label": "M=65",
+            "params": {"mass":130, "mass_he": 65},
+            "yields": {"H1": 0.1, "He4": 0.2, ...},
+        }
+        sn_data: (Same as pisn_data)
+    Returns:
+        The combined abundance ratio [elem1/elem2].
+    """
+
+    pisn_data["yields"] = _combine_elements(pisn_data["yields"])
+    sn_data["yields"] = _combine_elements(sn_data["yields"])
+
+    pisn_yields = pisn_data
+    sn_yields = sn_data
+
+    if elem1_pisn not in pisn_yields["yields"] or "H" not in pisn_yields["yields"]:
+        raise ValueError(f"Element {elem1_pisn} or {"H"} not found in PISN yields.")
+    if elem1_sn not in sn_yields["yields"] or "H" not in sn_yields["yields"]:
+        raise ValueError(f"Element {elem1_sn} or {"H"} not found in SN yields.")
+
+    with open(asplund, "r") as f:
+        solar = json.load(f)
+
+    A1 = solar[elem1_pisn]["val"]
+    A2 = solar["H"]["val"]
+
+    beta = (1-f_pisn)/f_pisn
+
+    Yz_pisn = sum(
+        e for element, e in pisn_yields["yields"].items()
+        if "H" not in element and "He" not in element
+    )
+    Yz_sn = sum(
+        e for element, e in sn_yields["yields"].items()
+        if "H" not in element and "He" not in element
+    )
+
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
+    Yx1_sn = _get_element(sn_yields, elem1_sn) / sn_yields["params"]["mass"]
+
+    combined_ratio = np.log10(
+        (f_ratio * (Yx1_pisn + beta*(Yx1_sn*Yz_pisn/Yz_sn)))
+    ) - (A1 - A2)
+
+    return combined_ratio

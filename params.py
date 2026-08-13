@@ -1,7 +1,7 @@
 # Data locations
 heger_woosley_2002_yields = "data/raw/HW2002/yields.txt"
 ishigaki_2018_yields = "data/raw/Ishigaki18"
-ishigaki18_selected_yields = "data/raw/Ishigaki18_full.tsv"
+ishigaki18_selected_yields = "data/Ishigaki18.tsv"
 
 # Constants
 

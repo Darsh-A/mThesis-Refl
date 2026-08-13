@@ -47,9 +47,9 @@ def plot_yields(
             abundance_ratio(iso, wrt, yields[iso], yields.get(wrt, 0.0))
             for iso in isotopes
         ]
-        # for e, v in zip(isotopes, values):
-        #     if v < -5:
-                # print(f"Warning: Abundance ratio for {e} is very low ({v:.2f}) for params {entry['params']}")
+        for e, v in zip(isotopes, values):
+            if v > 9:
+                print(f"Warning: Abundance ratio for {e} is very low ({v:.2f}) for params {entry['params']}")
 
         ax.plot(isotopes, values,color=cmap(norm(mass)),marker="o",markersize=5,linewidth=1.2,markeredgecolor="white",markeredgewidth=0.5,alpha=0.85)
 

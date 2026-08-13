@@ -1,10 +1,10 @@
 import re
 
-def _get_element(data: list[dict], isotope: str) -> float:
+def _get_element(data: dict, isotope: str) -> float:
     """Get the element mass value from data
 
     Args:
-        data: A list of dictionaries containing yield data.
+        data: A dictionary containing yield data.
         isotope: The isotope name (e.g., "C12", "He4").
     NOTE: This is meant to use after yield summation, so it will return the mass of the element, not the isotope.
     it may return wrong mass if summation is not done!!!
@@ -16,9 +16,8 @@ def _get_element(data: list[dict], isotope: str) -> float:
     element = _isotope_to_element(isotope)
 
     # Check if the element is in the data
-    for entry in data:
-        if element in entry["yields"]:
-            return entry["yields"][element]
+    if element in data["yields"]:
+        return data["yields"][element]
 
     raise ValueError(f"Element {element} not found in data.")
 

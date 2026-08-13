@@ -121,24 +121,24 @@ def load_ishigaki_selected(data_dir: str = ishigaki18_selected_yields,) -> list[
 
     header = lines[0].strip().split("\t")
 
-    # First 12 columns are metadata; everything after starname is an element.
-    element_names = header[12:]
+    # First 6 columns are metadata; everything after is an element.
+    element_names = header[6:]
 
     for line in lines[1:]:
         parts = line.strip().split("\t")
 
-        if len(parts) < 12:
+        if len(parts) < 6 + len(element_names):
             continue
 
         mass = float(parts[0])
         energy = float(parts[1])
-        mout = float(parts[2])
-        lfej = float(parts[3])
-        mcut = float(parts[4])
-        mco = float(parts[5])
+        mcut = float(parts[2])
+        mco = float(parts[3])
+        mout = float(parts[4])
+        lfej = float(parts[5])
 
-        # Elements start at column 12.
-        yield_vals = [float(v) for v in parts[12:]]
+        # Elements start at column 6.
+        yield_vals = [float(v) for v in parts[6:]]
 
         yields = {
             element: value
