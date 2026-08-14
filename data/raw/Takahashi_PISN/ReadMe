@@ -1,0 +1,45 @@
+================================================================================
+Title: Stellar Yields of Rotating First Stars. II. Pair Instability Supernovae 
+       and Comparison with Observations 
+Authors: Takahashi K., Yoshida T., Umeda H. 
+================================================================================
+Description of contents: Yields of 18 Pop III PISN models are provided.
+    Initial mass range from 180 to 280 Msun for non-rotating models, from
+    160to 260 Msun for magnetic rotating models, and from 160 to 260 Msun
+    for non-magnetic rotating models.
+
+    The files include are:
+
+    mr160.txt = PISN Yields of the magnetic rotating model; Mini=160 Msun
+    mr180.txt = PISN Yields of the magnetic rotating model; Mini=180 Msun
+    mr200.txt = PISN Yields of the magnetic rotating model; Mini=200 Msun
+    mr220.txt = PISN Yields of the magnetic rotating model; Mini=220 Msun
+    mr240.txt = PISN Yields of the magnetic rotating model; Mini=240 Msun
+    mr260.txt = PISN Yields of the magnetic rotating model; Mini=260 Msun
+    nm160.txt = PISN Yields of the non-magnetic rotating model; Mini=160 Msun
+    nm180.txt = PISN Yields of the non-magnetic rotating model; Mini=180 Msun
+    nm200.txt = PISN Yields of the non-magnetic rotating model; Mini=200 Msun
+    nm220.txt = PISN Yields of the non-magnetic rotating model; Mini=220 Msun
+    nm240.txt = PISN Yields of the non-magnetic rotating model; Mini=240 Msun
+    nm260.txt = PISN Yields of the non-magnetic rotating model; Mini=260 Msun
+    nr180.txt = PISN Yields of the non-rotating model; Mini=180 Msun
+    nr200.txt = PISN Yields of the non-rotating model; Mini=200 Msun
+    nr220.txt = PISN Yields of the non-rotating model; Mini=220 Msun
+    nr240.txt = PISN Yields of the non-rotating model; Mini=240 Msun
+    nr260.txt = PISN Yields of the non-rotating model; Mini=260 Msun
+    nr280.txt = PISN Yields of the non-rotating model; Mini=280 Msun
+    
+System requirements: The files are formatted according to the machine
+    readable format used by the AAS Journals and CDS/VizieR. Specific
+    information on the structure of MRT files can be found at:
+
+        AAS: http://journals.aas.org/authors/MRT/
+        CDS: http://cds.u-strasbg.fr/doc/catstd.htx
+
+    These files can be read in python using the astropy package:
+
+        from astropy.table import Table
+        data = Table.read("nr280.txt", format="ascii.cds")
+
+Additional comments: (No comments)
+================================================================================

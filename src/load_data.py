@@ -2,7 +2,7 @@ import glob
 import os
 import re
 
-from .utils import _isotope_label
+from .utils import _isotope_label, _isotope_to_element
 from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
@@ -159,3 +159,48 @@ def load_ishigaki_selected(data_dir: str = ishigaki18_selected_yields,) -> list[
         })
 
     return entries
+
+def load_takahashi(data_dir="data/raw/Takahashi_PISN"):
+    """Load Takahashi+19 PISN yield files from the raw CDS/MRT format.
+
+    Each .txt file is one model.  Model type and initial mass are parsed
+    from the filename (e.g. nr280.txt -> NR, 280).
+
+    Returns dict: model_type -> list[YieldEntry]
+        {"NR": [...], "NM": [...], "MR": [...]}
+    """
+    files = sorted(glob.glob(os.path.join(data_dir, "*.txt")))
+    by_model = {}
+
+    for filepath in files:
+        with open(filepath) as f:
+            lines = f.readlines()
+
+        basename = os.path.splitext(os.path.basename(filepath))[0]
+        model_type = basename[:2].upper()
+        mass = int(basename[2:])
+
+        yld = {}
+        for line in lines:
+            if not (line.startswith('NR ') or line.startswith('NM ') or
+                    line.startswith('MR ')):
+                continue
+            parts = line.split()
+            if len(parts) < 4:
+                continue
+            elem = _isotope_to_element(parts[2])
+            try:
+                val = float(parts[3])
+            except ValueError:
+                continue
+            yld[elem] = yld.get(elem, 0.0) + val
+
+        if yld:
+            entry = {
+                "label": f"{model_type} M={mass}",
+                "params": {"mass": mass, "model_type": model_type},
+                "yields": yld,
+            }
+            by_model.setdefault(model_type, []).append(entry)
+
+    return by_model
