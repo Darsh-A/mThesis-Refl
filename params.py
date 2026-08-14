@@ -17,7 +17,7 @@ asplund = "data/asplund.json"
 
 filter_elements = [
     "C", "N", "O", "F", "Ne", "Na", "Mg", "Al",
-    "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti",
+    "Si", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti",
     "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn"
 ]
 

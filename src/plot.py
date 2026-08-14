@@ -72,3 +72,48 @@ def plot_yields(
     plt.tight_layout()
     plt.show()
 
+def plot_one_yield(
+    entry: dict[str, float],
+    title: str = "Yield",
+    wrt: str = "Fe",
+    filter_elements: list[str] = None
+) -> None:
+    """
+    Plots the general yield (X/Fe vs elements) for a mass single entry.
+
+    Args:
+        entry: A single dict - 
+            {
+                "C": 0.1, # NOTE: This is the abundance ratio [X/Fe] for each element, not the raw yield.
+                "N": 0.2,
+            }
+        title: Title of the plot.
+        wrt: Element to normalize the yields against (default is "Fe").
+        filter_elements: Optional list of elements to include in the plot.
+    """
+    
+    yields = entry
+
+    # if filter_elements:
+    #     yields = {iso: val for iso, val in yields.items() if iso in filter_elements}
+    
+    elements = list(yields.keys())
+    X_Fe = list(yields.values())
+
+    fig, ax = plt.subplots(figsize=(8, 5))
+
+    ax.plot(elements, X_Fe, color="blue", marker="o", markersize=5, linewidth=1.2, markeredgecolor="white", markeredgewidth=0.5, alpha=0.85)
+
+    ax.set_xticks(range(len(elements)))
+    ax.set_xticklabels([rf"$\mathrm{{{iso}}}$" for iso in elements])
+    ax.tick_params(axis="both", which="both", direction="in", top=True, right=True)
+    ax.axhline(0, ls="--", color="black", lw=0.8, alpha=0.8, zorder=0)
+    ax.grid(visible=True, which="major", color="gray", alpha=0.15, linestyle="-")
+    ax.set_title(title, pad=15)
+    ax.set_xlabel("Element")
+    ax.set_ylabel(rf"[$\mathrm{{X}} / \mathrm{{{wrt}}}$]")
+
+    plt.tight_layout()
+    plt.show()
+
+
