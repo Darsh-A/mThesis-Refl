@@ -162,12 +162,13 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
-        if "H" not in element and "He" not in element
-    )
+        if element not in ("H", "He")
+    ) / pisn_yields["params"]["mass"]
+
     Yz_sn = sum(
         e for element, e in sn_yields["yields"].items()
-        if "H" not in element and "He" not in element
-    )
+        if element not in ("H", "He")
+    ) / sn_yields["params"]["mass"]
 
     
     Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
@@ -178,6 +179,10 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
     combined_ratio = np.log10(
         (Yx1_pisn + beta*(Yz_pisn/Yz_sn)*Yx1_sn)/(Yx2_pisn + beta*(Yz_pisn/Yz_sn)*Yx2_sn)
     ) - (A1 - A2) - np.log10(atomic_mass[elem1_pisn]/atomic_mass[elem2_pisn])
+
+    # print(f"Salvadori {elem1_pisn}/{elem2_pisn} ratio: {combined_ratio}")
+    # print(f"Yields: PISN {elem1_pisn}: {Yx1_pisn}, PISN {elem2_pisn}: {Yx2_pisn}, SN {elem1_sn}: {Yx1_sn}, SN {elem2_sn}: {Yx2_sn}")
+    # print(f"Yields: PISN Z: {Yz_pisn}, SN Z: {Yz_sn}, beta: {beta}")
 
     return combined_ratio
 
@@ -218,12 +223,13 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
-        if "H" not in element and "He" not in element
-    )
+        if element not in ("H", "He")
+    ) / pisn_yields["params"]["mass"]
+
     Yz_sn = sum(
         e for element, e in sn_yields["yields"].items()
-        if "H" not in element and "He" not in element
-    )
+        if element not in ("H", "He")
+    ) / sn_yields["params"]["mass"]
 
     Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
     Yx1_sn = _get_element(sn_yields, elem1_sn) / sn_yields["params"]["mass"]
@@ -231,5 +237,9 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     combined_ratio = np.log10(
         (f_ratio * (Yx1_pisn + beta*(Yx1_sn*Yz_pisn/Yz_sn)))
     ) - (A1 - A2) - np.log10(atomic_mass[elem1_pisn]/atomic_mass["H"])
+
+    # print(f"Salvadori {elem1_pisn}/H ratio: {combined_ratio}")
+    # print(f"Yields: PISN {elem1_pisn}: {Yx1_pisn}, SN {elem1_sn}: {Yx1_sn}")
+    # print(f"Yields: PISN Z: {Yz_pisn}, SN Z: {Yz_sn}, beta: {beta}")
 
     return combined_ratio
