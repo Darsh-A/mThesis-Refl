@@ -121,8 +121,7 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     A1 = solar[elem1]["val"]
     A2 = solar["H"]["val"]
 
-    abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2) - np.log10(atomic_mass[elem1]/atomic_mass["H"])
-
+    abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2)
     return abundance_ratio
 
 def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float) -> float:
@@ -231,8 +230,8 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
         if element not in ("H", "He")
     ) / sn_yields["params"]["mass"]
 
-    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
-    Yx1_sn = _get_element(sn_yields, elem1_sn) / sn_yields["params"]["mass"]
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn)
+    Yx1_sn = _get_element(sn_yields, elem1_sn)
 
     combined_ratio = np.log10(
         (f_ratio * (Yx1_pisn + beta*(Yx1_sn*Yz_pisn/Yz_sn)))

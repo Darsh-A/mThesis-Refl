@@ -2,6 +2,7 @@
 heger_woosley_2002_yields = "data/raw/HW2002/yields.txt"
 ishigaki_2018_yields = "data/raw/Ishigaki18"
 ishigaki18_selected_yields = "data/Ishigaki18.tsv"
+woosley_weaver_1995_yields = "data/raw/WW95/Woosley_Weaver_Table_5A_5B.tsv"
 
 # Constants
 

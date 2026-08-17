@@ -3,7 +3,7 @@ import os
 import re
 
 from .utils import _isotope_label, _isotope_to_element
-from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields
+from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, woosley_weaver_1995_yields
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
     """Load Heger & Woosley 2002 yields.
@@ -204,3 +204,51 @@ def load_takahashi(data_dir="data/raw/Takahashi_PISN"):
             by_model.setdefault(model_type, []).append(entry)
 
     return by_model
+
+
+def load_ww95(filepath: str = woosley_weaver_1995_yields) -> list[dict]:
+    """Load Woosley & Weaver 1995 yields (Tables 5A+5B).
+
+    TSV with a header row of model labels (S11A ... S40C) and one row per
+    isotope. Model labels encode initial mass and model series (A/B/C):
+    S30A and S30B share the same mass but differ by series.
+
+    Returns:
+    [
+        {
+            "label": "30A",
+            "params": {"mass": 30, "model": "A"},
+            "yields": {"H1": 0.1, "He4": 0.2, ...},
+        },
+        ...
+    ]
+    """
+    with open(filepath) as f:
+        lines = f.readlines()
+
+    model_cols = lines[0].strip().split('\t')[3:]
+
+    entries = []
+    for ei, model in enumerate(model_cols):
+        label = model[1:]
+        mass = int(label[:-1])
+        model_type = label[-1]
+
+        yld = {}
+        for line in lines[1:]:
+            parts = line.strip().split('\t')
+            if parts[1] != 'yield' or len(parts) < 4 + ei:
+                continue
+            m = re.match(r'(\d+)([A-Za-z]+)', parts[2])
+            if not m:
+                continue
+            iso = m.group(2).capitalize() + m.group(1)
+            yld[iso] = float(parts[3 + ei])
+
+        entries.append({
+            "label": label,
+            "params": {"mass": mass, "model": model_type},
+            "yields": yld,
+        })
+
+    return entries
