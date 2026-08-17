@@ -6,7 +6,7 @@ import json
 import numpy as np
 from scipy.integrate import quad
 from scipy.interpolate import interp1d
-from src.formulas import larson_imf, raiteri_mass_from_lifetime
+from src.formulas import larson_imf, raiteri_mass_from_lifetime, raiteri_lifetime
 
 from .utils import _combine_elements, _get_element
 from params import asplund, atomic_mass
@@ -170,7 +170,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
         if element not in ("H", "He")
     ) / pisn_yields["params"]["mass"]
 
-    Z_star = f_ratio * (Yz_pisn)
+    Z_star = f_ratio * Yz_pisn / f_pisn
 
     m_popII = raiteri_mass_from_lifetime(
         lifetime=tpop2,
@@ -249,18 +249,22 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     beta = (1-f_pisn)/f_pisn
 
-    Yx1_pisn = _get_element(pisn_yields, elem1_pisn)
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
         if element not in ("H", "He")
     ) / pisn_yields["params"]["mass"]
 
-    Z_star = f_ratio * (Yz_pisn)
+    Z_star = f_ratio * Yz_pisn / f_pisn
+
+    print("Z_star:", Z_star)
+    print("tau_100:", raiteri_lifetime(100, Z_star) / 1e6)
+    print("tau_40:", raiteri_lifetime(40, Z_star) / 1e6)
 
     m_popII = raiteri_mass_from_lifetime(
         lifetime=tpop2,
         Z=Z_star,
-    )   
+    )
 
     print(f"m_popII: {m_popII}, tpop2: {tpop2}, Z_star: {Z_star}")
 
@@ -287,6 +291,12 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     combined_ratio = np.log10(
         (f_ratio * (Yx1_pisn + beta*(Yx1_sn*Yz_pisn/Yz_sn)))
     ) - (A1 - A2) - np.log10(atomic_mass[elem1_pisn]/atomic_mass["H"])
+
+    print(f"Yx/Yz for sn: {Yx1_sn/Yz_sn}")
+    print(f"Yx for pisn: {Yx1_pisn}")
+
+    print(f"sn term {beta*(Yx1_sn*Yz_pisn/Yz_sn)}")
+    print(f"sn/pisn term {beta*(Yx1_sn*Yz_pisn/Yz_sn)/Yx1_pisn}")
 
     # print(f"Salvadori {elem1_pisn}/H ratio: {combined_ratio}")
     # print(f"Yields: PISN {elem1_pisn}: {Yx1_pisn}, SN {elem1_sn}: {Yx1_sn}")
@@ -345,7 +355,7 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
     return quad(
         lambda m: float(m_X_II(m)) * larson_imf(m),
         m_popII,
-        min(m_max, masses.max()),
+        100.0,
     )[0]
 
 def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: float = 100.0) -> float:
@@ -402,5 +412,5 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
     return quad(
         lambda m: float(m_Z_II(m)) * larson_imf(m),
         m_popII,
-        min(m_max, masses.max()),
+        100.0,
     )[0]
