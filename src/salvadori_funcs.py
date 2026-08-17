@@ -4,6 +4,9 @@ import copy
 import json
 
 import numpy as np
+from scipy.integrate import quad
+from scipy.interpolate import interp1d
+from src.formulas import larson_imf, raiteri_mass_from_lifetime
 
 from .utils import _combine_elements, _get_element
 from params import asplund, atomic_mass
@@ -121,10 +124,10 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     A1 = solar[elem1]["val"]
     A2 = solar["H"]["val"]
 
-    abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2)
+    abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2) - np.log10(atomic_mass[elem1]/atomic_mass["H"])
     return abundance_ratio
 
-def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float) -> float:
+def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the combined abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 13 of Salvadori et al. 2019.
 
@@ -141,15 +144,15 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
     """
 
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
-    sn_data["yields"] = _combine_elements(sn_data["yields"])
+    # sn_data["yields"] = _combine_elements(sn_data["yields"])
 
     pisn_yields = pisn_data
     sn_yields = sn_data
 
-    if elem1_pisn not in pisn_yields["yields"] or elem2_pisn not in pisn_yields["yields"]:
-        raise ValueError(f"Element {elem1_pisn} or {elem2_pisn} not found in PISN yields.")
-    if elem1_sn not in sn_yields["yields"] or elem2_sn not in sn_yields["yields"]:
-        raise ValueError(f"Element {elem1_sn} or {elem2_sn} not found in SN yields.")
+    # if elem1_pisn not in pisn_yields["yields"] or elem2_pisn not in pisn_yields["yields"]:
+    #     raise ValueError(f"Element {elem1_pisn} or {elem2_pisn} not found in PISN yields.")
+    # if elem1_sn not in sn_yields["yields"] or elem2_sn not in sn_yields["yields"]:
+    #     raise ValueError(f"Element {elem1_sn} or {elem2_sn} not found in SN yields.")
     
     with open(asplund, "r") as f:
         solar = json.load(f)
@@ -159,21 +162,47 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     beta = (1-f_pisn)/f_pisn
 
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
+    Yx2_pisn = _get_element(pisn_yields, elem2_pisn) / pisn_yields["params"]["mass"]
+
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
         if element not in ("H", "He")
     ) / pisn_yields["params"]["mass"]
 
-    Yz_sn = sum(
-        e for element, e in sn_yields["yields"].items()
-        if element not in ("H", "He")
-    ) / sn_yields["params"]["mass"]
+    Z_star = f_ratio * (Yz_pisn)
 
-    
-    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) / pisn_yields["params"]["mass"]
-    Yx2_pisn = _get_element(pisn_yields, elem2_pisn) / pisn_yields["params"]["mass"]
-    Yx1_sn = _get_element(sn_yields, elem1_sn) / sn_yields["params"]["mass"]
-    Yx2_sn = _get_element(sn_yields, elem2_sn) / sn_yields["params"]["mass"]
+    m_popII = raiteri_mass_from_lifetime(
+        lifetime=tpop2,
+        Z=Z_star,
+    )
+
+    if m_popII is None:
+        return np.nan
+
+    Yx1_sn = salvadori_Y_X_II(
+        data=sn_data,
+        elem=elem1_sn,
+        m_popII=m_popII,
+        model="A",
+        m_max=100.0,
+    )
+    Yx2_sn = salvadori_Y_X_II(
+        data=sn_data,
+        elem=elem2_sn,
+        m_popII=m_popII,
+        model="A",
+        m_max=100.0,
+    )
+
+    Yz_sn = salvadori_Y_Z_II(
+        data=sn_data,
+        m_popII=m_popII,
+        model="A",
+        m_max=100.0,
+    )
+    if Yz_sn <= 0:
+        return np.nan
 
     combined_ratio = np.log10(
         (Yx1_pisn + beta*(Yz_pisn/Yz_sn)*Yx1_sn)/(Yx2_pisn + beta*(Yz_pisn/Yz_sn)*Yx2_sn)
@@ -185,7 +214,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     return combined_ratio
 
-def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float, f_ratio: float) -> float:
+def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the X/H abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 12 of Salvadori et al. 2019.
 
@@ -196,21 +225,21 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
             "params": {"mass":130, "mass_he": 65},
             "yields": {"H1": 0.1, "He4": 0.2, ...},
         }
-        sn_data: (Same as pisn_data)
+        sn_data: (Same as pisn_data) #NOTE: NOT salvadori processed data, but raw yields
     Returns:
         The combined abundance ratio [elem1/elem2].
     """
 
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
-    sn_data["yields"] = _combine_elements(sn_data["yields"])
+    # sn_data["yields"] = _combine_elements(sn_data["yields"])
 
     pisn_yields = pisn_data
     sn_yields = sn_data
 
-    if elem1_pisn not in pisn_yields["yields"] or "H" not in pisn_yields["yields"]:
-        raise ValueError(f"Element {elem1_pisn} or {"H"} not found in PISN yields.")
-    if elem1_sn not in sn_yields["yields"] or "H" not in sn_yields["yields"]:
-        raise ValueError(f"Element {elem1_sn} or {"H"} not found in SN yields.")
+    # if elem1_pisn not in pisn_yields["yields"] or "H" not in pisn_yields["yields"]:
+    #     raise ValueError(f"Element {elem1_pisn} or {"H"} not found in PISN yields.")
+    # if elem1_sn not in sn_yields["yields"] or "H" not in sn_yields["yields"]:
+    #     raise ValueError(f"Element {elem1_sn} or {"H"} not found in SN yields.")
 
     with open(asplund, "r") as f:
         solar = json.load(f)
@@ -220,18 +249,40 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     beta = (1-f_pisn)/f_pisn
 
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn)
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
         if element not in ("H", "He")
     ) / pisn_yields["params"]["mass"]
 
-    Yz_sn = sum(
-        e for element, e in sn_yields["yields"].items()
-        if element not in ("H", "He")
-    ) / sn_yields["params"]["mass"]
+    Z_star = f_ratio * (Yz_pisn)
 
-    Yx1_pisn = _get_element(pisn_yields, elem1_pisn)
-    Yx1_sn = _get_element(sn_yields, elem1_sn)
+    m_popII = raiteri_mass_from_lifetime(
+        lifetime=tpop2,
+        Z=Z_star,
+    )   
+
+    print(f"m_popII: {m_popII}, tpop2: {tpop2}, Z_star: {Z_star}")
+
+    if m_popII is None:
+        return np.nan
+
+    Yx1_sn = salvadori_Y_X_II(
+        data=sn_data,
+        elem=elem1_sn,
+        m_popII=m_popII,
+        model="A",
+        m_max=100.0,
+    )
+
+    Yz_sn = salvadori_Y_Z_II(
+        data=sn_data,
+        m_popII=m_popII,
+        model="A",
+        m_max=100.0,
+    )
+    if Yz_sn <= 0:
+        return np.nan
 
     combined_ratio = np.log10(
         (f_ratio * (Yx1_pisn + beta*(Yx1_sn*Yz_pisn/Yz_sn)))
@@ -242,3 +293,114 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     # print(f"Yields: PISN Z: {Yz_pisn}, SN Z: {Yz_sn}, beta: {beta}")
 
     return combined_ratio
+
+def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "A", m_max: float = 100.0):
+    """Compute the time-dependent SNII yield from Salvadori et al. (2019).
+
+    Y_X^II(t) = integral[m_popII(t), 100 Msun]
+                m_X^II(m) * Phi(m) dm
+
+    Args:
+        data: Raw WW95 yield entries from load_ww95() (or any other raw yield)
+        elem: Element to calculate, e.g. "Fe", "O".
+        m_popII: Lower integration limit in Msun.
+        m_max: Upper integration limit in Msun.
+
+    Returns:
+        Y_X^II.
+    """
+
+    masses = []
+    yields = []
+
+    for entry in data:
+        if entry['params']['model'] != model:
+            continue
+
+        mass = entry["params"]["mass"]
+        element_yields = _combine_elements(entry["yields"])
+
+        if elem not in element_yields:
+            continue
+
+        masses.append(mass)
+        yields.append(element_yields[elem])
+
+    masses = np.asarray(masses, dtype=float)
+    yields = np.asarray(yields, dtype=float)
+
+    # Sort by progenitor mass
+    order = np.argsort(masses)
+    masses = masses[order]
+    yields = yields[order]
+
+    m_X_II = interp1d(
+        masses,
+        yields,
+        kind="linear",
+        bounds_error=False,
+        fill_value="extrapolate",
+    )
+
+    return quad(
+        lambda m: float(m_X_II(m)) * larson_imf(m),
+        m_popII,
+        min(m_max, masses.max()),
+    )[0]
+
+def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: float = 100.0) -> float:
+    """Compute the time-dependent, IMF-integrated total metal yield Y_Z^II(t)
+    from Salvadori et al. (2019), consistent with salvadori_Y_X_II.
+
+        Y_Z^II(t) = integral[m_popII(t), 100 Msun] ( sum_X m_X^II(m) ) * Phi(m) dm
+
+    Args:
+        data: Raw WW95 (or equivalent) yield entries.
+        m_popII: Lower integration limit in Msun (from raiteri_mass_from_lifetime).
+        model: Which model tag to filter on (e.g. "A").
+        m_max: Upper integration limit in Msun.
+
+    Returns:
+        Y_Z^II(t).
+    """
+    masses = []
+    total_metal_mass = []
+
+    for entry in data:
+        if entry["params"]["model"] != model:
+            continue
+
+        mass = entry["params"]["mass"]
+        element_yields = _combine_elements(entry["yields"])
+
+        metal_sum = sum(
+            v for el, v in element_yields.items()
+            if el not in ("H", "He")
+        )
+
+        masses.append(mass)
+        total_metal_mass.append(metal_sum)
+
+    if not masses:
+        raise ValueError(f"No entries found for model='{model}' in salvadori_Y_Z_II.")
+
+    masses = np.asarray(masses, dtype=float)
+    total_metal_mass = np.asarray(total_metal_mass, dtype=float)
+
+    order = np.argsort(masses)
+    masses = masses[order]
+    total_metal_mass = total_metal_mass[order]
+
+    m_Z_II = interp1d(
+        masses,
+        total_metal_mass,
+        kind="linear",
+        bounds_error=False,
+        fill_value="extrapolate",
+    )
+
+    return quad(
+        lambda m: float(m_Z_II(m)) * larson_imf(m),
+        m_popII,
+        min(m_max, masses.max()),
+    )[0]
