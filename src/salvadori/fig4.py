@@ -6,20 +6,15 @@ from src.salvadori_funcs import salvadori_combined_abundratio_WrtH
 from src.salvadori_funcs import salvadori_yields as salvadori_yields_convert
 from src.utils import _combine_elements
 
-from params import ww95_001Z
-
 hw_yields = load_hw2002()
 takahashi_yields = load_takahashi()
 takahashi_yields = takahashi_yields["NR"]
-ww95_yields = load_ww95(ww95_001Z)
 
 hw_yields = hw_yields[1:]
 
 pisn_yields = hw_yields
-sn_yields = ww95_yields
 
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
-salvadori_sn_yields = salvadori_yields_convert(sn_yields)
 
 # Style keyed to match Salvadori+2019 Fig. 4 (label -> (marker, color))
 STYLE = {
@@ -31,7 +26,7 @@ STYLE = {
 }
 
 tpop2_list = [3e6, 6e6, 10e6, 20e6, 30e6]  # in years
-f_pisn = 0.5
+f_pisn = 0.9
 
 fig, ax = plt.subplots(figsize=(6, 5))
 
@@ -65,6 +60,6 @@ ax.set_ylabel(r"$[\mathrm{Fe}/\mathrm{H}]$")
 ax.legend(fontsize=8)
 ax.grid(True, alpha=0.3)
 plt.minorticks_on()
-plt.title(r"Abundance ratio $[\mathrm{Fe}/\mathrm{H}]$ vs. mPISN for different $t_\mathrm{popII}$", fontsize=10)
+plt.title(r"Abundance ratio $[\mathrm{Fe}/\mathrm{H}]$ vs. mPISN for different ; f_pisn = " + str(f_pisn), fontsize=10)
 plt.savefig("plots/salv_figures/fig4.png", dpi=300, bbox_inches="tight")
 plt.show()

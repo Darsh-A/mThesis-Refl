@@ -14,6 +14,8 @@ ww95_00001Z = "data/raw/WW95/Woosley_Weaver_Table_14A_14B.tsv"
 f_star_by_f_dil = [1e-4, 1e-1]
 f_dil = [0.02, 10]
 
+Z_SUN = 0.02
+
 # A(X) values from Asplund+09, Table 1
 """
 A(X) = log10(Nx/NH) + 12

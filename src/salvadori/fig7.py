@@ -37,7 +37,7 @@ for elem in ["Cu", "Zn", "N"]:
         pisn_entry = random.choice(salvadori_pisn_yields)
         sn_entry = random.choice(sn_yields)
 
-        f_pisn = 0.5
+        f_pisn = 0.9
         f_ratio = loguniform.rvs(1e-4, 1e-1)
         tpop2 = loguniform.rvs(3e6, 30e6)
         # tpop2 = random.choice(tpop2_values)
@@ -50,9 +50,9 @@ for elem in ["Cu", "Zn", "N"]:
         combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe","Fe", pisn_data=pisn_entry, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
         if combined_ratio < -4 or combined_ratio_wrtH < -5:
-            print("Very low ratio detected")
-            print("Elem", elem,"\n", "PISN", pisn_details, "\n", "SN", "_NA_", "\n", "Combined Ratio", combined_ratio, "\n", "Combined Ratio w.r.t H", combined_ratio_wrtH)
-            print("-------------------------------")
+            # print("Very low ratio detected")
+            # print("Elem", elem,"\n", "PISN", pisn_details, "\n", "SN", "_NA_", "\n", "Combined Ratio", combined_ratio, "\n", "Combined Ratio w.r.t H", combined_ratio_wrtH)
+            # print("-------------------------------")
             continue # do not add to the list if the ratio is very low, but print details for debugging
 
         X_Fe.append(combined_ratio)

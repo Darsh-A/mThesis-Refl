@@ -10,7 +10,7 @@ from src.formulas import larson_imf, raiteri_mass_from_lifetime, raiteri_lifetim
 from src.load_data import load_ww95
 
 from .utils import _combine_elements, _get_element
-from params import asplund, atomic_mass
+from params import asplund, atomic_mass, Z_SUN
 
 
 def salvadori_yields(data: list[dict]) -> list[dict]:
@@ -170,7 +170,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     Z_star = f_ratio * Yz_pisn
 
-    ww_model = salvadori_select_ww95_model(Z_star)
+    ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
     sn_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(lifetime=tpop2,Z=Z_star)
@@ -232,7 +232,8 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     Z_star = f_ratio * Yz_pisn
 
-    ww_model = salvadori_select_ww95_model(Z_star)
+    ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
+    print(f"Selected WW95 model: {ww_model} for Z_star/Z_SUN = {Z_star/Z_SUN}")
     sn_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(
