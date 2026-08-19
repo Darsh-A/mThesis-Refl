@@ -9,7 +9,7 @@ from scipy.interpolate import interp1d
 from src.formulas import larson_imf, raiteri_mass_from_lifetime, raiteri_lifetime
 from src.load_data import load_ww95
 
-from .utils import _combine_elements, _get_element
+from .utils import _combine_elements, _get_element, _apply_radioactive_decay
 from params import asplund, atomic_mass, Z_SUN
 
 
@@ -281,10 +281,10 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
             continue
 
         mass = entry["params"]["mass"]
-        element_yields = _combine_elements(entry["yields"])
+        element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))
 
-        if elem == "Fe":
-            element_yields["Fe"] *= 0.5
+        # if elem == "Fe":
+        #     element_yields["Fe"] *= 0.5
 
         if elem not in element_yields:
             continue
@@ -345,7 +345,7 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
             continue
 
         mass = entry["params"]["mass"]
-        element_yields = _combine_elements(entry["yields"])
+        element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))
 
         element_yields["Fe"] = element_yields.get("Fe", 0.0) * 0.5
 

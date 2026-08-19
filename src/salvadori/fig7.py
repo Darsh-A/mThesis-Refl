@@ -33,7 +33,7 @@ for elem in ["Cu", "Zn", "N"]:
 
     X_Fe = []
     Fe_H = []
-    for i in range(1000):
+    for i in range(4000):
         pisn_entry = random.choice(salvadori_pisn_yields)
 
         f_pisn = 0.9

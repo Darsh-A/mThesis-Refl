@@ -64,6 +64,45 @@ def _combine_elements(yields: dict[str, float]) -> dict[str, float]:
         combined[elem] = combined.get(elem, 0.0) + val
     return combined
 
+# Some raw yield tables (WW95 in particular) report freshly-synthesized,
+# PRE-DECAY isotopic yields, including short-lived radioactive species.
+# On any timescale relevant to this project (>= Myr), these have long
+# since decayed to their stable daughter. Chief among them: 56Ni (t1/2=6.1d)
+# -> 56Co (t1/2=77d) -> 56Fe, which is the dominant iron-production channel
+# in core-collapse SNe. Filing 56Ni under elemental "Ni" (as a naive
+# isotope->element mapping would) silently strips the majority of a CCSN's
+# true iron yield out of "Fe" and into "Ni".
+#
+# Only decay chains with total half-lives << 1 Myr (our shortest tpopII of
+# interest) are included; e.g. 60Fe (t1/2=2.6 Myr, -> 60Co -> 60Ni) is left
+# alone since its decay is not fast on our timescales of interest.
+_RADIOACTIVE_DECAY_MAP = {
+    "Ni56": "Fe",  # 56Ni -> 56Co -> 56Fe
+    "Co56": "Fe",
+    "Ni57": "Fe",  # 57Ni -> 57Co -> 57Fe
+    "Co57": "Fe",
+    "Co55": "Mn",  # 55Co -> 55Fe -> 55Mn
+    "Fe55": "Mn",
+}
+
+
+def _apply_radioactive_decay(yields: dict[str, float]) -> dict[str, float]:
+    """Route short-lived isotopes to their stable decay product.
+
+    Must be called on RAW isotope-level yields, before _combine_elements.
+    Isotopes not in _RADIOACTIVE_DECAY_MAP pass through unchanged (under
+    their own isotope label); _combine_elements still needs to be called
+    afterward to fold everything into per-element totals.
+    """
+    result = {}
+    for iso, val in yields.items():
+        target_elem = _RADIOACTIVE_DECAY_MAP.get(_isotope_label(iso))
+        if target_elem is not None:
+            result[target_elem] = result.get(target_elem, 0.0) + val
+        else:
+            result[iso] = result.get(iso, 0.0) + val
+    return result
+
 
 def extract_yield_peaks(pisn_yields, sn_yields, elem, f_pisn=0.9,f_ratio=1e-4, n_samples=500):
     """Extract local density maxima of [elem/Fe] vs [Fe/H] and return, per peak,

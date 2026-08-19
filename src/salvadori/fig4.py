@@ -27,7 +27,7 @@ STYLE = {
 }
 
 tpop2_list = [3e6, 6e6, 10e6, 20e6, 30e6]  # in years
-f_pisn = 0.5
+f_pisn = 0.9
 
 fig, ax = plt.subplots(figsize=(6, 5))
 

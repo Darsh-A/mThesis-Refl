@@ -105,7 +105,7 @@ def raiteri_mass_from_lifetime(
     lifetime: float,
     Z: float,
     m_min: float = 0.1,
-    m_max: float = 40.0,
+    m_max: float = 100.0,
 ) -> float | None:
 
     tau_min_mass = raiteri_lifetime(m_max, Z)

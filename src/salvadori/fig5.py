@@ -3,7 +3,7 @@ import numpy as np
 
 from src.load_data import load_ww95
 from src.salvadori_funcs import salvadori_Y_X_II, salvadori_Y_Z_II
-from src.utils import _combine_elements
+from src.utils import _combine_elements, _apply_radioactive_decay
 from src.formulas import raiteri_lifetime
 from params import ww95_001Z, Z_SUN
 
@@ -76,14 +76,14 @@ lifetimes = np.array([raiteri_lifetime(m, Z_STAR) for m in masses])
 
 # --- Left panel: raw per-star yield mass, m_X^II(m), vs that star's lifetime ---
 def per_star_yield(data, elem, model=MODEL):
-    """Raw ejecta mass of `elem` for each tabulated mass, in the same mass
-    order as `masses_for_model`. 0.0 where the element isn't tabulated for
-    that mass/table at all."""
+    """Raw (decay-corrected) ejecta mass of `elem` for each tabulated mass,
+    in the same mass order as `masses_for_model`. 0.0 where the element
+    isn't tabulated for that mass/table at all."""
     by_mass = {}
     for entry in data:
         if entry["params"]["model"] != model:
             continue
-        yv = _combine_elements(entry["yields"])
+        yv = _combine_elements(_apply_radioactive_decay(entry["yields"]))
         if elem == "Z":
             val = sum(v for el, v in yv.items() if el not in ("H", "He"))
         else:
