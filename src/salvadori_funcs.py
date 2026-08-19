@@ -283,8 +283,8 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
         mass = entry["params"]["mass"]
         element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))
 
-        # if elem == "Fe":
-        #     element_yields["Fe"] *= 0.5
+        if elem == "Fe":
+            element_yields["Fe"] *= 0.5
 
         if elem not in element_yields:
             continue

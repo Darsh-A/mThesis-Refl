@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from scipy.interpolate import interp1d
 
 from src.load_data import load_ww95
 from src.salvadori_funcs import salvadori_Y_X_II, salvadori_Y_Z_II
@@ -74,6 +75,13 @@ def masses_for_model(data, model=MODEL):
 masses = masses_for_model(ww_data)
 lifetimes = np.array([raiteri_lifetime(m, Z_STAR) for m in masses])
 
+# Dense mass grid used for the interpolated curves.
+# WW95 tabulated masses are still used for the plotted markers.
+mass_grid = np.linspace(masses.min(), masses.max(), 500)
+time_grid = np.array([
+    raiteri_lifetime(m, Z_STAR) for m in mass_grid
+])
+
 # --- Left panel: raw per-star yield mass, m_X^II(m), vs that star's lifetime ---
 def per_star_yield(data, elem, model=MODEL):
     """Raw (decay-corrected) ejecta mass of `elem` for each tabulated mass,
@@ -88,20 +96,39 @@ def per_star_yield(data, elem, model=MODEL):
             val = sum(v for el, v in yv.items() if el not in ("H", "He"))
         else:
             val = yv.get(elem, 0.0)
+
+            if elem == "Fe":
+                val *= 0.5
         by_mass[entry["params"]["mass"]] = val
     return np.array([by_mass.get(m, 0.0) for m in masses])
 
 
 # --- Right panel: IMF-integrated, time-cumulative yield, Y_X^II(t) ---
-def cumulative_yield(elem):
-    """Y_X^II evaluated at m_popII = each tabulated mass (i.e. at t = that
-    star's lifetime), using the existing salvadori_Y_X_II / Y_Z_II."""
+def cumulative_yield(elem, m_grid):
+    """Y_X^II evaluated over a dense m_popII grid."""
     vals = []
-    for m in masses:
+
+    for m in m_grid:
         if elem == "Z":
-            vals.append(salvadori_Y_Z_II(ww_data, m_popII=m, model=MODEL, m_max=100.0))
+            vals.append(
+                salvadori_Y_Z_II(
+                    ww_data,
+                    m_popII=m,
+                    model=MODEL,
+                    m_max=100.0,
+                )
+            )
         else:
-            vals.append(salvadori_Y_X_II(ww_data, elem=elem, m_popII=m, model=MODEL, m_max=100.0))
+            vals.append(
+                salvadori_Y_X_II(
+                    ww_data,
+                    elem=elem,
+                    m_popII=m,
+                    model=MODEL,
+                    m_max=100.0,
+                )
+            )
+
     return np.array(vals)
 
 
@@ -112,36 +139,114 @@ for row, group in enumerate(GROUPS):
     color = group["color"]
 
     for elem, style in group["members"]:
+        # Original WW95 points
         y_left = per_star_yield(ww_data, elem)
-        y_right = cumulative_yield(elem)
+
+        # Dense interpolated single-star curve
+        mask_l = y_left > 0
+
+        if np.count_nonzero(mask_l) >= 2:
+            yield_interp = interp1d(
+                masses[mask_l],
+                y_left[mask_l],
+                kind="linear",
+                bounds_error=False,
+                fill_value="extrapolate",
+            )
+
+            y_left_dense = yield_interp(mass_grid)
+
+            # Do not allow interpolation to produce non-positive values
+            mask_dense_l = y_left_dense > 0
+        else:
+            y_left_dense = np.full_like(mass_grid, np.nan)
+            mask_dense_l = np.zeros_like(mass_grid, dtype=bool)
+
+        # Dense IMF-integrated curve
+        y_right_dense = cumulative_yield(elem, mass_grid)
+        mask_dense_r = y_right_dense > 0
+
+        # Original WW95 points for markers
+        mask_points_l = y_left > 0
+
+        # Right-panel values at the original WW95 masses
+        y_right_points = cumulative_yield(elem, masses)
+        mask_points_r = y_right_points > 0
 
         mfc = color if style.get("mfc", "full") == "full" else "none"
         marker = style["marker"]
         ls = style["ls"]
 
-        mask_l = y_left > 0
-        mask_r = y_right > 0
-
+        # ---------------------------------------------------------
+        # LEFT: smooth interpolated line
+        # ---------------------------------------------------------
         ax_left.plot(
-            lifetimes[mask_l], np.log10(y_left[mask_l]),
-            marker=marker if marker != "None" else None,
-            linestyle=ls, color=color, markerfacecolor=mfc,
-            markeredgecolor=color, markersize=5, linewidth=1.0,
+            time_grid[mask_dense_l],
+            np.log10(y_left_dense[mask_dense_l]),
+            linestyle=ls,
+            color=color,
+            linewidth=1.0,
         )
+
+        # Original WW95 data points
+        if marker != "None":
+            ax_left.plot(
+                lifetimes[mask_points_l],
+                np.log10(y_left[mask_points_l]),
+                linestyle="None",
+                marker=marker,
+                color=color,
+                markerfacecolor=mfc,
+                markeredgecolor=color,
+                markersize=5,
+            )
+
+        # ---------------------------------------------------------
+        # RIGHT: smooth IMF-integrated curve
+        # ---------------------------------------------------------
         ax_right.plot(
-            lifetimes[mask_r], np.log10(y_right[mask_r]),
-            marker=marker if marker != "None" else None,
-            linestyle=ls, color=color, markerfacecolor=mfc,
-            markeredgecolor=color, markersize=5, linewidth=1.0,
+            time_grid[mask_dense_r],
+            np.log10(y_right_dense[mask_dense_r]),
+            linestyle=ls,
+            color=color,
+            linewidth=1.0,
             label=elem,
         )
+
+        # Original WW95 mass locations
+        if marker != "None":
+            ax_right.plot(
+                lifetimes[mask_points_r],
+                np.log10(y_right_points[mask_points_r]),
+                linestyle="None",
+                marker=marker,
+                color=color,
+                markerfacecolor=mfc,
+                markeredgecolor=color,
+                markersize=5,
+            )
 
     ax_left.set_xscale("log")
     ax_right.set_xscale("log")
     ax_left.grid(alpha=0.2)
     ax_right.grid(alpha=0.2)
-    ax_right.legend(fontsize=7, loc="center left", bbox_to_anchor=(1.01, 0.5),
-                     frameon=False, handlelength=2.2)
+    leg = ax_right.legend(
+        fontsize=7,
+        loc="center left",
+        bbox_to_anchor=(1.01, 0.5),
+        frameon=False,
+        handlelength=2.2,
+    )
+
+    for handle, (elem, style) in zip(leg.legend_handles, group["members"]):
+        marker = style["marker"]
+        mfc = color if style.get("mfc", "full") == "full" else "none"
+
+        if marker != "None":
+            handle.set_marker(marker)
+            handle.set_markerfacecolor(mfc)
+            handle.set_markeredgecolor(color)
+            handle.set_markersize(5)
 
 axes[0, 0].set_title(r"$\log(m_X^{II}/M_\odot)$ vs lifetime  (single star)", fontsize=10)
 axes[0, 1].set_title(r"$\log(Y_X^{II}/M_\odot)$ vs $t_\mathrm{popII}$  (IMF-integrated)", fontsize=10)
