@@ -113,7 +113,7 @@ def raiteri_mass_from_lifetime(
 
     if lifetime < tau_min_mass:
         # Even a 100 Msun star has not died yet
-        return None
+        return m_max
 
     if lifetime > tau_max_mass:
         # Even a 0.1 Msun star has already died

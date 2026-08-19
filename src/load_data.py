@@ -3,7 +3,7 @@ import os
 import re
 
 from .utils import _isotope_label, _isotope_to_element
-from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, woosley_weaver_1995_yields
+from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
     """Load Heger & Woosley 2002 yields.
@@ -206,7 +206,7 @@ def load_takahashi(data_dir="data/raw/Takahashi_PISN"):
     return by_model
 
 
-def load_ww95(filepath: str = woosley_weaver_1995_yields) -> list[dict]:
+def load_ww95(filepath: str = ww95_1Z) -> list[dict]:
     """Load Woosley & Weaver 1995 yields (Tables 5A+5B).
 
     TSV with a header row of model labels (S11A ... S40C) and one row per
