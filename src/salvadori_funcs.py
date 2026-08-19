@@ -7,6 +7,7 @@ import numpy as np
 from scipy.integrate import quad
 from scipy.interpolate import interp1d
 from src.formulas import larson_imf, raiteri_mass_from_lifetime, raiteri_lifetime
+from src.load_data import load_ww95
 
 from .utils import _combine_elements, _get_element
 from params import asplund, atomic_mass
@@ -127,7 +128,7 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2) - np.log10(atomic_mass[elem1]/atomic_mass["H"])
     return abundance_ratio
 
-def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], f_pisn: float, f_ratio: float, tpop2: float) -> float:
+def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict],f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the combined abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 13 of Salvadori et al. 2019.
 
@@ -144,10 +145,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
     """
 
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
-    # sn_data["yields"] = _combine_elements(sn_data["yields"])
-
     pisn_yields = pisn_data
-    sn_yields = sn_data
 
     # if elem1_pisn not in pisn_yields["yields"] or elem2_pisn not in pisn_yields["yields"]:
     #     raise ValueError(f"Element {elem1_pisn} or {elem2_pisn} not found in PISN yields.")
@@ -162,15 +160,18 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     beta = (1-f_pisn)/f_pisn
 
-    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) #/ pisn_yields["params"]["mass"]
-    Yx2_pisn = _get_element(pisn_yields, elem2_pisn) #/ pisn_yields["params"]["mass"]
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn)
+    Yx2_pisn = _get_element(pisn_yields, elem2_pisn)
 
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
         if element not in ("H", "He")
-    ) #/ pisn_yields["params"]["mass"]
+    )
 
     Z_star = f_ratio * Yz_pisn
+
+    ww_model = salvadori_select_ww95_model(Z_star)
+    sn_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(lifetime=tpop2,Z=Z_star)
     if m_popII is None:
@@ -196,7 +197,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     return combined_ratio
 
-def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], f_pisn: float, f_ratio: float, tpop2: float) -> float:
+def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the X/H abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 12 of Salvadori et al. 2019.
 
@@ -213,10 +214,7 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     """
 
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
-    # sn_data["yields"] = _combine_elements(sn_data["yields"])
-
     pisn_yields = pisn_data
-    sn_yields = salv_sn_data
     
     with open(asplund, "r") as f:
         solar = json.load(f)
@@ -234,16 +232,15 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     Z_star = f_ratio * Yz_pisn
 
-    print("Z_star:", Z_star)
-    print("tau_100:", raiteri_lifetime(100, Z_star) / 1e6)
-    print("tau_40:", raiteri_lifetime(40, Z_star) / 1e6)
+    ww_model = salvadori_select_ww95_model(Z_star)
+    sn_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(
         lifetime=tpop2,
         Z=Z_star,
     )
 
-    print(f"m_popII: {m_popII}, tpop2: {tpop2}, Z_star: {Z_star}")
+    # print(f"m_popII: {m_popII}, tpop2: {tpop2}, Z_star: {Z_star}")
 
     if m_popII is None:
         return np.nan
@@ -309,7 +306,7 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
         yields,
         kind="linear",
         bounds_error=False,
-        fill_value="extrapolate",
+        fill_value=(yields[0], 0),
     )
 
     return quad(
@@ -368,7 +365,7 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
         total_metal_mass,
         kind="linear",
         bounds_error=False,
-        fill_value="extrapolate",
+        fill_value=(total_metal_mass[0], 0) ,
     )
 
     return quad(
@@ -376,3 +373,21 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
         m_popII,
         100.0,
     )[0]
+
+
+from params import ww95_1Z, ww95_01Z, ww95_001Z, ww95_00001Z
+
+
+def salvadori_select_ww95_model(Z_star: float) -> str:
+    """Select the nearest available WW95 metallicity grid.
+
+    Z_star is expressed in units of Z_sun.
+    """
+    if Z_star < 0.001:
+        return ww95_00001Z
+    elif Z_star < 0.055:
+        return ww95_001Z
+    elif Z_star < 0.316:
+        return ww95_01Z
+    else:
+        return ww95_1Z

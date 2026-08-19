@@ -237,8 +237,11 @@ def load_ww95(filepath: str = ww95_1Z) -> list[dict]:
         yld = {}
         for line in lines[1:]:
             parts = line.strip().split('\t')
-            if parts[1] != 'yield' or len(parts) < 4 + ei:
+            if len(parts) < 4 + ei:
                 continue
+            # Row type column (parts[1]) is "yield" in Tables 5A/5B but
+            # "isotope" in Tables 12A/12B; the isotope name in parts[2] is
+            # the reliable discriminator for yield rows in both files.
             m = re.match(r'(\d+)([A-Za-z]+)', parts[2])
             if not m:
                 continue

@@ -4,9 +4,9 @@ ishigaki_2018_yields = "data/raw/Ishigaki18"
 ishigaki18_selected_yields = "data/Ishigaki18.tsv"
 
 ww95_1Z = "data/raw/WW95/Woosley_Weaver_Table_5A_5B.tsv"
-ww95_1Z_PF = "data/raw/WW95/Woosley_Weaver_Table_6A_6B_Production_Factors.tsv"
-ww95_001Z = "data/raw/WW95/Woosley_Weaver_Table_12A_12B.tsv"
-ww95_001Z_PF = "data/raw/WW95/Woosley_Weaver_Table_13A_13B_Production_Factors.tsv"
+ww95_01Z = "data/raw/WW95/Woosley_Weaver_Table_12A_12B.tsv"
+ww95_001Z = "data/raw/WW95/Woosley_Weaver_Table_10A_10B.tsv"
+ww95_00001Z = "data/raw/WW95/Woosley_Weaver_Table_14A_14B.tsv"
 
 # Constants
 
