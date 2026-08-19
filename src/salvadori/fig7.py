@@ -35,7 +35,6 @@ for elem in ["Cu", "Zn", "N"]:
     Fe_H = []
     for i in range(1000):
         pisn_entry = random.choice(salvadori_pisn_yields)
-        sn_entry = random.choice(sn_yields)
 
         f_pisn = 0.9
         f_ratio = loguniform.rvs(1e-4, 1e-1)
@@ -46,8 +45,8 @@ for elem in ["Cu", "Zn", "N"]:
             "mass": pisn_entry["params"]["mass"],
         }
 
-        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
-        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe","Fe", pisn_data=pisn_entry, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
         if combined_ratio < -4 or combined_ratio_wrtH < -5:
             # print("Very low ratio detected")

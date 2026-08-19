@@ -128,7 +128,7 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2) - np.log10(atomic_mass[elem1]/atomic_mass["H"])
     return abundance_ratio
 
-def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict],f_pisn: float, f_ratio: float, tpop2: float) -> float:
+def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], auto_sn:bool, f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the combined abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 13 of Salvadori et al. 2019.
 
@@ -147,11 +147,6 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
 
-    # if elem1_pisn not in pisn_yields["yields"] or elem2_pisn not in pisn_yields["yields"]:
-    #     raise ValueError(f"Element {elem1_pisn} or {elem2_pisn} not found in PISN yields.")
-    # if elem1_sn not in sn_yields["yields"] or elem2_sn not in sn_yields["yields"]:
-    #     raise ValueError(f"Element {elem1_sn} or {elem2_sn} not found in SN yields.")
-    
     with open(asplund, "r") as f:
         solar = json.load(f)
 
@@ -170,8 +165,10 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     Z_star = f_ratio * Yz_pisn
 
-    ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
-    sn_data = load_ww95(ww_model)
+    sn_dr_data = sn_data
+    if auto_sn:
+        ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
+        sn_dr_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(lifetime=tpop2,Z=Z_star)
     if m_popII is None:
@@ -181,9 +178,9 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
         sn_term_1 = 0.0
         sn_term_2 = 0.0
     else:
-        Yx1_sn = salvadori_Y_X_II(data=sn_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0)
-        Yx2_sn = salvadori_Y_X_II(data=sn_data, elem=elem2_sn, m_popII=m_popII, model="A", m_max=100.0)
-        Yz_sn  = salvadori_Y_Z_II(data=sn_data, m_popII=m_popII, model="A", m_max=100.0)
+        Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0)
+        Yx2_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem2_sn, m_popII=m_popII, model="A", m_max=100.0)
+        Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=100.0)
         if Yz_sn <= 0:
             sn_term_1 = 0.0
             sn_term_2 = 0.0
@@ -197,7 +194,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     return combined_ratio
 
-def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], f_pisn: float, f_ratio: float, tpop2: float) -> float:
+def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], auto_sn: bool, f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the X/H abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 12 of Salvadori et al. 2019.
 
@@ -224,17 +221,18 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     beta = (1-f_pisn)/f_pisn
 
-    Yx1_pisn = _get_element(pisn_yields, elem1_pisn) #/ pisn_yields["params"]["mass"]
+    Yx1_pisn = _get_element(pisn_yields, elem1_pisn)
     Yz_pisn = sum(
         e for element, e in pisn_yields["yields"].items()
         if element not in ("H", "He")
-    ) #/ pisn_yields["params"]["mass"]
+    )
 
     Z_star = f_ratio * Yz_pisn
 
-    ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
-    print(f"Selected WW95 model: {ww_model} for Z_star/Z_SUN = {Z_star/Z_SUN}")
-    sn_data = load_ww95(ww_model)
+    sn_dr_data = sn_data
+    if auto_sn:
+        ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
+        sn_dr_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(
         lifetime=tpop2,
@@ -249,8 +247,8 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     if m_popII >= 100.0:
         sn_term = 0.0
     else:
-        Yx1_sn = salvadori_Y_X_II(data=sn_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0)
-        Yz_sn  = salvadori_Y_Z_II(data=sn_data, m_popII=m_popII, model="A", m_max=100.0)
+        Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0)
+        Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=100.0)
         sn_term = 0.0 if Yz_sn <= 0 else (Yx1_sn * Yz_pisn / Yz_sn)
 
     combined_ratio = np.log10(
@@ -296,6 +294,14 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
 
     masses = np.asarray(masses, dtype=float)
     yields = np.asarray(yields, dtype=float)
+
+    if masses.size == 0:
+        # Element not tabulated at all in this yield table/model (e.g. "P"
+        # is absent from some WW95 metallicity grids) -> no contribution.
+        return 0.0
+
+    # Sort by progenitor mass
+    order = np.argsort(masses)
 
     # Sort by progenitor mass
     order = np.argsort(masses)
@@ -379,16 +385,17 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
 from params import ww95_1Z, ww95_01Z, ww95_001Z, ww95_00001Z
 
 
-def salvadori_select_ww95_model(Z_star: float) -> str:
-    """Select the nearest available WW95 metallicity grid.
+def salvadori_select_ww95_model(Z_rel: float) -> str:
+    """Select the nearest WW95 metallicity grid.
 
-    Z_star is expressed in units of Z_sun.
+    Z_rel = Z_star / Z_sun.
     """
-    if Z_star < 0.001:
-        return ww95_00001Z
-    elif Z_star < 0.055:
-        return ww95_001Z
-    elif Z_star < 0.316:
-        return ww95_01Z
-    else:
-        return ww95_1Z
+
+    grids = {
+        1.0: ww95_1Z,
+        0.1: ww95_01Z,
+        0.01: ww95_001Z,
+        1e-4: ww95_00001Z,
+    }
+
+    return grids[min(grids, key=lambda z: abs(np.log10(Z_rel) - np.log10(z)))]

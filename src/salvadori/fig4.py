@@ -9,12 +9,13 @@ from src.utils import _combine_elements
 hw_yields = load_hw2002()
 takahashi_yields = load_takahashi()
 takahashi_yields = takahashi_yields["NR"]
-
+ww95_yields = load_ww95()
 hw_yields = hw_yields[1:]
 
 pisn_yields = hw_yields
-
+sn_yields = ww95_yields
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
+salvadori_sn_yields = salvadori_yields_convert(sn_yields)
 
 # Style keyed to match Salvadori+2019 Fig. 4 (label -> (marker, color))
 STYLE = {
@@ -26,7 +27,7 @@ STYLE = {
 }
 
 tpop2_list = [3e6, 6e6, 10e6, 20e6, 30e6]  # in years
-f_pisn = 0.9
+f_pisn = 0.5
 
 fig, ax = plt.subplots(figsize=(6, 5))
 
@@ -39,6 +40,9 @@ for tpop2 in tpop2_list:
         Fe_H = salvadori_combined_abundratio_WrtH(
             "Fe", "Fe",
             pisn_data=pisn,
+            sn_data=sn_yields,
+            salv_sn_data=salvadori_sn_yields,
+            auto_sn=True,
             f_pisn=f_pisn,
             f_ratio=f_ratio,
             tpop2=tpop2,
