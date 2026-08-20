@@ -167,7 +167,7 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
 
     sn_dr_data = sn_data
     if auto_sn:
-        ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
+        ww_model = salvadori_select_ww95_model(Z_star)
         sn_dr_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(lifetime=tpop2,Z=Z_star)
@@ -228,10 +228,11 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     )
 
     Z_star = f_ratio * Yz_pisn
+    # print(f"Z_star: {salvadori_select_ww95_model(Z_star)}")
 
     sn_dr_data = sn_data
     if auto_sn:
-        ww_model = salvadori_select_ww95_model(Z_star/Z_SUN)
+        ww_model = salvadori_select_ww95_model(Z_star)
         sn_dr_data = load_ww95(ww_model)
 
     m_popII = raiteri_mass_from_lifetime(
@@ -383,7 +384,6 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
 
 
 from params import ww95_1Z, ww95_01Z, ww95_001Z, ww95_00001Z
-
 
 def salvadori_select_ww95_model(Z_rel: float) -> str:
     """Select the nearest WW95 metallicity grid.

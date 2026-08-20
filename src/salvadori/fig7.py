@@ -15,7 +15,7 @@ from params import ww95_001Z
 hw_yields = load_hw2002()
 takahashi_yields = load_takahashi()
 takahashi_yields = takahashi_yields["NR"]
-ww95_yields = load_ww95(ww95_001Z)
+ww95_yields = load_ww95()
 
 hw_yields = hw_yields[1:]
 
@@ -25,7 +25,7 @@ sn_yields = ww95_yields
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
 salvadori_sn_yields = salvadori_yields_convert(sn_yields)
 
-for elem in ["Cu", "Zn", "N"]:
+for elem in ["Zn"]:
     if elem in ["H", "He", "P", "Fe"]:
         continue
 
@@ -33,20 +33,22 @@ for elem in ["Cu", "Zn", "N"]:
 
     X_Fe = []
     Fe_H = []
-    for i in range(4000):
+    for i in range(2000):
+        print(i)
+        
         pisn_entry = random.choice(salvadori_pisn_yields)
 
         f_pisn = 0.9
         f_ratio = loguniform.rvs(1e-4, 1e-1)
-        tpop2 = loguniform.rvs(3e6, 30e6)
-        # tpop2 = random.choice(tpop2_values)
+        tpop2_values = [3e6, 6e6, 10e6, 20e6, 30e6]
+        tpop2 = random.choice(tpop2_values)
 
         pisn_details = {
             "mass": pisn_entry["params"]["mass"],
         }
 
-        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
-        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
         if combined_ratio < -4 or combined_ratio_wrtH < -5:
             # print("Very low ratio detected")

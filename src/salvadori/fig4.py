@@ -42,7 +42,7 @@ for tpop2 in tpop2_list:
             pisn_data=pisn,
             sn_data=sn_yields,
             salv_sn_data=salvadori_sn_yields,
-            auto_sn=True,
+            auto_sn=False,
             f_pisn=f_pisn,
             f_ratio=f_ratio,
             tpop2=tpop2,
