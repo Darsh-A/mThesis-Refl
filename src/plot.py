@@ -21,20 +21,22 @@ def plot_yields(
     title: str = "Yields",
     wrt: str = "Fe",
     combine_elements: bool = True,
-    filter_elements: list[str] = None
-) -> None:
+    filter_elements: list[str] = None,
+    ax: plt.Axes = None,
+) -> plt.Axes:
 
     masses = [e["params"]["mass"] for e in data]
-    # lfejs = [e["params"]["lfej"] for e in data]
     norm = plt.Normalize(min(masses), max(masses))
-    # norm = plt.Normalize(min(lfejs), max(lfejs))
     cmap = plt.colormaps["viridis"]
 
-    fig, ax = plt.subplots(figsize=(8, 5)) 
+    standalone = ax is None
+    if standalone:
+        fig, ax = plt.subplots(figsize=(8, 5))
+    else:
+        fig = ax.figure
 
     for entry in data:
         mass = entry["params"]["mass"]
-        # lfej = entry["params"]["lfej"]
         yields = entry["yields"]
         if combine_elements:
             yields = _combine_elements(yields)
@@ -51,16 +53,14 @@ def plot_yields(
             if v > 9:
                 print(f"Warning: Abundance ratio for {e} is very low ({v:.2f}) for params {entry['params']}")
 
-        ax.plot(isotopes, values,color=cmap(norm(mass)),marker="o",markersize=5,linewidth=1.2,markeredgecolor="white",markeredgewidth=0.5,alpha=0.85)
+        ax.plot(isotopes, values, color=cmap(norm(mass)), marker="o", markersize=5,
+                 linewidth=1.2, markeredgecolor="white", markeredgewidth=0.5, alpha=0.85)
 
     ax.set_xticks(range(len(isotopes)))
     ax.set_xticklabels([rf"$\mathrm{{{iso}}}$" for iso in isotopes])
-    
     ax.tick_params(axis="both", which="both", direction="in", top=True, right=True)
-
     ax.axhline(0, ls="--", color="black", lw=0.8, alpha=0.8, zorder=0)
     ax.grid(visible=True, which="major", color="gray", alpha=0.15, linestyle="-")
-
     ax.set_title(title, pad=15)
     ax.set_xlabel("Element")
     ax.set_ylabel(rf"[$\mathrm{{X}} / \mathrm{{{wrt}}}$]")
@@ -69,8 +69,11 @@ def plot_yields(
     cbar = fig.colorbar(sm, ax=ax, pad=0.02)
     cbar.set_label(r"Mass ($M_\odot$)")
 
-    plt.tight_layout()
-    plt.show()
+    if standalone:
+        plt.tight_layout()
+        plt.show()
+
+    return ax
 
 def plot_one_yield(
     entry: dict[str, float],

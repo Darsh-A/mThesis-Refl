@@ -128,7 +128,7 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2) - np.log10(atomic_mass[elem1]/atomic_mass["H"])
     return abundance_ratio
 
-def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], auto_sn:bool, f_pisn: float, f_ratio: float, tpop2: float) -> float:
+def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: str, elem2_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], auto_sn:bool, single_sn:bool, sn_input: str, f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the combined abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 13 of Salvadori et al. 2019.
 
@@ -170,17 +170,35 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
         ww_model = salvadori_select_ww95_model(Z_star)
         sn_dr_data = load_ww95(ww_model)
 
-    m_popII = raiteri_mass_from_lifetime(lifetime=tpop2,Z=Z_star)
-    if m_popII is None:
-        return np.nan
-    
-    if m_popII >= 100.0:
-        sn_term_1 = 0.0
-        sn_term_2 = 0.0
-    else:
-        Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0)
-        Yx2_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem2_sn, m_popII=m_popII, model="A", m_max=100.0)
-        Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=100.0)
+    if single_sn == False:
+        m_popII = raiteri_mass_from_lifetime(lifetime=tpop2,Z=Z_star)
+        if m_popII is None:
+            return np.nan
+        
+        if m_popII >= 100.0:
+            sn_term_1 = 0.0
+            sn_term_2 = 0.0
+        else:
+            Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0, sn_input=sn_input)
+            Yx2_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem2_sn, m_popII=m_popII, model="A", m_max=100.0, sn_input=sn_input)
+            Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=100.0, sn_input=sn_input)
+            if Yz_sn <= 0:
+                sn_term_1 = 0.0
+                sn_term_2 = 0.0
+            else:
+                sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
+                sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
+
+    if single_sn == True:
+        salv_sn_data["yields"] = _combine_elements(salv_sn_data["yields"])
+        salv_sn_yields = salv_sn_data
+        Yx1_sn = _get_element(salv_sn_yields, elem1_pisn)
+        Yx2_sn = _get_element(salv_sn_yields, elem2_pisn)
+
+        Yz_sn = sum(
+            e for element, e in salv_sn_yields["yields"].items()
+            if element not in ("H", "He")
+        )
         if Yz_sn <= 0:
             sn_term_1 = 0.0
             sn_term_2 = 0.0
@@ -188,13 +206,14 @@ def salvadori_combined_abundratio(elem1_pisn: str, elem1_sn: str, elem2_pisn: st
             sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
             sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
+
     combined_ratio = np.log10(
         (Yx1_pisn + beta*sn_term_1) / (Yx2_pisn + beta*sn_term_2)
     ) - (A1 - A2) - np.log10(atomic_mass[elem1_pisn]/atomic_mass[elem2_pisn])
 
     return combined_ratio
 
-def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], auto_sn: bool, f_pisn: float, f_ratio: float, tpop2: float) -> float:
+def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data: list[dict], sn_data: list[dict], salv_sn_data: list[dict], auto_sn: bool, single_sn: bool, sn_input: str, f_pisn: float, f_ratio: float, tpop2: float) -> float:
     """Compute the X/H abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 12 of Salvadori et al. 2019.
 
@@ -228,28 +247,36 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
     )
 
     Z_star = f_ratio * Yz_pisn
-    # print(f"Z_star: {salvadori_select_ww95_model(Z_star)}")
 
     sn_dr_data = sn_data
     if auto_sn:
         ww_model = salvadori_select_ww95_model(Z_star)
         sn_dr_data = load_ww95(ww_model)
 
-    m_popII = raiteri_mass_from_lifetime(
-        lifetime=tpop2,
-        Z=Z_star,
-    )
+    if single_sn == False:
+        m_popII = raiteri_mass_from_lifetime(
+            lifetime=tpop2,
+            Z=Z_star,
+        )
 
-    # print(f"m_popII: {m_popII}, tpop2: {tpop2}, Z_star: {Z_star}")
+        if m_popII is None:
+            return np.nan
+        
+        if m_popII >= 100.0:
+            sn_term = 0.0
+        else:
+            Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0, sn_input=sn_input)
+            Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=100.0, sn_input=sn_input)
+            sn_term = 0.0 if Yz_sn <= 0 else (Yx1_sn * Yz_pisn / Yz_sn)
 
-    if m_popII is None:
-        return np.nan
-    
-    if m_popII >= 100.0:
-        sn_term = 0.0
-    else:
-        Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=100.0)
-        Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=100.0)
+    if single_sn == True:
+        salv_sn_data["yields"] = _combine_elements(salv_sn_data["yields"])
+        salv_sn_yields = salv_sn_data
+        Yx1_sn = _get_element(salv_sn_yields, elem1_pisn)
+        Yz_sn = sum(
+            e for element, e in salv_sn_yields["yields"].items()
+            if element not in ("H", "He")
+        )
         sn_term = 0.0 if Yz_sn <= 0 else (Yx1_sn * Yz_pisn / Yz_sn)
 
     combined_ratio = np.log10(
@@ -258,7 +285,7 @@ def salvadori_combined_abundratio_WrtH(elem1_pisn: str, elem1_sn: str, pisn_data
 
     return combined_ratio
 
-def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "A", m_max: float = 100.0):
+def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "A", m_max: float = 100.0, sn_input: str = "WW95") -> float:
     """Compute the time-dependent SNII yield from Salvadori et al. (2019).
 
     Y_X^II(t) = integral[m_popII(t), 100 Msun]
@@ -269,6 +296,7 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
         elem: Element to calculate, e.g. "Fe", "O".
         m_popII: Lower integration limit in Msun.
         m_max: Upper integration limit in Msun.
+        sn_input: The input source for the SN data (e.g., "WW95", "Limongi18").
 
     Returns:
         Y_X^II.
@@ -278,8 +306,9 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
     yields = []
 
     for entry in data:
-        if entry['params']['model'] != model:
-            continue
+        if sn_input == "WW95":
+            if entry['params']['model'] != model:
+                continue
 
         mass = entry["params"]["mass"]
         element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))
@@ -323,7 +352,7 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
         100.0,
     )[0]
 
-def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: float = 100.0) -> float:
+def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: float = 100.0, sn_input: str = "WW95") -> float:
     """Compute the time-dependent, IMF-integrated total metal yield Y_Z^II(t)
     from Salvadori et al. (2019), consistent with salvadori_Y_X_II.
 
@@ -342,8 +371,9 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
     total_metal_mass = []
 
     for entry in data:
-        if entry["params"]["model"] != model:
-            continue
+        if sn_input == "WW95":
+            if entry["params"]["model"] != model:
+                continue
 
         mass = entry["params"]["mass"]
         element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))

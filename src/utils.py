@@ -64,43 +64,84 @@ def _combine_elements(yields: dict[str, float]) -> dict[str, float]:
         combined[elem] = combined.get(elem, 0.0) + val
     return combined
 
-# Some raw yield tables (WW95 in particular) report freshly-synthesized,
-# PRE-DECAY isotopic yields, including short-lived radioactive species.
-# On any timescale relevant to this project (>= Myr), these have long
-# since decayed to their stable daughter. Chief among them: 56Ni (t1/2=6.1d)
-# -> 56Co (t1/2=77d) -> 56Fe, which is the dominant iron-production channel
-# in core-collapse SNe. Filing 56Ni under elemental "Ni" (as a naive
-# isotope->element mapping would) silently strips the majority of a CCSN's
-# true iron yield out of "Fe" and into "Ni".
-#
-# Only decay chains with total half-lives << 1 Myr (our shortest tpopII of
-# interest) are included; e.g. 60Fe (t1/2=2.6 Myr, -> 60Co -> 60Ni) is left
-# alone since its decay is not fast on our timescales of interest.
-_RADIOACTIVE_DECAY_MAP = {
-    "Ni56": "Fe",  # 56Ni -> 56Co -> 56Fe
-    "Co56": "Fe",
-    "Ni57": "Fe",  # 57Ni -> 57Co -> 57Fe
-    "Co57": "Fe",
-    "Co55": "Mn",  # 55Co -> 55Fe -> 55Mn
-    "Fe55": "Mn",
+
+# Each entry: isotope -> (final stable daughter element, half-life in years)
+# Chains (52Fe->52Mn->52Cr, 60Zn->60Cu->60Ni) are collapsed straight to
+# their final stable daughter, since every intermediate half-life is
+# well under a year -- the compound decay is complete on any timescale
+# you'd realistically use here, so there's no need to model the
+# intermediate step separately.
+_WW95_RADIOACTIVE_HALFLIVES: dict[str, tuple[str, float]] = {
+    # Fe-group, sub-year half-lives
+    "Ni56": ("Fe", 6.075 / 365.25),
+    "Co56": ("Fe", 77.233 / 365.25),
+    "Ni57": ("Fe", 35.6 / 24 / 365.25),
+    "Co57": ("Fe", 271.74 / 365.25),
+    "Co55": ("Mn", 17.53 / 24 / 365.25),
+    "Fe55": ("Mn", 2.744),
+    # newly added fast chains
+    "Ti44": ("Ca", 58.9),
+    "Cr48": ("Ti", 21.56 / 24 / 365.25),
+    "Fe52": ("Cr", 8.275 / 24 / 365.25),        # via 52Mn, both hops < 1 week
+    "Zn60": ("Ni", 2.38 / (60 * 24 * 365.25)),  # via 60Cu, both hops < 1 hr
+    "Na22": ("Ne", 2.6018),
+    # long-lived: timescale-dependent, worth checking against your model's
+    # assumed mixing/enrichment delay rather than assuming full decay
+    "Al26": ("Mg", 7.17e5),
+    "Fe60": ("Ni", 2.6e6),
 }
 
-
-def _apply_radioactive_decay(yields: dict[str, float]) -> dict[str, float]:
-    """Route short-lived isotopes to their stable decay product.
+def _apply_radioactive_decay(
+    yields: dict[str, float],
+    timescale_yr: float = 1e6,
+    decay_map: dict[str, tuple[str, float]] = _WW95_RADIOACTIVE_HALFLIVES
+) -> dict[str, float]:
+    """Route radioactive isotopes to their stable decay product.
 
     Must be called on RAW isotope-level yields, before _combine_elements.
-    Isotopes not in _RADIOACTIVE_DECAY_MAP pass through unchanged (under
-    their own isotope label); _combine_elements still needs to be called
-    afterward to fold everything into per-element totals.
+
+    Parameters
+    ----------
+    yields : dict[str, float]
+        Raw isotope-keyed yields (solar masses).
+    timescale_yr : float
+        Time assumed to elapse between ejection and the point you're
+        evaluating abundances (e.g. time until this gas is incorporated
+        into the next generation of stars). Governs how much of a
+        long-lived isotope (26Al, 60Fe) has actually decayed by then.
+        Default of 1 Myr is a fairly standard assumption for minihalo/ISM
+        mixing timescales -- short-lived isotopes (Ni56, Ti44, etc.) are
+        effectively 100% decayed at this timescale regardless, so this
+        parameter only meaningfully changes 26Al/60Fe routing. Set it
+        explicitly and document the choice; don't rely on the default
+        without checking it matches your enrichment model's assumption.
+
+    Isotopes not in _RADIOACTIVE_HALFLIVES pass through unchanged, under
+    their own isotope label. _combine_elements still needs to be called
+    afterward to fold everything (decayed + any undecayed remainder)
+    into per-element totals.
     """
-    result = {}
+    result: dict[str, float] = {}
     for iso, val in yields.items():
-        target_elem = _RADIOACTIVE_DECAY_MAP.get(_isotope_label(iso))
-        if target_elem is not None:
-            result[target_elem] = result.get(target_elem, 0.0) + val
-        else:
+        label = _isotope_label(iso)
+        entry = decay_map.get(label)
+        if entry is None:
             result[iso] = result.get(iso, 0.0) + val
+            continue
+
+        target_elem, half_life_yr = entry
+        decayed_frac = 1.0 - 0.5 ** (timescale_yr / half_life_yr)
+        decayed_frac = min(max(decayed_frac, 0.0), 1.0)  # numerical safety
+
+        decayed_val = val * decayed_frac
+        remaining_val = val - decayed_val
+
+        result[target_elem] = result.get(target_elem, 0.0) + decayed_val
+        if remaining_val > 0.0:
+            # keep any undecayed remainder under its own isotope label,
+            # rather than silently dropping it
+            result[iso] = result.get(iso, 0.0) + remaining_val
+
     return result
 
 

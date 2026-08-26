@@ -8,6 +8,8 @@ ww95_01Z = "data/raw/WW95/Woosley_Weaver_Table_12A_12B.tsv"
 ww95_001Z = "data/raw/WW95/Woosley_Weaver_Table_10A_10B.tsv"
 ww95_00001Z = "data/raw/WW95/Woosley_Weaver_Table_14A_14B.tsv"
 
+limongi18_yields = "data/raw/Limongi18/tab_R/tab_yieldstot_ele_exp.dec"
+
 # Constants
 
 # Salvadori constants:

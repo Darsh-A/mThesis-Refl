@@ -3,7 +3,7 @@ import os
 import re
 
 from .utils import _isotope_label, _isotope_to_element
-from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z
+from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z, limongi18_yields
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
     """Load Heger & Woosley 2002 yields.
@@ -253,5 +253,74 @@ def load_ww95(filepath: str = ww95_1Z) -> list[dict]:
             "params": {"mass": mass, "model": model_type},
             "yields": yld,
         })
+
+    return entries
+
+
+def load_limongi18(filepath: str = limongi18_yields) -> list[dict]:
+    """Load Limongi & Chieffi 2018 total elemental yields (Set R).
+
+    Explosive yields with unstable nuclei fully decayed (`.dec`), summed
+    over isotopes into elements (`ele`).  The file is split into blocks of
+    54 lines: one header row naming the nine mass columns, followed by 53
+    element rows:
+
+        <element> <Z> <A> <initial> <13M> <15M> ... <120M>
+
+    Each mass column is named `xxxmyyy` where xxx is the initial mass
+    (013..120), m encodes [Fe/H] (a=0, b=-1, c=-2, d=-3) and yyy is the
+    rotational velocity (000/150/300).  Only the element name and the nine
+    yield values are used; the Z/A/initial columns are ignored.
+
+    Models are the ([Fe/H], velocity, mass) combinations: 4 metallicities
+    x 3 velocities x 9 initial masses [13, 15, 20, 25, 30, 40, 60, 80, 120].
+
+    Returns:
+    [
+        {
+            "label": "M=13 v=0 [Fe/H]=0",
+            "params": {"mass": 13, "velocity": 0, "feh": 0},
+            "yields": {"H": 6.16, "He": 4.63, ..., "Bi": 0.0},
+        },
+        ...
+    ]
+    """
+    masses = [13, 15, 20, 25, 30, 40, 60, 80, 120]
+    feh_map = {"a": 0, "b": -1, "c": -2, "d": -3}
+
+    with open(filepath) as f:
+        lines = f.readlines()
+
+    # Each block starts with a header row naming the mass columns; the name
+    # encodes the model's [Fe/H] and rotational velocity.  Group the element
+    # rows that follow by that model so each entry can be built column-wise.
+    current_model = None
+    rows_by_model = {}
+    for line in lines:
+        parts = line.split()
+        if not parts:
+            continue
+
+        if parts[0] == "ele":
+            col = parts[4]  # e.g. "013a000"
+            feh = feh_map[col[3]]
+            velocity = int(col[4:])
+            current_model = (feh, velocity)
+            rows_by_model[current_model] = []
+            continue
+
+        name = _isotope_label(parts[0])  # element names pass through as-is
+        values = [float(v) for v in parts[4:4 + len(masses)]]
+        rows_by_model[current_model].append((name, values))
+
+    entries = []
+    for (feh, velocity), rows in rows_by_model.items():
+        for mi, mass in enumerate(masses):
+            yields = {name: vals[mi] for name, vals in rows}
+            entries.append({
+                "label": f"M={mass} v={velocity} [Fe/H]={feh}",
+                "params": {"mass": mass, "velocity": velocity, "feh": feh},
+                "yields": yields,
+            })
 
     return entries

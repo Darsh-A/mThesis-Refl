@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from src.load_data import load_hw2002, load_takahashi, load_ww95
+from src.load_data import load_hw2002, load_limongi18, load_takahashi, load_ww95
 from src.salvadori_funcs import salvadori_combined_abundratio_WrtH
 from src.salvadori_funcs import salvadori_yields as salvadori_yields_convert
 from src.utils import _combine_elements
@@ -12,8 +12,12 @@ takahashi_yields = takahashi_yields["NR"]
 ww95_yields = load_ww95()
 hw_yields = hw_yields[1:]
 
-pisn_yields = hw_yields
-sn_yields = ww95_yields
+limongi18 = load_limongi18()
+limongi18 = [e for e in limongi18 if e['params']['velocity'] == 0 and e['params']['feh'] == -3]
+
+
+pisn_yields = takahashi_yields
+sn_yields = limongi18
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
 salvadori_sn_yields = salvadori_yields_convert(sn_yields)
 
@@ -27,7 +31,7 @@ STYLE = {
 }
 
 tpop2_list = [3e6, 6e6, 10e6, 20e6, 30e6]  # in years
-f_pisn = 0.9
+f_pisn = 0.50
 
 fig, ax = plt.subplots(figsize=(6, 5))
 
@@ -43,6 +47,8 @@ for tpop2 in tpop2_list:
             sn_data=sn_yields,
             salv_sn_data=salvadori_sn_yields,
             auto_sn=False,
+            single_sn=False,
+            sn_input="Limongi18",
             f_pisn=f_pisn,
             f_ratio=f_ratio,
             tpop2=tpop2,

@@ -2,18 +2,24 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.interpolate import interp1d
 
-from src.load_data import load_ww95
+from src.load_data import load_limongi18
 from src.salvadori_funcs import salvadori_Y_X_II, salvadori_Y_Z_II
-from src.utils import _combine_elements, _apply_radioactive_decay
 from src.formulas import raiteri_lifetime
-from params import ww95_001Z, Z_SUN
+from params import Z_SUN
 
 # Fig. 5 is computed at a single, fixed stellar metallicity: Z* = 0.01 Zsun,
 # "typical of an environment enriched by a single PISN" (Salvadori+19, p.8).
+# Limongi18 tabulates [Fe/H] = {0, -1, -2, -3}; since Z/Zsun = 10^[Fe/H],
+# [Fe/H] = -2 is the 0.01 Zsun analog.  We use the non-rotating (v = 0) grid.
 Z_STAR = 0.01 * Z_SUN
-MODEL = "A"
+FEH = -3
+VELOCITY = 0
 
-ww_data = load_ww95(ww95_001Z)
+limongi18 = load_limongi18()
+limongi18 = [
+    e for e in limongi18
+    if e["params"]["velocity"] == VELOCITY and e["params"]["feh"] == FEH
+]
 
 # Element groups, colors, and per-element line styles keyed to match
 # Salvadori+2019 Fig. 5 (top-to-bottom in each panel = legend order).
@@ -67,38 +73,30 @@ GROUPS = [
 ]
 
 
-def masses_for_model(data, model=MODEL):
-    ms = sorted(set(e["params"]["mass"] for e in data if e["params"]["model"] == model))
-    return np.asarray(ms, dtype=float)
-
-
-masses = masses_for_model(ww_data)
+masses = np.asarray(sorted({e["params"]["mass"] for e in limongi18}), dtype=float)
 lifetimes = np.array([raiteri_lifetime(m, Z_STAR) for m in masses])
 
 # Dense mass grid used for the interpolated curves.
-# WW95 tabulated masses are still used for the plotted markers.
+# Limongi18 tabulated masses are still used for the plotted markers.
 mass_grid = np.linspace(masses.min(), masses.max(), 500)
 time_grid = np.array([
     raiteri_lifetime(m, Z_STAR) for m in mass_grid
 ])
 
 # --- Left panel: raw per-star yield mass, m_X^II(m), vs that star's lifetime ---
-def per_star_yield(data, elem, model=MODEL):
-    """Raw (decay-corrected) ejecta mass of `elem` for each tabulated mass,
-    in the same mass order as `masses_for_model`. 0.0 where the element
-    isn't tabulated for that mass/table at all."""
+def per_star_yield(data, elem):
+    """Raw ejecta mass of `elem` for each tabulated mass, in the same mass
+    order as `masses`. 0.0 where the element isn't tabulated for that mass.
+    Limongi18 yields are already element-level with radioactive decay built
+    into the `.dec` tables, so no decay/isotope-combining step is needed."""
     by_mass = {}
     for entry in data:
-        if entry["params"]["model"] != model:
-            continue
-        yv = _combine_elements(_apply_radioactive_decay(entry["yields"]))
+        yv = entry["yields"]
         if elem == "Z":
             val = sum(v for el, v in yv.items() if el not in ("H", "He"))
         else:
             val = yv.get(elem, 0.0)
 
-            if elem == "Fe":
-                val *= 0.5
         by_mass[entry["params"]["mass"]] = val
     return np.array([by_mass.get(m, 0.0) for m in masses])
 
@@ -112,20 +110,20 @@ def cumulative_yield(elem, m_grid):
         if elem == "Z":
             vals.append(
                 salvadori_Y_Z_II(
-                    ww_data,
+                    limongi18,
                     m_popII=m,
-                    model=MODEL,
                     m_max=100.0,
+                    sn_input="Limongi18",
                 )
             )
         else:
             vals.append(
                 salvadori_Y_X_II(
-                    ww_data,
+                    limongi18,
                     elem=elem,
                     m_popII=m,
-                    model=MODEL,
                     m_max=100.0,
+                    sn_input="Limongi18",
                 )
             )
 
@@ -139,8 +137,8 @@ for row, group in enumerate(GROUPS):
     color = group["color"]
 
     for elem, style in group["members"]:
-        # Original WW95 points
-        y_left = per_star_yield(ww_data, elem)
+        # Limongi18 points
+        y_left = per_star_yield(limongi18, elem)
 
         # Dense interpolated single-star curve
         mask_l = y_left > 0
@@ -166,10 +164,10 @@ for row, group in enumerate(GROUPS):
         y_right_dense = cumulative_yield(elem, mass_grid)
         mask_dense_r = y_right_dense > 0
 
-        # Original WW95 points for markers
+        # Limongi18 points for markers
         mask_points_l = y_left > 0
 
-        # Right-panel values at the original WW95 masses
+        # Right-panel values at the Limongi18 masses
         y_right_points = cumulative_yield(elem, masses)
         mask_points_r = y_right_points > 0
 
@@ -188,7 +186,7 @@ for row, group in enumerate(GROUPS):
             linewidth=1.0,
         )
 
-        # Original WW95 data points
+        # Limongi18 data points
         if marker != "None":
             ax_left.plot(
                 lifetimes[mask_points_l],
@@ -213,7 +211,7 @@ for row, group in enumerate(GROUPS):
             label=elem,
         )
 
-        # Original WW95 mass locations
+        # Limongi18 mass locations
         if marker != "None":
             ax_right.plot(
                 lifetimes[mask_points_r],
@@ -268,7 +266,7 @@ def add_mass_axis(ax):
 add_mass_axis(axes[0, 0])
 add_mass_axis(axes[0, 1])
 
-fig.suptitle(r"Fig. 5 replication: $Z_* = 0.01\,Z_\odot$ Pop II yields (WW95)", fontsize=11)
+fig.suptitle(r"Fig. 5 replication: $Z_* = 0.01\,Z_\odot$ Pop II yields (Limongi18 [Fe/H]=-2)", fontsize=11)
 fig.tight_layout(rect=[0, 0, 1, 0.97])
 plt.savefig("plots/salv_figures/fig5.png", dpi=200, bbox_inches="tight")
 plt.show()
