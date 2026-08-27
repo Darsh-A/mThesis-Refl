@@ -20,13 +20,14 @@ ww95_yields = load_ww95(ww95_001Z)
 hw_yields = hw_yields[1:]
 
 limongi18 = load_limongi18()
-limongi18 = [e for e in limongi18 if e['params']['velocity'] == 0 and e['params']['mass'] <= 25 and e['params']['feh'] != -1 and e['params']['feh'] != 0]
+limongi18 = [e for e in limongi18 if e['params']['velocity'] == 0]
 
 pisn_yields = hw_yields
 sn_yields = limongi18
 
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
 salvadori_sn_yields = salvadori_yields_convert(sn_yields)
+
 
 for elem in ["Zn", "Cu"]:
     if elem in ["H", "He", "P", "Fe"]:
@@ -40,23 +41,23 @@ for elem in ["Zn", "Cu"]:
         
         pisn_entry = random.choice(salvadori_pisn_yields)
 
-        f_pisn = 0.5
+        f_pisn = 0.50
         f_ratio = loguniform.rvs(1e-4, 1e-1)
-        tpop2_values = [3e6, 6e6, 10e6, 20e6, 30e6]
-        tpop2 = random.choice(tpop2_values)
+        tpop2 = loguniform.rvs(3.2e6, 17.4e6)
+        # tpop2 = random.choice(tpop2_values)
 
         pisn_details = {
             "mass": pisn_entry["params"]["mass"],
         }
 
         combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
-        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH(elem, elem, pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe", "Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
         if combined_ratio < -4 or combined_ratio_wrtH < -5:
             print("Very low ratio detected")
             print("Elem", elem,"\n", "PISN", pisn_details, "\n", "SN", "_NA_", "\n", "Combined Ratio", combined_ratio, "\n", "Combined Ratio w.r.t H", combined_ratio_wrtH)
             print("-------------------------------")
-            continue # do not add to the list if the ratio is very low, but print details for debugging
+            #continue # do not add to the list if the ratio is very low, but print details for debugging
 
         X_Fe.append(combined_ratio)
         Fe_H.append(combined_ratio_wrtH)
@@ -111,13 +112,13 @@ for elem in ["Zn", "Cu"]:
         plt.close(fig)
 
     plot_density_with_marginals(Fe_H, X_Fe, elem, f_pisn,
-                                save_path=f"plots/abundance_scatter_contour/{elem}_contour.png")
+                                save_path=f"plots/abundance_scatter_contour/{elem}_{f_pisn:.2f}_contour.png")
         
     plt.scatter(Fe_H, X_Fe, alpha=0.5, color='black')
     plt.xlabel("[Fe/H]")
     plt.ylabel("[" + elem + "/Fe]")
     plt.title("f_pisn = " + str(f_pisn) + ", f_ratio = " + str(f_ratio))
     f_ratio_str = f"{f_ratio:.0e}".replace("e-0", "e-").replace("e+0", "e+")
-    plt.savefig(f"plots/abundance_scatter/{elem}_scatter.png", dpi=300)
+    plt.savefig(f"plots/abundance_scatter/{elem}_{f_pisn:.2f}_scatter.png", dpi=300)
     plt.clf()
         

@@ -215,3 +215,81 @@ def extract_yield_peaks(pisn_yields, sn_yields, elem, f_pisn=0.9,f_ratio=1e-4, n
             },
         })
     return peaks
+
+
+def limongi_lifetime(velc: int, feh: int, phase: str, initial_mass: int) -> dict[str, float]:
+    """Look up the Limongi & Chieffi (2018) lifetime and total mass for a model.
+
+    Args:
+        velc: Rotational velocity in km/s (0, 150, or 300).
+        feh: Metallicity [Fe/H] (0, -1, -2, or -3).
+        phase: Evolutionary phase (MS, H, He, C, Ne, O, Si, or PSN).
+        initial_mass: Initial stellar mass in Msun
+            (13, 15, 20, 25, 30, 40, 60, 80, or 120).
+
+    Returns:
+        dict with keys lifetime_yr (cumulative age in years at the requested
+        phase) and total_mass (total mass in Msun, a snapshot value at that
+        phase -- not summed).
+    """
+    import csv
+    from params import limongi18_lifetime
+
+    PHASE_ORDER = ["MS", "H", "HE", "C", "NE", "O", "SI", "PSN"]
+
+    phase = phase.upper()
+    initial_mass = int(initial_mass)
+
+    if phase not in PHASE_ORDER:
+        raise ValueError(f"Unrecognized phase: {phase!r}")
+
+    target_idx = PHASE_ORDER.index(phase)
+
+    rows_by_phase: dict[str, dict] = {}
+    with open(limongi18_lifetime, newline="") as f:
+        for row in csv.DictReader(f):
+            if (
+                int(row["velocity"]) == int(velc)
+                and int(row["feh"]) == int(feh)
+                and int(row["initial_mass"]) == initial_mass
+            ):
+                rows_by_phase[row["phase"].upper()] = row
+
+    if not rows_by_phase:
+        raise ValueError(
+            f"No Limongi18 lifetime entry for velc={velc}, feh={feh}, "
+            f"initial_mass={initial_mass} at all."
+        )
+
+    cumulative_yr = 0.0
+    reached_phase = None
+    for p in PHASE_ORDER[: target_idx + 1]:
+        row = rows_by_phase.get(p)
+        if row is None:
+            break
+        cumulative_yr += float(row["lifetime_yr"])
+        reached_phase = p
+
+    if reached_phase is None:
+        raise ValueError(
+            f"Model velc={velc}, feh={feh}, initial_mass={initial_mass} "
+            f"has no recorded duration even for phase=MS."
+        )
+
+    return {
+        "lifetime_yr": cumulative_yr,
+        "total_mass": float(rows_by_phase[reached_phase]["total_mass"]),
+        "reached_phase": reached_phase,
+        "is_ppisn_truncated": reached_phase != phase,
+    }
+
+def salvadori_select_limongi_feh(Z_rel: float) -> int:
+    """Select the nearest Limongi18 [Fe/H] grid point for Z_rel = Z*/Zsun.
+
+    Grid is {0, -1, -2, -3} exactly -- lifetime lookups require an exact
+    integer match, so this snaps to the nearest tabulated point rather
+    than interpolating.
+    """
+    feh_grid = (0, -1, -2, -3)
+    target = np.log10(Z_rel)
+    return min(feh_grid, key=lambda feh: abs(target - feh))
