@@ -42,14 +42,16 @@ def _isotope_to_element(name:str) -> str:
     """
     name = name.strip()
     name = name.replace('$', '').replace('{', '').replace('}', '').replace('^', '')
+    # Detect bare proton/deuteron ('$^{}$p' / '$^{}$d') BEFORE lowercasing,
+    # so the element symbols 'P'/'D' and isotopes like 'P31' (phosphorus)
+    # are not mistaken for the proton/deuteron shorthand.
+    if name in ('p', 'd'):
+        return 'H'
     name = name.lstrip('0123456789').lower()
     m = re.match(r'([a-z]+)', name)
     if not m:
         return name
-    symbol = m.group(1)
-    if symbol in ('p', 'd'):
-        return 'H'
-    return symbol.capitalize()
+    return m.group(1).capitalize()
 
 
 def _combine_elements(yields: dict[str, float]) -> dict[str, float]:
@@ -293,3 +295,54 @@ def salvadori_select_limongi_feh(Z_rel: float) -> int:
     feh_grid = (0, -1, -2, -3)
     target = np.log10(Z_rel)
     return min(feh_grid, key=lambda feh: abs(target - feh))
+
+from scipy.interpolate import interp1d
+
+def build_pisn_interpolator(salvadori_pisn_yields, log_range_threshold=1.0):
+    """Continuous-mass PISN yield interpolator over the HW2002 grid.
+
+    Per-element scheme:
+      * log-linear (geometric) if the element's mass-normalized yield is
+        strictly positive everywhere AND spans more than `log_range_threshold`
+        dex across the grid. This handles threshold/steep elements (Zn, Cu, ...)
+        whose yields jump orders of magnitude at the PISN onset, without the
+        negative-overshoot/NaN failures of higher-order splines.
+      * linear otherwise (smooth, low-dynamic-range elements; also anything
+        with zero/negative entries, which cannot be logged).
+    """
+    masses = np.array([e["params"]["mass"] for e in salvadori_pisn_yields], float)
+    combined = [_combine_elements(e["yields"]) for e in salvadori_pisn_yields]
+    all_elements = sorted(set().union(*(set(c) for c in combined)))
+
+    interps = {}
+    schemes = {}
+    for el in all_elements:
+        vals = np.array([c.get(el, 0.0) for c in combined], float)
+        pos = vals > 0
+        log_range = np.log10(vals.max() / vals.min()) if pos.all() and vals.min() > 0 else 0.0
+        use_log = pos.all() and log_range > log_range_threshold
+        if use_log:
+            interps[el] = interp1d(
+                masses, np.log10(vals), kind="linear",
+                bounds_error=False, fill_value=(np.log10(vals[0]), np.log10(vals[-1])),
+            )
+            schemes[el] = "log"
+        else:
+            interps[el] = interp1d(
+                masses, vals, kind="linear",
+                bounds_error=False, fill_value=(vals[0], vals[-1]),
+            )
+            schemes[el] = "linear"
+
+    def interp(mass):
+        return {
+            "label": f"M={mass:.1f}",
+            "params": {"mass": float(mass)},
+            "yields": {
+                el: float(10 ** interps[el](mass) if schemes[el] == "log" else interps[el](mass))
+                for el in all_elements
+            },
+        }
+
+    interp.schemes = schemes  # for inspection, optional
+    return interp

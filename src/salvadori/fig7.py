@@ -10,7 +10,9 @@ from src.salvadori_funcs import salvadori_H_ratio, salvadori_combined_abundratio
 from src.salvadori_funcs import salvadori_yields as salvadori_yields_convert
 from src.utils import _combine_elements
 
-from params import ww95_001Z
+from src.utils import _combine_elements, build_pisn_interpolator
+
+from params import ww95_001Z, filter_elements
 
 hw_yields = load_hw2002()
 takahashi_yields = load_takahashi()
@@ -28,20 +30,21 @@ sn_yields = limongi18
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
 salvadori_sn_yields = salvadori_yields_convert(sn_yields)
 
+pisn_interp = build_pisn_interpolator(salvadori_pisn_yields)
 
 for elem in ["Zn", "Cu"]:
-    if elem in ["H", "He", "P", "Fe"]:
+    if elem in ["H", "He", "Fe"]:
         continue
 
     print(f"Processing element: {elem}")
 
     X_Fe = []
     Fe_H = []
-    for i in range(2000):
+    for i in range(500):
         
-        pisn_entry = random.choice(salvadori_pisn_yields)
+        pisn_entry = pisn_interp(random.uniform(150.0, 270.0))
 
-        f_pisn = 0.50
+        f_pisn = 0.9
         f_ratio = loguniform.rvs(1e-4, 1e-1)
         tpop2 = loguniform.rvs(3.2e6, 17.4e6)
         # tpop2 = random.choice(tpop2_values)
@@ -53,7 +56,7 @@ for elem in ["Zn", "Cu"]:
         combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
         combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe", "Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
-        if combined_ratio < -4 or combined_ratio_wrtH < -5:
+        if combined_ratio < -5 or combined_ratio_wrtH < -5:
             print("Very low ratio detected")
             print("Elem", elem,"\n", "PISN", pisn_details, "\n", "SN", "_NA_", "\n", "Combined Ratio", combined_ratio, "\n", "Combined Ratio w.r.t H", combined_ratio_wrtH)
             print("-------------------------------")

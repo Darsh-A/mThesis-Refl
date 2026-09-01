@@ -11,6 +11,8 @@ ww95_00001Z = "data/raw/WW95/Woosley_Weaver_Table_14A_14B.tsv"
 limongi18_yields = "data/raw/Limongi18/tab_R/tab_yieldstot_ele_exp.dec"
 limongi18_lifetime = "data/raw/Limongi18/limongi_lifetime.csv"
 
+nomoto_ck13_yields = "data/raw/Nomoto/YIELD_CK13.dat"
+
 # Constants
 
 # Salvadori constants:
@@ -27,7 +29,7 @@ asplund = "data/asplund.json"
 
 filter_elements = [
     "C", "N", "O", "F", "Ne", "Na", "Mg", "Al",
-    "Si", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti",
+    "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc", "Ti",
     "V", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn"
 ]
 

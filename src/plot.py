@@ -26,8 +26,14 @@ def plot_yields(
 ) -> plt.Axes:
 
     masses = [e["params"]["mass"] for e in data]
-    norm = plt.Normalize(min(masses), max(masses))
-    cmap = plt.colormaps["viridis"]
+    unique_masses = sorted(set(masses))
+    n_mass = len(unique_masses)
+
+    cmap = plt.get_cmap("rainbow").reversed()
+    color_of = {
+        mass: cmap(i / max(n_mass - 1, 1))
+        for i, mass in enumerate(unique_masses)
+    }
 
     standalone = ax is None
     if standalone:
@@ -53,8 +59,9 @@ def plot_yields(
             if v > 9:
                 print(f"Warning: Abundance ratio for {e} is very low ({v:.2f}) for params {entry['params']}")
 
-        ax.plot(isotopes, values, color=cmap(norm(mass)), marker="o", markersize=5,
-                 linewidth=1.2, markeredgecolor="white", markeredgewidth=0.5, alpha=0.85)
+        ax.plot(isotopes, values, color=color_of[mass], marker="o", markersize=5,
+                 linewidth=1.2, markeredgecolor="white", markeredgewidth=0.5, alpha=0.85,
+                 label=rf"${mass:g}\,M_\odot$")
 
     ax.set_xticks(range(len(isotopes)))
     ax.set_xticklabels([rf"$\mathrm{{{iso}}}$" for iso in isotopes])
@@ -65,12 +72,15 @@ def plot_yields(
     ax.set_xlabel("Element")
     ax.set_ylabel(rf"[$\mathrm{{X}} / \mathrm{{{wrt}}}$]")
 
-    sm = plt.cm.ScalarMappable(norm=norm, cmap=cmap)
-    cbar = fig.colorbar(sm, ax=ax, pad=0.02)
-    cbar.set_label(r"Mass ($M_\odot$)")
+    ax.legend(
+        title=r"Mass ($M_\odot$)",
+        loc="center left",
+        bbox_to_anchor=(1.02, 0.5),
+        frameon=False,
+    )
 
     if standalone:
-        plt.tight_layout()
+        plt.tight_layout(rect=(0, 0, 0.80, 1))
         plt.show()
 
     return ax

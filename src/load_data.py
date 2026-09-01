@@ -3,7 +3,7 @@ import os
 import re
 
 from .utils import _isotope_label, _isotope_to_element
-from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z, limongi18_yields
+from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z, limongi18_yields, nomoto_ck13_yields
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
     """Load Heger & Woosley 2002 yields.
@@ -322,5 +322,86 @@ def load_limongi18(filepath: str = limongi18_yields) -> list[dict]:
                 "params": {"mass": mass, "velocity": velocity, "feh": feh},
                 "yields": yields,
             })
+
+    return entries
+
+
+def load_nomoto13(filepath: str = nomoto_ck13_yields) -> list[dict]:
+    """Load Nomoto, Kobayashi & Tominaga (2013) yields (YIELD_CK13.dat).
+
+    The file is a sequence of fixed-width blocks, one per metallicity.  Each
+    block is:
+
+        Z=     <Z>                  # metallicity (mass fraction)
+        M      <m1> ... <mN>        # initial mass (Msun), one per model
+        E      <e1> ... <eN>        # explosion energy (10^51 erg)
+        Mrem   <r1> ... <rN>        # remnant mass (Msun)
+        <elem> <A>  <y1> ... <yN>   # per-isotope ejected mass (Msun)
+
+        Z	      M (M☉) with E=1	            Mrem (M☉)
+        0.0010	  13, 15, 18, 20, 25, 30, 40	1.65, 1.53, 1.70, 1.85, 1.91, 2.06, 3.17
+        0.0040	  13, 15, 18, 20, 25, 30, 40	1.61, 1.50, 2.143, 1.76, 1.68, 2.56, 2.81
+        0.0080	  13, 15, 18, 20, 25, 30, 40	1.606, 1.50, 1.901, 1.67, 1.734, 2.362, 2.552
+        0.0200	  13, 15, 18, 20, 25, 30, 40	1.60, 1.50, 1.58, 1.55, 1.804, 2.10, 2.21
+        0.0500	  13, 15, 18, 20, 25, 30, 40	1.54, 1.62, 1.46, 1.63, 1.88, 2.32, 2.28
+
+    Returns:
+    [
+        {
+            "label": "Z=0.02 M=20 E=1",
+            "params": {"Z": 0.02, "mass": 20.0, "energy": 1.0, "Mrem": 1.66},
+            "yields": {"H1": 0.1, "He4": 0.2, ...},
+        },
+        ...
+    ]
+    """
+    with open(filepath) as f:
+        lines = f.readlines()
+
+    entries = []
+    i = 0
+    n_lines = len(lines)
+    while i < n_lines:
+        parts = lines[i].split()
+        if not parts or not parts[0].startswith("Z="):
+            i += 1
+            continue
+
+        z = float(lines[i].split("=")[1])
+        masses = [float(v) for v in lines[i + 1].split()[1:]]
+        energies = [float(v) for v in lines[i + 2].split()[1:]]
+        mrems = [float(v) for v in lines[i + 3].split()[1:]]
+
+        # Collect isotope rows until the next block (or EOF).
+        iso_yields = {}  # isotope label -> list of per-model values
+        j = i + 4
+        while j < n_lines:
+            row = lines[j].split()
+            if not row:
+                j += 1
+                continue
+            if row[0].startswith("Z="):
+                break
+            if len(row) < 2 + len(masses):
+                j += 1
+                continue
+            label = _isotope_label(row[0] + row[1])
+            iso_yields[label] = [float(v) for v in row[2:]]
+
+            j += 1
+
+        for k, mass in enumerate(masses):
+            entries.append({
+                "label": f"Z={z:g} M={mass:g} E={energies[k]:g}",
+                "params": {
+                    "Z": z,
+                    "mass": mass,
+                    "energy": energies[k],
+                    "Mrem": mrems[k],
+                },
+                "yields": {iso: vals[k] for iso, vals in iso_yields.items()},
+            })
+
+        i = j
 
     return entries
