@@ -304,6 +304,8 @@ def salvadori_combined_abundratio(
         Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
         Yx2_sn = salvadori_Y_X_II(sn_dr_data, elem2_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
         Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=ctx.get("feh"))
+
+        print("Yz_sn:", Yz_sn, "n_entries_matched:", sum(1 for e in sn_dr_data if source.select(e, ctx)))
         sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
         sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
