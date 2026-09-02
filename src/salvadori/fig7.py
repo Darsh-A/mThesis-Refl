@@ -10,6 +10,9 @@ from src.salvadori_funcs import salvadori_H_ratio, salvadori_combined_abundratio
 from src.salvadori_funcs import salvadori_yields as salvadori_yields_convert
 from src.utils import _combine_elements
 
+from src.yield_sources import get_source
+
+
 from src.utils import _combine_elements, build_pisn_interpolator
 
 from params import ww95_001Z, filter_elements
@@ -25,7 +28,8 @@ limongi18 = load_limongi18()
 limongi18 = [e for e in limongi18 if e['params']['velocity'] == 0]
 
 pisn_yields = hw_yields
-sn_yields = limongi18
+sn_yields = ww95_yields
+sn_source = get_source("WW95")
 
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
 salvadori_sn_yields = salvadori_yields_convert(sn_yields)
@@ -44,7 +48,7 @@ for elem in ["Zn", "Cu"]:
         
         pisn_entry = pisn_interp(random.uniform(150.0, 270.0))
 
-        f_pisn = 0.9
+        f_pisn = 0.5
         f_ratio = loguniform.rvs(1e-4, 1e-1)
         tpop2 = loguniform.rvs(3.2e6, 17.4e6)
         # tpop2 = random.choice(tpop2_values)
@@ -53,8 +57,8 @@ for elem in ["Zn", "Cu"]:
             "mass": pisn_entry["params"]["mass"],
         }
 
-        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
-        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe", "Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input="Limongi18", f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, single_sn=False, sn_input=sn_source, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe", "Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, single_sn=False, sn_input=sn_source, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
         if combined_ratio < -5 or combined_ratio_wrtH < -5:
             print("Very low ratio detected")
@@ -75,8 +79,8 @@ for elem in ["Zn", "Cu"]:
         xy = np.vstack([feh_vals, xfe_vals])
         kde = gaussian_kde(xy)
 
-        xmin, xmax = feh_vals.min(), feh_vals.max()
-        ymin, ymax = xfe_vals.min(), xfe_vals.max()
+        xmin, xmax = np.percentile(feh_vals, [0.5, 99.5])
+        ymin, ymax = np.percentile(xfe_vals, [0.5, 99.5])
         xpad = 0.05 * (xmax - xmin)
         ypad = 0.05 * (ymax - ymin)
 
@@ -91,8 +95,9 @@ for elem in ["Zn", "Cu"]:
         ax_main = fig.add_subplot(gs[1, 0])
         ax_top = fig.add_subplot(gs[0, 0], sharex=ax_main)
         ax_right = fig.add_subplot(gs[1, 1], sharey=ax_main)
-
-        cs = ax_main.contourf(Xg, Yg, Z, levels=20, cmap='inferno')
+        ax_main.scatter(feh_vals, xfe_vals, s=4, alpha=0.15, color='white')
+        Z_norm = Z / Z.max()
+        cs = ax_main.contourf(Xg, Yg, Z_norm, levels=np.linspace(0, 1, 21), cmap='inferno')
         ax_main.set_xlabel("[Fe/H]")
         ax_main.set_ylabel(f"[{elem}/Fe]")
 

@@ -8,6 +8,7 @@ from scipy.integrate import quad
 from scipy.interpolate import interp1d
 from src.formulas import larson_imf, raiteri_mass_from_lifetime, raiteri_lifetime
 from src.load_data import load_ww95
+from .yield_sources import YieldSource, get_source
 
 from .utils import _combine_elements, _get_element, _apply_radioactive_decay, limongi_lifetime, salvadori_select_limongi_feh
 from params import asplund, atomic_mass, Z_SUN
@@ -128,6 +129,113 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     abundance_ratio = np.log10(f_ratio * yields[elem1]) - (A1 - A2) - np.log10(atomic_mass[elem1]/atomic_mass["H"])
     return abundance_ratio
 
+def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "A", m_max: float = None, sn_input: str | YieldSource = "WW95", feh: float = None) -> float:
+    """Compute the time-dependent SNII yield from Salvadori et al. (2019).
+
+    Y_X^II(t) = integral[m_popII(t), 100 Msun]
+                m_X^II(m) * Phi(m) dm
+
+    Args:
+        data: Raw yield entries for the given source (e.g. from load_ww95()).
+        elem: Element to calculate, e.g. "Fe", "O".
+        m_popII: Lower integration limit in Msun.
+        model: Model tag passed through to the source's select hook (WW95-style sources).
+        m_max: Upper integration limit in Msun; defaults to the source's own m_max.
+        sn_input: Yield source name ("WW95", "Limongi18", ...) or a YieldSource instance.
+        feh: [Fe/H] grid point passed through to the source's select hook (Limongi18-style sources).
+
+    Returns:
+        Y_X^II.
+    """
+    source = sn_input if isinstance(sn_input, YieldSource) else get_source(sn_input)
+    ctx = {"model": model, "feh": feh}
+    m_max = source.m_max if m_max is None else m_max
+
+    masses, yields = [], []
+    for entry in data:
+        if not source.select(entry, ctx):
+            continue
+        element_yields = source.extract(entry)
+        if elem not in element_yields:
+            continue
+        masses.append(entry["params"]["mass"])
+        yields.append(element_yields[elem])
+
+    masses = np.asarray(masses, dtype=float)
+    yields = np.asarray(yields, dtype=float)
+
+    if masses.size == 0:
+        return 0.0
+
+    order = np.argsort(masses)
+    masses = masses[order]
+    yields = yields[order]
+
+    m_X_II = interp1d(
+        masses,
+        yields,
+        kind="linear",
+        bounds_error=False,
+        fill_value=(yields[0], 0),
+    )
+
+    return quad(
+        lambda m: float(m_X_II(m)) * larson_imf(m),
+        m_popII,
+        m_max,
+    )[0]
+
+def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: float = None, sn_input: str | YieldSource = "WW95", feh: float = None) -> float:
+    """Compute the time-dependent, IMF-integrated total metal yield Y_Z^II(t)
+    from Salvadori et al. (2019), consistent with salvadori_Y_X_II.
+
+        Y_Z^II(t) = integral[m_popII(t), 100 Msun] ( sum_X m_X^II(m) ) * Phi(m) dm
+
+    Args:
+        data: Raw yield entries for the given source.
+        m_popII: Lower integration limit in Msun (from raiteri_mass_from_lifetime).
+        model: Model tag passed through to the source's select hook.
+        m_max: Upper integration limit in Msun; defaults to the source's own m_max.
+        sn_input: Yield source name or a YieldSource instance.
+        feh: [Fe/H] grid point passed through to the source's select hook.
+
+    Returns:
+        Y_Z^II(t).
+    """
+    source = sn_input if isinstance(sn_input, YieldSource) else get_source(sn_input)
+    ctx = {"model": model, "feh": feh}
+    m_max = source.m_max if m_max is None else m_max
+
+    masses, total_metal_mass = [], []
+    for entry in data:
+        if not source.select(entry, ctx):
+            continue
+        element_yields = source.extract(entry)
+        metal_sum = sum(v for el, v in element_yields.items() if el not in ("H", "He"))
+        masses.append(entry["params"]["mass"])
+        total_metal_mass.append(metal_sum)
+
+    masses = np.asarray(masses, dtype=float)
+    total_metal_mass = np.asarray(total_metal_mass, dtype=float)
+
+    order = np.argsort(masses)
+    masses = masses[order]
+    total_metal_mass = total_metal_mass[order]
+    
+    m_Z_II = interp1d(
+        masses,
+        total_metal_mass,
+        kind="linear",
+        bounds_error=False,
+        fill_value=(total_metal_mass[0], 0),
+    )
+
+    return quad(
+        lambda m: float(m_Z_II(m)) * larson_imf(m),
+        m_popII,
+        m_max,
+    )[0]
+
 def salvadori_combined_abundratio(
         elem1_pisn: str, 
         elem1_sn: str, 
@@ -157,6 +265,7 @@ def salvadori_combined_abundratio(
     Returns:
         The combined abundance ratio [elem1/elem2].
     """
+    source = sn_input if isinstance(sn_input, YieldSource) else get_source(sn_input)
 
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
@@ -181,31 +290,24 @@ def salvadori_combined_abundratio(
 
     sn_dr_data = sn_data
     if auto_sn:
-        ww_model = salvadori_select_ww95_model(Z_star)
-        sn_dr_data = load_ww95(ww_model)
+        if source.load_for_metallicity is None:
+            raise ValueError(f"{source.name} has no auto_sn metallicity lookup")
+        sn_dr_data = source.load_for_metallicity(Z_star)
 
-    if single_sn == False:
+    if not single_sn:
+        ctx = {"Z_star": Z_star, "feh": feh}
+        m_popII = source.mass_from_lifetime(tpop2, ctx)
 
-        if sn_input == "WW95":
-            m_popII = raiteri_mass_from_lifetime(lifetime=tpop2, Z=Z_star)
-        elif sn_input == "Limongi18":
-            feh = salvadori_select_limongi_feh(Z_star / Z_SUN)
-            m_popII = limongi_mass_from_lifetime(tpop2, feh=feh, velocity=0)
         if m_popII is None:
             return np.nan
-        
-        else:
-            Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=120.0, sn_input=sn_input, feh=feh)
-            Yx2_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem2_sn, m_popII=m_popII, model="A", m_max=120.0, sn_input=sn_input, feh=feh)
-            Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=120.0, sn_input=sn_input, feh=feh)
-            # if Yz_sn <= 0:
-            #     sn_term_1 = 0.0
-            #     sn_term_2 = 0.0
-            # else:
-            sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
-            sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
+    
+        Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
+        Yx2_sn = salvadori_Y_X_II(sn_dr_data, elem2_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
+        Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=ctx.get("feh"))
+        sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
+        sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
-    if single_sn == True:
+    else:
         salv_sn_data["yields"] = _combine_elements(salv_sn_data["yields"])
         salv_sn_yields = salv_sn_data
         Yx1_sn = _get_element(salv_sn_yields, elem1_pisn)
@@ -215,13 +317,8 @@ def salvadori_combined_abundratio(
             e for element, e in salv_sn_yields["yields"].items()
             if element not in ("H", "He")
         )
-        # if Yz_sn <= 0:
-        #     sn_term_1 = 0.0
-        #     sn_term_2 = 0.0
-        # else:
         sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
         sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
-
 
     combined_ratio = np.log10(
         (Yx1_pisn + beta*sn_term_1) / (Yx2_pisn + beta*sn_term_2)
@@ -257,6 +354,7 @@ def salvadori_combined_abundratio_WrtH(
     Returns:
         The combined abundance ratio [elem1/elem2].
     """
+    source = sn_input if isinstance(sn_input, YieldSource) else get_source(sn_input)
 
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
@@ -279,25 +377,22 @@ def salvadori_combined_abundratio_WrtH(
 
     sn_dr_data = sn_data
     if auto_sn:
-        ww_model = salvadori_select_ww95_model(Z_star)
-        sn_dr_data = load_ww95(ww_model)
+        if source.load_for_metallicity is None:
+            raise ValueError(f"{source.name} has no auto_sn metallicity lookup")
+        sn_dr_data = source.load_for_metallicity(Z_star)
 
-    if single_sn == False:
-        if sn_input == "WW95":
-            m_popII = raiteri_mass_from_lifetime(lifetime=tpop2, Z=Z_star)
-        elif sn_input == "Limongi18":
-            feh = salvadori_select_limongi_feh(Z_star / Z_SUN)
-            m_popII = limongi_mass_from_lifetime(tpop2, feh=feh, velocity=0)
+    if not single_sn:
+        ctx = {"Z_star": Z_star, "feh": feh}
+        m_popII = source.mass_from_lifetime(tpop2, ctx)
 
         if m_popII is None:
             return np.nan
-        
-        else:
-            Yx1_sn = salvadori_Y_X_II(data=sn_dr_data, elem=elem1_sn, m_popII=m_popII, model="A", m_max=120.0, sn_input=sn_input, feh=feh)
-            Yz_sn  = salvadori_Y_Z_II(data=sn_dr_data, m_popII=m_popII, model="A", m_max=120.0, sn_input=sn_input, feh=feh)
-            sn_term = Yx1_sn * Yz_pisn / Yz_sn
 
-    if single_sn == True:
+        Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
+        Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=ctx.get("feh"))
+        sn_term = Yx1_sn * Yz_pisn / Yz_sn
+
+    else:
         salv_sn_data["yields"] = _combine_elements(salv_sn_data["yields"])
         salv_sn_yields = salv_sn_data
         Yx1_sn = _get_element(salv_sn_yields, elem1_pisn)
@@ -312,183 +407,3 @@ def salvadori_combined_abundratio_WrtH(
     ) - (A1 - A2) - np.log10(atomic_mass[elem1_pisn]/atomic_mass["H"])
 
     return combined_ratio
-
-def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "A", m_max: float = 120.0, sn_input: str = "WW95", feh: float = None) -> float:
-    """Compute the time-dependent SNII yield from Salvadori et al. (2019).
-
-    Y_X^II(t) = integral[m_popII(t), 100 Msun]
-                m_X^II(m) * Phi(m) dm
-
-    Args:
-        data: Raw WW95 yield entries from load_ww95() (or any other raw yield)
-        elem: Element to calculate, e.g. "Fe", "O".
-        m_popII: Lower integration limit in Msun.
-        m_max: Upper integration limit in Msun.
-        sn_input: The input source for the SN data (e.g., "WW95", "Limongi18").
-
-    Returns:
-        Y_X^II.
-    """
-
-    masses = []
-    yields = []
-
-    for entry in data:
-        if sn_input == "WW95":
-            if entry['params']['model'] != model:
-                continue
-            element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))
-
-            if elem == "Fe":
-                element_yields["Fe"] *= 0.5
-
-        elif sn_input == "Limongi18":
-            if feh is not None and entry['params']['feh'] != feh:
-                continue
-            element_yields = entry["yields"]
-
-        else:
-            raise ValueError(f"Unrecognized sn_input: {sn_input!r}")
-
-        mass = entry["params"]["mass"]
-
-        if elem not in element_yields:
-            continue
-
-        masses.append(mass)
-        yields.append(element_yields[elem])
-
-    masses = np.asarray(masses, dtype=float)
-    yields = np.asarray(yields, dtype=float)
-
-    if masses.size == 0:
-        return 0.0
-
-    order = np.argsort(masses)
-    masses = masses[order]
-    yields = yields[order]
-
-    m_X_II = interp1d(
-        masses,
-        yields,
-        kind="linear",
-        bounds_error=False,
-        fill_value=(yields[0], 0),
-    )
-
-    return quad(
-        lambda m: float(m_X_II(m)) * larson_imf(m),
-        m_popII,
-        m_max,
-    )[0]
-
-def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: float = 120.0, sn_input: str = "WW95", feh: float = None) -> float:
-    """Compute the time-dependent, IMF-integrated total metal yield Y_Z^II(t)
-    from Salvadori et al. (2019), consistent with salvadori_Y_X_II.
-
-        Y_Z^II(t) = integral[m_popII(t), 100 Msun] ( sum_X m_X^II(m) ) * Phi(m) dm
-
-    Args:
-        data: Raw WW95 (or equivalent) yield entries.
-        m_popII: Lower integration limit in Msun (from raiteri_mass_from_lifetime).
-        model: Which model tag to filter on (e.g. "A").
-        m_max: Upper integration limit in Msun.
-
-    Returns:
-        Y_Z^II(t).
-    """
-    masses = []
-    total_metal_mass = []
-
-    for entry in data:
-        if sn_input == "WW95":
-            if entry["params"]["model"] != model:
-                continue
-            element_yields = _combine_elements(_apply_radioactive_decay(entry["yields"]))
-            element_yields["Fe"] = element_yields.get("Fe", 0.0) * 0.5
-
-        elif sn_input == "Limongi18":
-            if feh is not None and entry['params']['feh'] != feh:
-                continue
-            element_yields = entry["yields"]
-
-        else:
-            raise ValueError(f"Unrecognized sn_input: {sn_input!r}")
-
-        mass = entry["params"]["mass"]
-
-        metal_sum = sum(
-            v for el, v in element_yields.items()
-            if el not in ("H", "He")
-        )
-
-        masses.append(mass)
-        total_metal_mass.append(metal_sum)
-
-    masses = np.asarray(masses, dtype=float)
-    total_metal_mass = np.asarray(total_metal_mass, dtype=float)
-
-    order = np.argsort(masses)
-    masses = masses[order]
-    total_metal_mass = total_metal_mass[order]
-
-    m_Z_II = interp1d(
-        masses,
-        total_metal_mass,
-        kind="linear",
-        bounds_error=False,
-        fill_value=(total_metal_mass[0], 0),
-    )
-
-    return quad(
-        lambda m: float(m_Z_II(m)) * larson_imf(m),
-        m_popII,
-        m_max,
-    )[0]
-
-
-from params import ww95_1Z, ww95_01Z, ww95_001Z, ww95_00001Z
-
-def salvadori_select_ww95_model(Z_rel: float) -> str:
-    """Select the nearest WW95 metallicity grid.
-
-    Z_rel = Z_star / Z_sun.
-    """
-
-    grids = {
-        1.0: ww95_1Z,
-        0.1: ww95_01Z,
-        0.01: ww95_001Z,
-        1e-4: ww95_00001Z,
-    }
-
-    return grids[min(grids, key=lambda z: abs(np.log10(Z_rel) - np.log10(z)))]
-
-def limongi_mass_from_lifetime(lifetime_yr: float, feh: int, velocity: int = 0) -> float | None:
-    """Invert Limongi18's own tabulated (cumulative) PSN lifetimes to get
-    the turnoff mass at a given age, analogous to raiteri_mass_from_lifetime
-    but self-consistent with the LC18 grid specifically (including its
-    rotation dependence, which Raiteri's fit has no concept of).
-
-    Only defined within LC18's tabulated mass range (13-120 Msun) and at
-    its four feh grid points -- unlike Raiteri's smooth analytic fit, this
-    requires snapping to the nearest tabulated feh (see
-    salvadori_select_limongi_feh) and interpolating between only 9 mass
-    points, so it's necessarily coarser in mass resolution.
-    """
-    masses = [13, 15, 20, 25, 30, 40, 60, 80, 120]
-    lifetimes = [
-        limongi_lifetime(velocity, feh, "PSN", m)["lifetime_yr"]
-        for m in masses
-    ]
-    # Lifetime decreases monotonically with mass -- invert by interpolating
-    # mass as a function of lifetime (need increasing x for interp1d, so
-    # reverse both arrays since lifetimes are decreasing in mass order).
-    from scipy.interpolate import interp1d
-    mass_from_lifetime = interp1d(
-        lifetimes[::-1], masses[::-1],
-        kind="linear", bounds_error=False, fill_value=(masses[-1], masses[0]),
-    )
-    if lifetime_yr < min(lifetimes) or lifetime_yr > max(lifetimes):
-        return None  # outside tabulated range -- mirror raiteri's None-on-OOB behavior
-    return float(mass_from_lifetime(lifetime_yr))

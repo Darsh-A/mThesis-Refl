@@ -346,3 +346,32 @@ def build_pisn_interpolator(salvadori_pisn_yields, log_range_threshold=1.0):
 
     interp.schemes = schemes  # for inspection, optional
     return interp
+
+def limongi_mass_from_lifetime(lifetime_yr: float, feh: int, velocity: int = 0) -> float | None:
+    """Invert Limongi18's own tabulated (cumulative) PSN lifetimes to get
+    the turnoff mass at a given age, analogous to raiteri_mass_from_lifetime
+    but self-consistent with the LC18 grid specifically (including its
+    rotation dependence, which Raiteri's fit has no concept of).
+
+    Only defined within LC18's tabulated mass range (13-120 Msun) and at
+    its four feh grid points -- unlike Raiteri's smooth analytic fit, this
+    requires snapping to the nearest tabulated feh (see
+    salvadori_select_limongi_feh) and interpolating between only 9 mass
+    points, so it's necessarily coarser in mass resolution.
+    """
+    masses = [13, 15, 20, 25, 30, 40, 60, 80, 120]
+    lifetimes = [
+        limongi_lifetime(velocity, feh, "PSN", m)["lifetime_yr"]
+        for m in masses
+    ]
+    # Lifetime decreases monotonically with mass -- invert by interpolating
+    # mass as a function of lifetime (need increasing x for interp1d, so
+    # reverse both arrays since lifetimes are decreasing in mass order).
+    from scipy.interpolate import interp1d
+    mass_from_lifetime = interp1d(
+        lifetimes[::-1], masses[::-1],
+        kind="linear", bounds_error=False, fill_value=(masses[-1], masses[0]),
+    )
+    if lifetime_yr < min(lifetimes) or lifetime_yr > max(lifetimes):
+        return None  # outside tabulated range -- mirror raiteri's None-on-OOB behavior
+    return float(mass_from_lifetime(lifetime_yr))
