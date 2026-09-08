@@ -267,6 +267,7 @@ def salvadori_combined_abundratio(
     """
     source = sn_input if isinstance(sn_input, YieldSource) else get_source(sn_input)
 
+    pisn_data = copy.deepcopy(pisn_data)
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
 
@@ -286,7 +287,7 @@ def salvadori_combined_abundratio(
         if element not in ("H", "He")
     )
 
-    Z_star = f_ratio * Yz_pisn
+    Z_star = f_ratio * Yz_pisn / f_pisn
 
     sn_dr_data = sn_data
     if auto_sn:
@@ -308,6 +309,7 @@ def salvadori_combined_abundratio(
         sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
     else:
+        salv_sn_data = copy.deepcopy(salv_sn_data)
         salv_sn_data["yields"] = _combine_elements(salv_sn_data["yields"])
         salv_sn_yields = salv_sn_data
         Yx1_sn = _get_element(salv_sn_yields, elem1_pisn)
@@ -356,6 +358,7 @@ def salvadori_combined_abundratio_WrtH(
     """
     source = sn_input if isinstance(sn_input, YieldSource) else get_source(sn_input)
 
+    pisn_data = copy.deepcopy(pisn_data)
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
     
@@ -373,7 +376,7 @@ def salvadori_combined_abundratio_WrtH(
         if element not in ("H", "He")
     )
 
-    Z_star = f_ratio * Yz_pisn
+    Z_star = f_ratio * Yz_pisn / f_pisn
 
     sn_dr_data = sn_data
     if auto_sn:
@@ -393,6 +396,7 @@ def salvadori_combined_abundratio_WrtH(
         sn_term = Yx1_sn * Yz_pisn / Yz_sn
 
     else:
+        salv_sn_data = copy.deepcopy(salv_sn_data)
         salv_sn_data["yields"] = _combine_elements(salv_sn_data["yields"])
         salv_sn_yields = salv_sn_data
         Yx1_sn = _get_element(salv_sn_yields, elem1_pisn)
