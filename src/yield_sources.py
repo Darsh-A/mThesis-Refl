@@ -3,6 +3,7 @@ Add a new source by writing its extract/select/mass_from_lifetime hooks and
 registering it in SOURCES
 """
 
+import functools
 from dataclasses import dataclass
 from typing import Callable, Optional
 
@@ -73,6 +74,7 @@ def _ww95_mass_from_lifetime(lifetime: float, ctx: dict) -> Optional[float]:
     return raiteri_mass_from_lifetime(lifetime=lifetime, Z=ctx["Z_star"])
 
 
+@functools.lru_cache(maxsize=None)
 def _ww95_load_for_metallicity(Z_rel: float) -> list[dict]:
     return load_ww95(salvadori_select_ww95_model(Z_rel))
 
@@ -102,12 +104,17 @@ def _limongi_mass_from_lifetime(lifetime: float, ctx: dict) -> Optional[float]:
     ctx["feh"] = feh
     return limongi_mass_from_lifetime(lifetime, feh=feh, velocity=0)
 
+@functools.lru_cache(maxsize=None)
+def _limongi_load_for_metallicity_fe(feh: int) -> list[dict]:
+    all_entries = load_limongi18()
+    return [e for e in all_entries if e["params"]["feh"] == feh and e["params"]["velocity"] == 0]
+
+
 def _limongi_load_for_metallicity(Z_star: float) -> list[dict]:
     """Load LC18 yields, filtered to the [Fe/H] grid point nearest Z_star
     """
     feh = salvadori_select_limongi_feh(Z_star / Z_SUN)
-    all_entries = load_limongi18()
-    return [e for e in all_entries if e["params"]["feh"] == feh and e["params"]["velocity"] == 0]
+    return _limongi_load_for_metallicity_fe(feh)
 
 def _limongi_grid_label(Z_star: float) -> int:
     return salvadori_select_limongi_feh(Z_star / Z_SUN)

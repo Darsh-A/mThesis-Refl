@@ -1,0 +1,8 @@
+# Taste
+- Prefers temporary/scratch scripts to be run from `/tmp/commandcode/*` rather than inside the project repository. Confidence: 0.9
+- Values rigorous, evidence-backed evaluation of ML results: questions headline metrics (R², feature importance), expects diagnostics like overfitting checks and permutation importance, and runs sensitivity/ablation experiments (e.g. dropping an element and re-training, then repeating with a different element to compare outcomes) rather than taking results at face value. Confidence: 0.9
+- Prefers generated diagnostic plots/figures saved into a dedicated subfolder within the relevant project module (e.g. `src/randomForest/diagnostic/`) rather than left in /tmp or the repo root. Confidence: 0.6
+- Prefers cheap in-place edits to existing cached/generated data (e.g. dropping columns from a saved dataset) over regenerating data from scratch, when the transformation is equivalent. Confidence: 0.8
+- Does not want generation/source code (e.g. `dataset.py`) edited during experiments; instead operate on the already-generated dataset for training/eval (e.g. drop columns from the cached data) and leave the generator untouched. Confidence: 0.8
+- When facing a fundamental methodological blocker (e.g. no observed/labeled data available), wants to step back for strategic guidance — a reframing of the problem plus a prioritized, ordered plan of next steps — rather than jumping straight into implementation. Confidence: 0.6
+- Prefers keeping existing code intact for reference when adding a new approach, writing new implementations alongside the old ones (e.g. a separate `train_quantile_rf.py` next to `train_rf.py`) rather than deleting or replacing. Confidence: 0.85

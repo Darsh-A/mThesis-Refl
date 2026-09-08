@@ -23,6 +23,7 @@ Per-source routing:
 """
 
 import os
+import time
 from itertools import combinations
 
 import numpy as np
@@ -149,6 +150,7 @@ def generate(
     tpop2_diag = np.empty(n_samples)
     pisn_mass_diag = np.empty(n_samples)
 
+    t0 = time.time()
     for i in range(n_samples):
         f_pisn = rng.uniform(*F_PISN_RANGE)
         f_ratio = loguniform.rvs(*F_RATIO_RANGE, random_state=rng)
@@ -175,6 +177,18 @@ def generate(
         f_ratio_diag[i] = f_ratio
         tpop2_diag[i] = tpop2
         pisn_mass_diag[i] = pisn_mass
+
+        if n_samples >= 10 and (i + 1) % max(1, n_samples // 10) == 0:
+            frac = (i + 1) / n_samples
+            elapsed = time.time() - t0
+            eta = elapsed / frac - elapsed
+            print(
+                f"  {i + 1}/{n_samples} ({frac * 100:5.1f}%)  "
+                f"elapsed {elapsed:7.1f}s  eta {eta:7.1f}s",
+                flush=True,
+            )
+
+    print(f"  {n_samples}/{n_samples} (100.0%)  total {time.time() - t0:7.1f}s", flush=True)
 
     # Hygiene: clamp extreme low ratios and replace non-finite with NaN
     # (trainer will handle NaNs via mask/drop).

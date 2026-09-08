@@ -1,6 +1,10 @@
+import csv
 import re
+
 import numpy as np
 from scipy.stats import loguniform
+
+from params import limongi18_lifetime
 
 def _get_element(data: dict, isotope: str) -> float:
     """Get the element mass value from data
@@ -219,6 +223,22 @@ def extract_yield_peaks(pisn_yields, sn_yields, elem, f_pisn=0.9,f_ratio=1e-4, n
     return peaks
 
 
+_LIMONGI_LIFETIME_CACHE: dict[tuple[int, int], list[dict]] = {}
+
+
+def _limongi_lifetime_rows(velocity: int, feh: int) -> list[dict]:
+    key = (int(velocity), int(feh))
+    rows = _LIMONGI_LIFETIME_CACHE.get(key)
+    if rows is None:
+        rows = []
+        with open(limongi18_lifetime, newline="") as f:
+            for row in csv.DictReader(f):
+                if int(row["velocity"]) == int(velocity) and int(row["feh"]) == int(feh):
+                    rows.append(row)
+        _LIMONGI_LIFETIME_CACHE[key] = rows
+    return rows
+
+
 def limongi_lifetime(velc: int, feh: int, phase: str, initial_mass: int) -> dict[str, float]:
     """Look up the Limongi & Chieffi (2018) lifetime and total mass for a model.
 
@@ -234,9 +254,6 @@ def limongi_lifetime(velc: int, feh: int, phase: str, initial_mass: int) -> dict
         phase) and total_mass (total mass in Msun, a snapshot value at that
         phase -- not summed).
     """
-    import csv
-    from params import limongi18_lifetime
-
     PHASE_ORDER = ["MS", "H", "HE", "C", "NE", "O", "SI", "PSN"]
 
     phase = phase.upper()
@@ -248,14 +265,9 @@ def limongi_lifetime(velc: int, feh: int, phase: str, initial_mass: int) -> dict
     target_idx = PHASE_ORDER.index(phase)
 
     rows_by_phase: dict[str, dict] = {}
-    with open(limongi18_lifetime, newline="") as f:
-        for row in csv.DictReader(f):
-            if (
-                int(row["velocity"]) == int(velc)
-                and int(row["feh"]) == int(feh)
-                and int(row["initial_mass"]) == initial_mass
-            ):
-                rows_by_phase[row["phase"].upper()] = row
+    for row in _limongi_lifetime_rows(velc, feh):
+        if int(row["initial_mass"]) == initial_mass:
+            rows_by_phase[row["phase"].upper()] = row
 
     if not rows_by_phase:
         raise ValueError(

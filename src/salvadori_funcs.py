@@ -13,6 +13,11 @@ from .yield_sources import YieldSource, get_source
 from .utils import _combine_elements, _get_element, _apply_radioactive_decay, limongi_lifetime, salvadori_select_limongi_feh
 from params import asplund, atomic_mass, Z_SUN
 
+_SOLAR = json.load(open(asplund))
+
+_Y_X_II_INTERP_CACHE = {}
+_Y_Z_II_INTERP_CACHE = {}
+
 
 def salvadori_yields(data: list[dict]) -> list[dict]:
     """Compute yield in salvadori2019 sense
@@ -93,8 +98,7 @@ def salvadori_abundance_ratio(elem1: str, elem2: str, entry: dict) -> float:
     if elem1 not in yields or elem2 not in yields:
         raise ValueError(f"Element {elem1} or {elem2} not found in yields.")
 
-    with open(asplund, "r") as f:
-        solar = json.load(f)
+    solar = _SOLAR
 
     A1 = solar[elem1]["val"]
     A2 = solar[elem2]["val"]
@@ -120,8 +124,7 @@ def salvadori_H_ratio(elem1: str, f_ratio: float, entry: dict) -> float:
     if elem1 not in yields or "H" not in yields:
         raise ValueError(f"Element {elem1} or H not found in yields.")
 
-    with open(asplund, "r") as f:
-        solar = json.load(f)
+    solar = _SOLAR
 
     A1 = solar[elem1]["val"]
     A2 = solar["H"]["val"]
@@ -151,33 +154,37 @@ def salvadori_Y_X_II(data: list[dict], elem: str, m_popII: float, model: str = "
     ctx = {"model": model, "feh": feh}
     m_max = source.m_max if m_max is None else m_max
 
-    masses, yields = [], []
-    for entry in data:
-        if not source.select(entry, ctx):
-            continue
-        element_yields = source.extract(entry)
-        if elem not in element_yields:
-            continue
-        masses.append(entry["params"]["mass"])
-        yields.append(element_yields[elem])
+    cache_key = (id(data), elem, source.name, model, feh)
+    m_X_II = _Y_X_II_INTERP_CACHE.get(cache_key)
+    if m_X_II is None:
+        masses, yields = [], []
+        for entry in data:
+            if not source.select(entry, ctx):
+                continue
+            element_yields = source.extract(entry)
+            if elem not in element_yields:
+                continue
+            masses.append(entry["params"]["mass"])
+            yields.append(element_yields[elem])
 
-    masses = np.asarray(masses, dtype=float)
-    yields = np.asarray(yields, dtype=float)
+        masses = np.asarray(masses, dtype=float)
+        yields = np.asarray(yields, dtype=float)
 
-    if masses.size == 0:
-        return 0.0
+        if masses.size == 0:
+            return 0.0
 
-    order = np.argsort(masses)
-    masses = masses[order]
-    yields = yields[order]
+        order = np.argsort(masses)
+        masses = masses[order]
+        yields = yields[order]
 
-    m_X_II = interp1d(
-        masses,
-        yields,
-        kind="linear",
-        bounds_error=False,
-        fill_value=(yields[0], 0),
-    )
+        m_X_II = interp1d(
+            masses,
+            yields,
+            kind="linear",
+            bounds_error=False,
+            fill_value=(yields[0], 0),
+        )
+        _Y_X_II_INTERP_CACHE[cache_key] = m_X_II
 
     return quad(
         lambda m: float(m_X_II(m)) * larson_imf(m),
@@ -206,29 +213,33 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
     ctx = {"model": model, "feh": feh}
     m_max = source.m_max if m_max is None else m_max
 
-    masses, total_metal_mass = [], []
-    for entry in data:
-        if not source.select(entry, ctx):
-            continue
-        element_yields = source.extract(entry)
-        metal_sum = sum(v for el, v in element_yields.items() if el not in ("H", "He"))
-        masses.append(entry["params"]["mass"])
-        total_metal_mass.append(metal_sum)
+    cache_key = (id(data), source.name, model, feh)
+    m_Z_II = _Y_Z_II_INTERP_CACHE.get(cache_key)
+    if m_Z_II is None:
+        masses, total_metal_mass = [], []
+        for entry in data:
+            if not source.select(entry, ctx):
+                continue
+            element_yields = source.extract(entry)
+            metal_sum = sum(v for el, v in element_yields.items() if el not in ("H", "He"))
+            masses.append(entry["params"]["mass"])
+            total_metal_mass.append(metal_sum)
 
-    masses = np.asarray(masses, dtype=float)
-    total_metal_mass = np.asarray(total_metal_mass, dtype=float)
+        masses = np.asarray(masses, dtype=float)
+        total_metal_mass = np.asarray(total_metal_mass, dtype=float)
 
-    order = np.argsort(masses)
-    masses = masses[order]
-    total_metal_mass = total_metal_mass[order]
-    
-    m_Z_II = interp1d(
-        masses,
-        total_metal_mass,
-        kind="linear",
-        bounds_error=False,
-        fill_value=(total_metal_mass[0], 0),
-    )
+        order = np.argsort(masses)
+        masses = masses[order]
+        total_metal_mass = total_metal_mass[order]
+
+        m_Z_II = interp1d(
+            masses,
+            total_metal_mass,
+            kind="linear",
+            bounds_error=False,
+            fill_value=(total_metal_mass[0], 0),
+        )
+        _Y_Z_II_INTERP_CACHE[cache_key] = m_Z_II
 
     return quad(
         lambda m: float(m_Z_II(m)) * larson_imf(m),
@@ -271,8 +282,7 @@ def salvadori_combined_abundratio(
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
 
-    with open(asplund, "r") as f:
-        solar = json.load(f)
+    solar = _SOLAR
 
     A1 = solar[elem1_pisn]["val"]
     A2 = solar[elem2_pisn]["val"]
@@ -362,8 +372,7 @@ def salvadori_combined_abundratio_WrtH(
     pisn_data["yields"] = _combine_elements(pisn_data["yields"])
     pisn_yields = pisn_data
     
-    with open(asplund, "r") as f:
-        solar = json.load(f)
+    solar = _SOLAR
 
     A1 = solar[elem1_pisn]["val"]
     A2 = solar["H"]["val"]
