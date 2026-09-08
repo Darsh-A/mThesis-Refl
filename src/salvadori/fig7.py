@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import random
+import copy
 from scipy.stats import loguniform
 from scipy.stats import gaussian_kde
 import matplotlib.gridspec as gridspec
@@ -28,8 +29,8 @@ limongi18 = load_limongi18()
 limongi18 = [e for e in limongi18 if e['params']['velocity'] == 0]
 
 pisn_yields = hw_yields
-sn_yields = ww95_yields
-sn_source = get_source("WW95")
+sn_yields = limongi18
+sn_source = get_source("Limongi18")
 
 salvadori_pisn_yields = salvadori_yields_convert(pisn_yields)
 salvadori_sn_yields = salvadori_yields_convert(sn_yields)
@@ -42,8 +43,8 @@ for elem in ["Zn", "Cu"]:
 
     print(f"Processing element: {elem}")
 
-    X_Fe = []
-    Fe_H = []
+    X_Fe, Fe_H = [], []
+    LC18_M_MIN, LC18_M_MAX = 13.0, 120.0
     for i in range(500):
         
         pisn_entry = pisn_interp(random.uniform(150.0, 270.0))
@@ -57,8 +58,8 @@ for elem in ["Zn", "Cu"]:
             "mass": pisn_entry["params"]["mass"],
         }
 
-        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, single_sn=False, sn_input=sn_source, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
-        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe", "Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=True, single_sn=False, sn_input=sn_source, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio = salvadori_combined_abundratio(elem,elem,"Fe","Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input=sn_source, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
+        combined_ratio_wrtH = salvadori_combined_abundratio_WrtH("Fe", "Fe", pisn_data=pisn_entry, sn_data=sn_yields, salv_sn_data=salvadori_sn_yields, auto_sn=False, single_sn=False, sn_input=sn_source, f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2)
 
         if combined_ratio < -5 or combined_ratio_wrtH < -5:
             print("Very low ratio detected")
@@ -129,4 +130,3 @@ for elem in ["Zn", "Cu"]:
     f_ratio_str = f"{f_ratio:.0e}".replace("e-0", "e-").replace("e+0", "e+")
     plt.savefig(f"plots/abundance_scatter/{elem}_{f_pisn:.2f}_scatter.png", dpi=300)
     plt.clf()
-        

@@ -63,7 +63,11 @@ def larson_imf(m: float) -> float:
 
 def raiteri_lifetime(mass: float, Z: float) -> float:
     """
-    Stellar lifetime from Raiteri et al. (1996).
+    Stellar lifetime from Raiteri et al. (1996)
+    https://ui.adsabs.harvard.edu/scan/manifest/1996A%26A...315..105R?art=true
+
+          0.6 < M < 120 Msun
+    7 x 10^-5 < Z < 0.03
 
     Args:
         mass: Stellar mass in solar masses.

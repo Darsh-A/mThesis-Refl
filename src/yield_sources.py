@@ -34,6 +34,7 @@ class YieldSource:
     # filters on the same grid point.
     mass_from_lifetime: Callable[[float, dict], Optional[float]] = None
     load_for_metallicity: Optional[Callable[[float], list[dict]]] = None
+    grid_label: Optional[Callable[[float], object]] = None
 
 
 def salvadori_select_ww95_model(Z_rel: float) -> str:
@@ -48,6 +49,13 @@ def salvadori_select_ww95_model(Z_rel: float) -> str:
         1e-4: ww95_00001Z,
     }
     return grids[min(grids, key=lambda z: abs(np.log10(Z_rel) - np.log10(z)))]
+
+def _ww95_grid_key(Z_rel: float) -> float:
+    grids = (1.0, 0.1, 0.01, 1e-4)
+    return min(grids, key=lambda z: abs(np.log10(Z_rel) - np.log10(z)))
+
+def _ww95_grid_label(Z_star: float) -> float:
+    return _ww95_grid_key(Z_star)
 
 
 def _ww95_extract(entry: dict) -> dict:
@@ -76,6 +84,7 @@ WW95 = YieldSource(
     select=_ww95_select,
     mass_from_lifetime=_ww95_mass_from_lifetime,
     load_for_metallicity=_ww95_load_for_metallicity,
+    grid_label=_ww95_grid_label,
 )
 
 
@@ -100,13 +109,17 @@ def _limongi_load_for_metallicity(Z_star: float) -> list[dict]:
     all_entries = load_limongi18()
     return [e for e in all_entries if e["params"]["feh"] == feh and e["params"]["velocity"] == 0]
 
+def _limongi_grid_label(Z_star: float) -> int:
+    return salvadori_select_limongi_feh(Z_star / Z_SUN)
+
 LIMONGI18 = YieldSource(
     name="Limongi18",
     m_max=120.0,
     extract=_limongi_extract,
     select=_limongi_select,
     mass_from_lifetime=_limongi_mass_from_lifetime,
-    load_for_metallicity=_limongi_load_for_metallicity
+    load_for_metallicity=_limongi_load_for_metallicity,
+    grid_label=_limongi_grid_label
 )
 
 
