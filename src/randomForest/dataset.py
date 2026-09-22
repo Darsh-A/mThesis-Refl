@@ -29,20 +29,23 @@ from itertools import combinations
 import numpy as np
 from scipy.stats import loguniform
 
-from params import filter_elements
+from params import filter_elements, Z_SUN
+from src.formulas import raiteri_mass_from_lifetime
 from src.load_data import load_hw2002, load_takahashi, load_ww95, load_limongi18, load_nomoto13
 from src.salvadori_funcs import (
     salvadori_yields,
     salvadori_combined_abundratio,
+    salvadori_sn_only_abundance_ratio,
 )
 from src.utils import build_pisn_interpolator
 from src.yield_sources import get_source
 
 # --- Parameter priors ---
-F_PISN_RANGE = (0.1, 1.0)
+F_PISN_RANGE = (0.01, 1.0)
 F_RATIO_RANGE = (1e-4, 1e-1)
 TPOP2_RANGE = (3.2e6, 17.4e6)
 PISN_MASS_RANGE = (150.0, 270.0)
+FEH_RANGE = (-3.0, 0.0)
 
 # Clamp floor for abundance ratios
 RATIO_FLOOR = -5.0
@@ -107,14 +110,39 @@ def _feature_names() -> list[str]:
     return [f"[{x}/{y}]" for x, y in _feature_pairs()]
 
 
+def _print_fpisn_summary(y: np.ndarray, pisn_source: str, sn_source: str) -> None:
+    """Print the f_pisn bin counts and yield sources after generation."""
+    edges = np.linspace(0.0, 1.0, 11)  # 0.0, 0.1, ..., 1.0
+    counts, _ = np.histogram(y, bins=edges)
+
+    print("Generated dataset summary:")
+    print(f"  PISN source : {pisn_source}")
+    print(f"  SN source   : {sn_source}")
+    print(f"  total       : {len(y)}")
+    print("  f_pisn bins :")
+    for lo, hi, count in zip(edges[:-1], edges[1:], counts):
+        if lo == 0.0:
+            label = "f_pisn = 0"
+        else:
+            label = f"{lo:.1f} <= f_pisn < {hi:.1f}"
+        print(f"    {label:<24} {int(count)}")
+
+
 def generate(
     pisn_source: str,
     sn_source: str,
     n_samples: int,
     seed: int,
     cache_path: str = None,
+    p_sn_only: float = 0.5,
+    feh_range: tuple[float, float] = FEH_RANGE,
 ) -> tuple[np.ndarray, np.ndarray, dict]:
     """Build (X, y, diagnostics) for f_pisn regression.
+
+    f_pisn == 0 is the pure-SNII (Pop II) case: the PISN term drops out and
+    the abundance ratios are computed with a free, continuously sampled
+    [Fe/H] (no PISN enrichment). Any other f_pisn uses the normal
+    PISN + SNII mixing of salvadori_combined_abundratio.
 
     Args:
         pisn_source: "HW2002" or "Takahashi".
@@ -122,12 +150,14 @@ def generate(
         n_samples: number of samples to draw.
         seed: RNG seed for reproducibility.
         cache_path: if set, load from / save to this .npz instead of recomputing.
+        p_sn_only: probability of drawing an f_pisn == 0 (SN-only) sample.
+        feh_range: [Fe/H] sampling range for SN-only samples (continuous).
 
     Returns:
         X: (n_samples, n_features) float array of abundance ratios.
-        y: (n_samples,) float array of f_pisn targets.
-        diagnostics: dict with keys f_ratio, tpop2, pisn_mass (each length n_samples)
-                     and feature_names.
+        y: (n_samples,) float array of f_pisn targets (0 for SN-only).
+        diagnostics: dict with keys f_ratio, tpop2, pisn_mass, feh, m_pop2
+                     (each length n_samples) and feature_names.
     """
     rng = np.random.default_rng(seed)
 
@@ -149,34 +179,58 @@ def generate(
     f_ratio_diag = np.empty(n_samples)
     tpop2_diag = np.empty(n_samples)
     pisn_mass_diag = np.empty(n_samples)
+    feh_diag = np.empty(n_samples)
+    m_pop2_diag = np.empty(n_samples)
 
     t0 = time.time()
     for i in range(n_samples):
-        f_pisn = rng.uniform(*F_PISN_RANGE)
+        if p_sn_only > 0.0 and rng.random() < p_sn_only:
+            f_pisn = 0.0
+        else:
+            f_pisn = rng.uniform(*F_PISN_RANGE)
+
         f_ratio = loguniform.rvs(*F_RATIO_RANGE, random_state=rng)
         tpop2 = loguniform.rvs(*TPOP2_RANGE, random_state=rng)
-        pisn_mass = rng.uniform(*PISN_MASS_RANGE)
 
-        pisn_entry = pisn_interp(pisn_mass)
+        feh_diag[i] = np.nan
+        m_pop2_diag[i] = np.nan
+        pisn_mass_diag[i] = np.nan
 
-        features = []
-        for x_elem, y_elem in pairs:
-            ratio = salvadori_combined_abundratio(
-                x_elem, x_elem, y_elem, y_elem,
-                pisn_data=pisn_entry,
-                sn_data=sn_entries,
-                salv_sn_data=salv_sn_yields,
-                auto_sn=False, single_sn=False,
-                sn_input=sn_source_obj,
-                f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2,
-            )
-            features.append(ratio)
+        if f_pisn == 0.0:
+            feh = rng.uniform(*feh_range)
+            Z = Z_SUN * 10.0 ** feh
+            sn_dr_data = sn_source_obj.load_for_metallicity(Z)
+            # Raiteri (1996) lifetime is analytic and continuous in Z, so the
+            # turnoff mass doesn't snap to the Limongi18 [Fe/H] grid.
+            m_pop2 = raiteri_mass_from_lifetime(tpop2, Z)
 
-        X[i] = np.asarray(features, dtype=float)
+            feh_diag[i] = feh
+            m_pop2_diag[i] = np.nan if m_pop2 is None else m_pop2
+
+            if m_pop2 is not None:
+                for j, (x_elem, y_elem) in enumerate(pairs):
+                    X[i, j] = salvadori_sn_only_abundance_ratio(
+                        x_elem, y_elem, sn_dr_data, m_pop2, sn_input=sn_source_obj
+                    )
+        else:
+            pisn_mass = rng.uniform(*PISN_MASS_RANGE)
+            pisn_entry = pisn_interp(pisn_mass)
+            pisn_mass_diag[i] = pisn_mass
+
+            for j, (x_elem, y_elem) in enumerate(pairs):
+                X[i, j] = salvadori_combined_abundratio(
+                    x_elem, x_elem, y_elem, y_elem,
+                    pisn_data=pisn_entry,
+                    sn_data=sn_entries,
+                    salv_sn_data=salv_sn_yields,
+                    auto_sn=False, single_sn=False,
+                    sn_input=sn_source_obj,
+                    f_pisn=f_pisn, f_ratio=f_ratio, tpop2=tpop2,
+                )
+
         y[i] = f_pisn
         f_ratio_diag[i] = f_ratio
         tpop2_diag[i] = tpop2
-        pisn_mass_diag[i] = pisn_mass
 
         if n_samples >= 10 and (i + 1) % max(1, n_samples // 10) == 0:
             frac = (i + 1) / n_samples
@@ -200,6 +254,8 @@ def generate(
         "f_ratio": f_ratio_diag,
         "tpop2": tpop2_diag,
         "pisn_mass": pisn_mass_diag,
+        "feh": feh_diag,
+        "m_pop2": m_pop2_diag,
         "feature_names": _feature_names(),
         "pisn_source": pisn_source,
         "sn_source": sn_source,
@@ -214,6 +270,8 @@ def generate(
             y=y,
             diagnostics=diagnostics,
         )
+
+    _print_fpisn_summary(y, pisn_source, sn_source)
 
     return X, y, diagnostics
 

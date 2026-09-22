@@ -58,6 +58,21 @@ def _isotope_to_element(name:str) -> str:
     return m.group(1).capitalize()
 
 
+def _ion_to_element(ion: str) -> str:
+    """Element symbol from an ion label (e.g. 'FeII' -> 'Fe', 'C' -> 'C').
+
+    Ion labels carry the ionization stage as a Roman-numeral suffix (or none
+    for neutral atoms reported bare, e.g. 'C').  The leading chemical symbol
+    is one uppercase letter plus at most one lowercase letter, so matching
+    ``[A-Z][a-z]?`` grabs the element without confusing trailing I/V/X
+    numerals with the symbol.  Unlike ``_isotope_to_element``, which lowercases
+    first and is meant for isotope labels like 'c12'/'Fe56', this operates on
+    the original capitalization to avoid folding 'II' into 'FeII' -> 'Feii'.
+    """
+    m = re.match(r"[A-Z][a-z]?", (ion or "").strip())
+    return m.group(0) if m else (ion or "").strip()
+
+
 def _combine_elements(yields: dict[str, float]) -> dict[str, float]:
     """Combine isotopes into elements, summing their yields.
 
@@ -307,6 +322,16 @@ def salvadori_select_limongi_feh(Z_rel: float) -> int:
     feh_grid = (0, -1, -2, -3)
     target = np.log10(Z_rel)
     return min(feh_grid, key=lambda feh: abs(target - feh))
+
+
+def limongi_feh_continuous(Z_rel: float) -> float:
+    """Continuous [Fe/H] for Limongi18, clipped to the tabulated grid.
+
+    [Fe/H] = log10(Z_rel) with Z_rel = Z*/Zsun, clipped to [-3, 0] so it
+    stays inside the LC18 grid. Unlike salvadori_select_limongi_feh this is
+    not snapped to an integer -- callers interpolate across the grid.
+    """
+    return float(np.clip(np.log10(Z_rel), -3.0, 0.0))
 
 from scipy.interpolate import interp1d
 

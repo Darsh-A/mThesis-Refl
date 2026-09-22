@@ -3,7 +3,7 @@ import os
 import re
 
 from .utils import _isotope_label, _isotope_to_element
-from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z, limongi18_yields, nomoto_ck13_yields
+from params import heger_woosley_2002_yields, ishigaki_2018_yields, ishigaki18_selected_yields, ww95_1Z, limongi18_yields, nomoto_ck13_yields, obs_li_params, obs_li_abundances
 
 def load_hw2002(filepath: str=heger_woosley_2002_yields) -> list[dict]:
     """Load Heger & Woosley 2002 yields.
@@ -403,5 +403,133 @@ def load_nomoto13(filepath: str = nomoto_ck13_yields) -> list[dict]:
             })
 
         i = j
+
+    return entries
+
+
+# --- Observed Li+22 (LAMOST/Subaru) very metal-poor stars ---
+# Fixed-width MRT tables: Table 2 = stellar parameters (one row/star),
+# Table 3 = elemental abundances (one row/ion/star). Column specs are
+# (start, end) byte positions, 1-indexed inclusive, from the file headers.
+
+_OBS_LI_PARAM_FIELDS = [
+    (1, 10, "ID", str),
+    (13, 22, "RAdeg", float),
+    (24, 32, "DEdeg", float),
+    (34, 39, "RVel", float),
+    (41, 45, "SNR", float),
+    (47, 50, "Teff", int),
+    (52, 54, "e_Teff", int),
+    (56, 59, "logg", float),
+    (61, 64, "e_logg", float),
+    (66, 70, "FeH", float),
+    (72, 75, "e_FeH", float),
+    (77, 80, "vt", float),
+    (82, 85, "e_vt", float),
+    (87, 92, "logL", float),
+    (94, 98, "e_logL", float),
+    (100, 100, "f_logg", int),
+    (102, 105, "Teff_LAMOST", int),
+    (107, 110, "logg_LAMOST", float),
+    (112, 116, "FeH_LAMOST", float),
+]
+
+_OBS_LI_ABUND_FIELDS = [
+    (1, 10, "ID", str),
+    (13, 16, "Ion", str),
+    (18, 18, "l_logeps", str),
+    (20, 24, "logeps", float),
+    (26, 26, "l_XFe", str),
+    (28, 32, "XFe", float),
+    (34, 38, "sigma_Teff", float),
+    (40, 44, "sigma_logg", float),
+    (46, 50, "sigma_FeH", float),
+    (52, 56, "sigma_vt", float),
+    (58, 61, "sigma_N", float),
+    (63, 66, "sigma_Total", float),
+    (68, 70, "Nlines", int),
+]
+
+
+def _parse_obs_li_rows(lines: list[str], fields: list[tuple]) -> list[dict]:
+    """Parse fixed-width MRT data rows, identified by a J-prefixed ID."""
+    rows = []
+    for line in lines:
+        raw = line.rstrip("\n").rstrip("\r")
+        first_end = fields[0][1]
+        if len(raw) < first_end:
+            continue
+        if not raw[fields[0][0] - 1:first_end].strip().startswith("J"):
+            continue
+        row = {}
+        for start, end, name, conv in fields:
+            val = raw[start - 1:end].strip() if len(raw) >= end else ""
+            if val == "":
+                row[name] = None
+            elif conv is str:
+                row[name] = val
+            else:
+                try:
+                    row[name] = conv(val)
+                except (ValueError, TypeError):
+                    row[name] = None
+        rows.append(row)
+    return rows
+
+
+def load_obs_li(
+    params_file: str = obs_li_params,
+    abundance_file: str = obs_li_abundances,
+) -> list[dict]:
+    """Load the Li+22 very metal-poor star catalogue, merged into one entry per star.
+
+    Combines the two machine-readable tables:
+      * Table 2 (stellar parameters, one row per star)
+      * Table 3 (elemental abundances, one row per ion)
+
+    Returns a list of per-star dicts:
+
+        {
+            "label": "J0002+0343",
+            "params": {  # stellar parameters from Table 2
+                "RAdeg", "DEdeg", "RVel", "SNR",
+                "Teff", "e_Teff", "logg", "e_logg", "FeH", "e_FeH",
+                "vt", "e_vt", "logL", "e_logL", "f_logg",
+                "Teff_LAMOST", "logg_LAMOST", "FeH_LAMOST",
+            },
+            "abundances": {  # per-ion records from Table 3
+                "FeI": {"logeps": ..., "XFe": ..., "l_logeps": ...,
+                        "l_XFe": ..., "sigma_*": ..., "Nlines": ...},
+                ...
+            },
+        }
+
+    Upper limits have l_logeps / l_XFe == "<"; blank (unmeasured) cells are
+    None. Stars missing from one table get an empty dict for that section.
+    """
+    with open(params_file) as f:
+        param_rows = _parse_obs_li_rows(f.readlines(), _OBS_LI_PARAM_FIELDS)
+    with open(abundance_file) as f:
+        abund_rows = _parse_obs_li_rows(f.readlines(), _OBS_LI_ABUND_FIELDS)
+
+    params_by_id = {r["ID"]: {k: v for k, v in r.items() if k != "ID"} for r in param_rows}
+    abund_by_id = {}
+    for r in abund_rows:
+        star = abund_by_id.setdefault(r["ID"], {})
+        star[r["Ion"]] = {k: v for k, v in r.items() if k not in ("ID", "Ion")}
+
+    entries = []
+    seen = set()
+    for r in param_rows:
+        sid = r["ID"]
+        entries.append({
+            "label": sid,
+            "params": params_by_id[sid],
+            "abundances": abund_by_id.get(sid, {}),
+        })
+        seen.add(sid)
+    for sid, ab in abund_by_id.items():
+        if sid not in seen:
+            entries.append({"label": sid, "params": {}, "abundances": ab})
 
     return entries

@@ -80,6 +80,7 @@ def generate_dataset(config: dict = CONFIG):
         n_samples=config["n_samples"],
         seed=config["seed"],
         cache_path=config["cache_path"],
+        p_sn_only=config.get("p_sn_only", 0.5),
     )
     dt = __import__("time").time() - t0
     print(f"done in {dt:.1f}s -> X={X.shape}, NaN cells={int(np.isnan(X).sum())}")

@@ -1,6 +1,7 @@
 # env stuff
 .venv
 .opencode
+.commandcode
 *__pycache__/
 
 # data stuff
@@ -8,3 +9,6 @@ data/raw/Ishigaki18
 data/raw/Ishigaki18_full.tsv
 data/Ishigaki18.tsv
 notes.md
+data/raw/Obs_XiangLamost
+src/hypothesis/diagnostic_test_v2
+src/randomForest/data

@@ -247,6 +247,49 @@ def salvadori_Y_Z_II(data: list[dict], m_popII: float, model: str = "A", m_max: 
         m_max,
     )[0]
 
+def salvadori_sn_only_abundance_ratio(
+    elem1: str,
+    elem2: str,
+    sn_data: list[dict],
+    m_popII: float,
+    sn_input: str | YieldSource = "WW95",
+    model: str = "A",
+) -> float:
+    """IMF-integrated SNII abundance ratio [elem1/elem2] with no PISN term.
+
+    Pure Pop II analogue of salvadori_abundance_ratio: instead of a single
+    yield entry, the element masses are the time-dependent, IMF-weighted SNII
+    yields Y_X^II (see salvadori_Y_X_II), integrated above the turnoff mass
+    m_popII. The ratio formula is unchanged:
+
+        [X/Y] = log10(Y_X / Y_Y) - (A(X) - A(Y)) - log10(m_X / m_Y)
+
+    sn_data is expected to already be selected -- and, for Limongi18/Nomoto13,
+    interpolated -- to a single metallicity (e.g. source.load_for_metallicity),
+    so no further feh filtering is applied here.
+
+    Args:
+        elem1: Numerator element symbol, e.g. "Fe".
+        elem2: Denominator element symbol, e.g. "H".
+        sn_data: Yield entries for one metallicity grid.
+        m_popII: Turnoff mass (lower integration limit) in Msun.
+        sn_input: Yield source name or YieldSource instance.
+        model: Model tag for WW95-style selection (ignored otherwise).
+
+    Returns:
+        [elem1/elem2], or np.nan if either integrated yield is non-positive.
+    """
+    Y1 = salvadori_Y_X_II(sn_data, elem1, m_popII, model=model, sn_input=sn_input, feh=None)
+    Y2 = salvadori_Y_X_II(sn_data, elem2, m_popII, model=model, sn_input=sn_input, feh=None)
+
+    if Y1 <= 0.0 or Y2 <= 0.0:
+        return np.nan
+
+    A1 = _SOLAR[elem1]["val"]
+    A2 = _SOLAR[elem2]["val"]
+
+    return np.log10(Y1 / Y2) - (A1 - A2) - np.log10(atomic_mass[elem1] / atomic_mass[elem2])
+
 def salvadori_combined_abundratio(
         elem1_pisn: str, 
         elem1_sn: str, 
@@ -264,6 +307,12 @@ def salvadori_combined_abundratio(
     ) -> float:
     """Compute the combined abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 13 of Salvadori et al. 2019.
+
+        The IMF-integrated SNII term (single_sn=False) uses a continuous
+        metallicity: the yield grid is interpolated via load_for_metallicity
+        and the turnoff mass uses Raiteri's continuous lifetime.
+        sn_data/auto_sn/feh are kept for API compatibility and are ignored on
+        this path.
 
     Args:
         pisn_data:
@@ -299,22 +348,21 @@ def salvadori_combined_abundratio(
 
     Z_star = f_ratio * Yz_pisn / f_pisn
 
-    sn_dr_data = sn_data
-    if auto_sn:
-        if source.load_for_metallicity is None:
-            raise ValueError(f"{source.name} has no auto_sn metallicity lookup")
-        sn_dr_data = source.load_for_metallicity(Z_star)
-
     if not single_sn:
-        ctx = {"Z_star": Z_star, "feh": feh}
-        m_popII = source.mass_from_lifetime(tpop2, ctx)
+        if source.load_for_metallicity is None:
+            raise ValueError(f"{source.name} has no load_for_metallicity")
+
+        # Continuous metallicity: interpolate the yield grid at Z_star and use
+        # Raiteri's analytic lifetime (continuous in Z) for the turnoff mass.
+        sn_dr_data = source.load_for_metallicity(Z_star)
+        m_popII = raiteri_mass_from_lifetime(tpop2, Z_star)
 
         if m_popII is None:
             return np.nan
-    
-        Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
-        Yx2_sn = salvadori_Y_X_II(sn_dr_data, elem2_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
-        Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=ctx.get("feh"))
+
+        Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=None)
+        Yx2_sn = salvadori_Y_X_II(sn_dr_data, elem2_sn, m_popII, sn_input=source, feh=None)
+        Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=None)
         sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
         sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
@@ -355,6 +403,12 @@ def salvadori_combined_abundratio_WrtH(
     """Compute the X/H abundance ratio for a mixture of PISN and SN yields.
         Refer to Eq. 12 of Salvadori et al. 2019.
 
+        The IMF-integrated SNII term (single_sn=False) uses a continuous
+        metallicity: the yield grid is interpolated via load_for_metallicity
+        and the turnoff mass uses Raiteri's continuous lifetime.
+        sn_data/auto_sn/feh are kept for API compatibility and are ignored on
+        this path.
+
     Args:
         pisn_data:
         {
@@ -387,21 +441,20 @@ def salvadori_combined_abundratio_WrtH(
 
     Z_star = f_ratio * Yz_pisn / f_pisn
 
-    sn_dr_data = sn_data
-    if auto_sn:
-        if source.load_for_metallicity is None:
-            raise ValueError(f"{source.name} has no auto_sn metallicity lookup")
-        sn_dr_data = source.load_for_metallicity(Z_star)
-
     if not single_sn:
-        ctx = {"Z_star": Z_star, "feh": feh}
-        m_popII = source.mass_from_lifetime(tpop2, ctx)
+        if source.load_for_metallicity is None:
+            raise ValueError(f"{source.name} has no load_for_metallicity")
+
+        # Continuous metallicity: interpolate the yield grid at Z_star and use
+        # Raiteri's analytic lifetime (continuous in Z) for the turnoff mass.
+        sn_dr_data = source.load_for_metallicity(Z_star)
+        m_popII = raiteri_mass_from_lifetime(tpop2, Z_star)
 
         if m_popII is None:
             return np.nan
 
-        Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=ctx.get("feh"))
-        Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=ctx.get("feh"))
+        Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=None)
+        Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=None)
         sn_term = Yx1_sn * Yz_pisn / Yz_sn
 
     else:

@@ -13,6 +13,9 @@ limongi18_lifetime = "data/raw/Limongi18/limongi_lifetime.csv"
 
 nomoto_ck13_yields = "data/raw/Nomoto/YIELD_CK13.dat"
 
+obs_li_params = "data/raw/Obs_Li/apjac6514t2_mrt.txt"
+obs_li_abundances = "data/raw/Obs_Li/apjac6514t3_mrt.txt"
+
 # Constants
 
 # Salvadori constants:
