@@ -136,6 +136,7 @@ def generate(
     cache_path: str = None,
     p_sn_only: float = 0.5,
     feh_range: tuple[float, float] = FEH_RANGE,
+    dex_error: float = 0.0,
 ) -> tuple[np.ndarray, np.ndarray, dict]:
     """Build (X, y, diagnostics) for f_pisn regression.
 
@@ -152,6 +153,10 @@ def generate(
         cache_path: if set, load from / save to this .npz instead of recomputing.
         p_sn_only: probability of drawing an f_pisn == 0 (SN-only) sample.
         feh_range: [Fe/H] sampling range for SN-only samples (continuous).
+        dex_error: 1-sigma Gaussian observational error (dex) added to each
+                   element abundance; ratio [X/Y] then picks up eps_X - eps_Y
+                   (ratios sharing an element stay correlated, as in real
+                   [X/Fe] measurement errors). 0.0 (default) = noiseless mock.
 
     Returns:
         X: (n_samples, n_features) float array of abundance ratios.
@@ -250,6 +255,16 @@ def generate(
     X = np.where(valid & (X < RATIO_FLOOR), RATIO_FLOOR, X)
     X = np.where(np.isfinite(X), X, np.nan)
 
+    # Observational error: add +/- dex Gaussian noise to each element's
+    # abundance. Ratio [X/Y] then picks up eps_X - eps_Y, so ratios sharing an
+    # element stay correlated (matching real [X/Fe] measurement errors). NaN
+    # cells are left untouched (NaN + finite = NaN).
+    if dex_error > 0.0:
+        eps = {el: rng.normal(0.0, dex_error, size=n_samples)
+               for el in _abundance_elements()}
+        for j, (x_elem, y_elem) in enumerate(pairs):
+            X[:, j] = X[:, j] + (eps[x_elem] - eps[y_elem])
+
     diagnostics = {
         "f_ratio": f_ratio_diag,
         "tpop2": tpop2_diag,
@@ -261,6 +276,7 @@ def generate(
         "sn_source": sn_source,
         "n_samples": n_samples,
         "seed": seed,
+        "dex_error": dex_error,
     }
 
     if cache_path:

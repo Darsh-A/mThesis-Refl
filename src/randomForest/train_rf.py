@@ -33,7 +33,7 @@ MODEL_PATH = os.path.join(DATA_DIR, "rf_model.joblib")
 
 CONFIG = {
     # dataset
-    "pisn_source": "HW2002",
+    "pisn_source": "Takahashi",
     "sn_source": "Limongi18",
     "n_samples": 2000,
     "seed": 12345,
