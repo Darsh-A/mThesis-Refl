@@ -128,6 +128,59 @@ def _print_fpisn_summary(y: np.ndarray, pisn_source: str, sn_source: str) -> Non
         print(f"    {label:<24} {int(count)}")
 
 
+# Map Li+22 ion keys -> element symbols used by the mock feature pairs.
+_LI_ION_TO_ELEMENT = {
+    "C": "C", "NaI": "Na", "MgI": "Mg", "SiI": "Si", "CaI": "Ca",
+    "CrI": "Cr", "MnI": "Mn", "FeI": "Fe", "CoI": "Co", "NiI": "Ni",
+    "ZnI": "Zn",
+}
+
+
+def li_plus_element_sigmas() -> dict[str, float]:
+    """Median Li+22 sigma_Total (dex) per element, used as realistic noise.
+
+    Lazily imports ``load_obs_li`` to avoid import-order coupling during module
+    load. Upper-limit stars (l_XFe == "<") and missing/non-finite sigma values
+    are skipped. Returns {element_symbol: median_sigma_Total}.
+    """
+    from collections import defaultdict
+    from src.load_data import load_obs_li
+
+    per_element: dict[str, list[float]] = defaultdict(list)
+    for star in load_obs_li():
+        for ion, rec in star["abundances"].items():
+            element = _LI_ION_TO_ELEMENT.get(ion)
+            if element is None:
+                continue
+            sigma = rec.get("sigma_Total")
+            if sigma is not None and np.isfinite(sigma):
+                per_element[element].append(float(sigma))
+
+    return {el: float(np.median(vals)) for el, vals in per_element.items() if vals}
+
+
+def add_dex_noise(
+    X: np.ndarray,
+    pairs: list[tuple[str, str]],
+    element_sigmas: dict[str, float],
+    rng: np.random.Generator,
+) -> np.ndarray:
+    """Add element-specific Gaussian observational noise (dex) to ratios.
+
+    Draws eps[el] ~ N(0, sigma_el) once per element, then adds eps[x] - eps[y]
+    to every [X/Y] ratio whose two elements are both in ``element_sigmas``.
+    Ratios sharing an element therefore stay correlated (as in real [X/Fe]
+    measurement errors). NaN cells are left untouched (NaN + finite = NaN).
+    Elements absent from ``element_sigmas`` leave their ratios unchanged.
+    """
+    eps = {el: rng.normal(0.0, sig, size=X.shape[0])
+           for el, sig in element_sigmas.items()}
+    for j, (x_elem, y_elem) in enumerate(pairs):
+        if x_elem in eps and y_elem in eps:
+            X[:, j] = X[:, j] + (eps[x_elem] - eps[y_elem])
+    return X
+
+
 def generate(
     pisn_source: str,
     sn_source: str,
@@ -260,10 +313,7 @@ def generate(
     # element stay correlated (matching real [X/Fe] measurement errors). NaN
     # cells are left untouched (NaN + finite = NaN).
     if dex_error > 0.0:
-        eps = {el: rng.normal(0.0, dex_error, size=n_samples)
-               for el in _abundance_elements()}
-        for j, (x_elem, y_elem) in enumerate(pairs):
-            X[:, j] = X[:, j] + (eps[x_elem] - eps[y_elem])
+        add_dex_noise(X, pairs, {el: dex_error for el in _abundance_elements()}, rng)
 
     diagnostics = {
         "f_ratio": f_ratio_diag,
@@ -292,4 +342,4 @@ def generate(
     return X, y, diagnostics
 
 
-__all__ = ["generate"]
+__all__ = ["generate", "add_dex_noise", "li_plus_element_sigmas"]

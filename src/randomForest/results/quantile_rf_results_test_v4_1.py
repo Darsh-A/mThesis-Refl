@@ -362,6 +362,16 @@ ax.set_ylabel("predicted f_pisn (median)")
 ax.set_title("Li+22 complete stars: f_pisn vs [Fe/H]")
 _save(fig, "complete_fpisn_vs_feh.png")
 
+# all-star f_pisn vs [Fe/H]
+fig, ax = plt.subplots(figsize=(7, 4.5))
+ax.scatter(feh, pred_std, s=15, alpha=0.6, color="tab:orange", label="standard")
+ax.scatter(feh, pred_mask, s=15, alpha=0.6, color="tab:blue", label="mask-aware")
+ax.set_xlabel("[Fe/H]")
+ax.set_ylabel("predicted f_pisn (median)")
+ax.set_title(f"Li+22 all stars ({N}): f_pisn vs [Fe/H]")
+ax.legend()
+_save(fig, "obs_fpisn_vs_feh.png")
+
 # f_pisn vs N_measured
 fig, ax = plt.subplots(figsize=(7, 4.5))
 ax.scatter(n_meas + np.random.uniform(-0.2, 0.2, N), pred_std, s=8,
