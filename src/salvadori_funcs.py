@@ -363,6 +363,11 @@ def salvadori_combined_abundratio(
         Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=None)
         Yx2_sn = salvadori_Y_X_II(sn_dr_data, elem2_sn, m_popII, sn_input=source, feh=None)
         Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=None)
+        if Yz_sn <= 0.0:
+            # Turnoff mass above the SN grid's top (e.g. Nomoto13 max 40 Msun
+            # for young populations): no CCSN has exploded yet, so the IMF-
+            # integrated SNII metal yield vanishes and the ratio is undefined.
+            return np.nan
         sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
         sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
@@ -455,6 +460,10 @@ def salvadori_combined_abundratio_WrtH(
 
         Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=None)
         Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=None)
+        if Yz_sn <= 0.0:
+            # Same guard as salvadori_combined_abundratio: turnoff mass above
+            # the SN grid top means no SNII metal yield yet.
+            return np.nan
         sn_term = Yx1_sn * Yz_pisn / Yz_sn
 
     else:

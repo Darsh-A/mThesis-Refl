@@ -43,9 +43,21 @@ from src.yield_sources import get_source
 # --- Parameter priors ---
 F_PISN_RANGE = (0.01, 1.0)
 F_RATIO_RANGE = (1e-4, 1e-1)
-TPOP2_RANGE = (3.2e6, 17.4e6)
 PISN_MASS_RANGE = (150.0, 270.0)
 FEH_RANGE = (-3.0, 0.0)
+
+# Population-age (tpop2) priors, per SN source.  The lower bound is set by the
+# source's most massive model: raiteri_mass_from_lifetime(tpop2, Z) must stay
+# inside the source's yield mass grid, otherwise the IMF-integrated SNII metal
+# yield vanishes and every mixed ratio becomes NaN (young population with no
+# CCSN in the grid yet).  Nomoto13's grid tops out at 40 Msun, whose max
+# lifetime is ~5.43 Myr across Z, so it needs a later start than Limongi18
+# (which reaches 120 Msun).  The upper bound (~lifetime of the 13 Msun lightest
+# model) is shared by both grids.
+TPOP2_RANGE = (3.2e6, 17.4e6)
+TPOP2_RANGE_BY_SOURCE = {
+    "Nomoto13": (5.5e6, 17.4e6),
+}
 
 # Clamp floor for abundance ratios
 RATIO_FLOOR = -5.0
@@ -226,6 +238,8 @@ def generate(
     pisn_entries, pisn_interp = _load_pisn(pisn_source)
     sn_entries, sn_source_obj = _load_sn(sn_source)
 
+    tpop2_range = TPOP2_RANGE_BY_SOURCE.get(sn_source, TPOP2_RANGE)
+
     # Precomputed transforms (done once, outside the sample loop).
     salv_sn_yields = salvadori_yields(sn_entries)
 
@@ -248,7 +262,7 @@ def generate(
             f_pisn = rng.uniform(*F_PISN_RANGE)
 
         f_ratio = loguniform.rvs(*F_RATIO_RANGE, random_state=rng)
-        tpop2 = loguniform.rvs(*TPOP2_RANGE, random_state=rng)
+        tpop2 = loguniform.rvs(*tpop2_range, random_state=rng)
 
         feh_diag[i] = np.nan
         m_pop2_diag[i] = np.nan
