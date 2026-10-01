@@ -109,7 +109,8 @@ def _abundance_elements() -> list[str]:
     """Elements used to build pairwise abundance-ratio features.
     """
     # return [e for e in filter_elements if e not in ("H", "He")]
-    return ["C", "O", "Na", "Mg", "Al", "Si", "Ca", "Cr", "Mn", "Fe", "Co", "Ni", "Cu", "Zn"]
+    # Xiang+2019 (LAMOST DR5) element set minus Ba: 15 elements -> 105 ratios.
+    return ["C", "N", "O", "Na", "Mg", "Al", "Si", "Ca", "Ti", "Cr", "Mn", "Fe", "Co", "Ni", "Cu"]
 
 
 def _feature_pairs() -> list[tuple[str, str]]:

@@ -14,15 +14,20 @@ The entry point :func:`getObsMask` is importable anywhere:
 
 from __future__ import annotations
 
-from .load_data import load_obs_li
+from .load_data import load_obs_li, load_obs_xiang
 from .utils import _ion_to_element
 
 # Catalogue name -> no-argument loader callable.  Add new catalogues here to
 # expose them via getObsMask; the loader must return the same per-star shape
 # as ``load_obs_li`` (a list of dicts with "label", "params", "abundances").
+# ``load_obs_xiang`` returns element-keyed abundances where ``logeps`` is set
+# only when the measurement is reliable ({EL}_FE_FLAG == 1), so the existing
+# "logeps is not None" check in ``observed_elements`` maps directly to the
+# Xiang reliable-flag semantics.
 CATALOGUES = {
     "li": load_obs_li,
     "li+": load_obs_li,
+    "xiang": load_obs_xiang,
 }
 
 DEFAULT_CATALOGUE = "li"

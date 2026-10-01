@@ -533,3 +533,137 @@ def load_obs_li(
             entries.append({"label": sid, "params": {}, "abundances": ab})
 
     return entries
+
+
+# --- Observed Xiang+2019 (LAMOST DR5) ---
+# DDPayne_LAMOST-DR5_recommend.fits (J/ApJS/245/34, ~8.16M stars). Per-star
+# element abundances are [X/Fe] directly (no ion stage), stored in {EL}_FE
+# columns with {EL}_FE_FLAG (1 = reliable) and {EL}_FE_ERR (dex error).
+# Missing values are encoded as -999.0 (NOT NaN). Fe is the reference element
+# ([Fe/H] = FEH column), so it is not among the per-element columns.
+
+# Element symbol -> FITS column code (e.g. Na -> "NA_FE", Mg -> "MG_FE").
+_XIANG_ELEMENT_COLUMN = {
+    "C": "C", "N": "N", "O": "O", "Na": "NA", "Mg": "MG", "Al": "AL",
+    "Si": "SI", "Ca": "CA", "Ti": "TI", "Cr": "CR", "Mn": "MN",
+    "Co": "CO", "Ni": "NI", "Cu": "CU",
+}
+
+# The 14 non-Fe elements Xiang measures (Fe is the reference, carried in
+# params["FeH"]). Same order as the 15-element training set minus Fe.
+XIANG_ELEMENTS = [
+    "C", "N", "O", "Na", "Mg", "Al", "Si", "Ca", "Ti", "Cr", "Mn",
+    "Co", "Ni", "Cu",
+]
+
+_XIANG_FITS = "data/raw/Obs_XiangLamost/DDPayne_LAMOST-DR5_recommend.fits"
+
+
+def load_obs_xiang(
+    filepath: str = _XIANG_FITS,
+    feh_range: tuple[float, float] = (-3.0, -1.5),
+    elements: list[str] | None = None,
+    n_max: int | None = None,
+    seed: int = 0,
+) -> list[dict]:
+    """Load Xiang+2019 (LAMOST DR5) stars, merged into one entry per star.
+
+    Reads the DDPayne recommended FITS catalogue and selects stars with a
+    reliable [Fe/H] in ``feh_range`` (default [-3, -1.5)).  For each element,
+    an abundance is observed iff the quality flag is reliable
+    (``{EL}_FE_FLAG == 1``) and the value is not the -999.0 missing sentinel.
+
+    If ``n_max`` is given and fewer stars are selected, a reproducible random
+    subsample of that size (seeded by ``seed``) is returned instead of the full
+    catalogue.
+
+    Returns a list of per-star dicts with the same top-level shape as
+    ``load_obs_li``:
+
+        {
+            "label": STARID,
+            "params": {"RAdeg","DEdeg","Teff","e_Teff","logg","e_logg",
+                       "FeH","e_FeH","SNR"},
+            "abundances": {
+                "C": {"logeps","XFe","sigma_Total","reliable"},
+                ...
+            },
+        }
+
+    ``abundances`` is keyed by element symbol (Fe excluded).  ``logeps`` and
+    ``XFe`` hold the [X/Fe] value when reliable, else None; ``sigma_Total``
+    is the reported {EL}_FE_ERR (None when unreliable).
+    """
+    import numpy as np
+    from astropy.io import fits
+
+    if elements is None:
+        elements = XIANG_ELEMENTS
+
+    lo, hi = feh_range
+
+    with fits.open(filepath, memmap=True) as hdul:
+        data = hdul[1].data
+        sel = (data["FEH"] >= lo) & (data["FEH"] < hi) & (data["FEH_FLAG"] == 1)
+        idx = np.flatnonzero(sel)
+
+        if n_max is not None and len(idx) > n_max:
+            rng = np.random.default_rng(seed)
+            idx = np.sort(rng.choice(idx, size=n_max, replace=False))
+
+        starid = data["STARID"][idx].astype(str)
+        ra = data["RA"][idx].astype(float)
+        dec = data["DEC"][idx].astype(float)
+        teff = data["TEFF"][idx].astype(float)
+        teff_err = data["TEFF_ERR"][idx].astype(float)
+        logg = data["LOGG"][idx].astype(float)
+        logg_err = data["LOGG_ERR"][idx].astype(float)
+        feh = data["FEH"][idx].astype(float)
+        feh_err = data["FEH_ERR"][idx].astype(float)
+        snr = data["SNR_G"][idx].astype(float)
+
+        el_vals = {}
+        el_errs = {}
+        el_flags = {}
+        for el in elements:
+            code = _XIANG_ELEMENT_COLUMN[el]
+            el_vals[el] = data[f"{code}_FE"][idx].astype(float)
+            el_errs[el] = data[f"{code}_FE_ERR"][idx].astype(float)
+            el_flags[el] = data[f"{code}_FE_FLAG"][idx].astype(int)
+
+    entries = []
+    for k in range(len(idx)):
+        abund = {}
+        for el in elements:
+            v = float(el_vals[el][k])
+            fl = int(el_flags[el][k])
+            e = float(el_errs[el][k])
+            reliable = (fl == 1) and (v != -999.0) and np.isfinite(v)
+            if reliable:
+                abund[el] = {
+                    "logeps": v, "XFe": v, "sigma_Total": e,
+                    "reliable": True,
+                }
+            else:
+                abund[el] = {
+                    "logeps": None, "XFe": None, "sigma_Total": None,
+                    "reliable": False,
+                }
+
+        entries.append({
+            "label": starid[k].strip(),
+            "params": {
+                "RAdeg": float(ra[k]),
+                "DEdeg": float(dec[k]),
+                "Teff": float(teff[k]),
+                "e_Teff": float(teff_err[k]),
+                "logg": float(logg[k]),
+                "e_logg": float(logg_err[k]),
+                "FeH": float(feh[k]),
+                "e_FeH": float(feh_err[k]),
+                "SNR": float(snr[k]),
+            },
+            "abundances": abund,
+        })
+
+    return entries

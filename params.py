@@ -23,6 +23,7 @@ f_star_by_f_dil = [1e-4, 1e-1]
 f_dil = [0.02, 10]
 
 Z_SUN = 0.01345
+# Z_SUN = 0.02
 
 # A(X) values from Asplund+09, Table 1
 """

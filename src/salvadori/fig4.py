@@ -13,6 +13,7 @@ ww95_yields = load_ww95()
 hw_yields = hw_yields[1:]
 
 limongi18 = load_limongi18()
+limongi18 = [e for e in limongi18 if e['params']['mass'] <= 25]
 
 pisn_yields = takahashi_yields
 sn_yields = limongi18
@@ -38,7 +39,7 @@ STYLE = {
 
 # tpop2_list = [3e6, 6e6, 10e6, 20e6, 30e6]  # in years
 tpop2_list = [4e6, 6e6, 10e6, 14e6, 17e6]  # in years
-f_pisn = 0.50
+f_pisn = 0.90
 
 fig, ax = plt.subplots(figsize=(6, 5))
 
@@ -78,5 +79,5 @@ ax.legend(fontsize=8)
 ax.grid(True, alpha=0.3)
 plt.minorticks_on()
 plt.title(r"Abundance ratio $[\mathrm{Fe}/\mathrm{H}]$ vs. mPISN for different ; f_pisn = " + str(f_pisn), fontsize=10)
-plt.savefig("plots/salv_figures/fig4.png", dpi=300, bbox_inches="tight")
+plt.savefig("plots/salv_figures/fig4_tk_90.png", dpi=300, bbox_inches="tight")
 plt.show()

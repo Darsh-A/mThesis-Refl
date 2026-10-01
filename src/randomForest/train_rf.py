@@ -34,7 +34,7 @@ MODEL_PATH = os.path.join(DATA_DIR, "rf_model.joblib")
 CONFIG = {
     # dataset
     "pisn_source": "Takahashi",
-    "sn_source": "Nomoto13",
+    "sn_source": "Limongi18",
     "n_samples": 2000,
     "seed": 12345,
     "cache_path": CACHE_PATH,
