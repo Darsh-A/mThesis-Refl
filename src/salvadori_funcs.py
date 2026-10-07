@@ -364,12 +364,14 @@ def salvadori_combined_abundratio(
         Yx2_sn = salvadori_Y_X_II(sn_dr_data, elem2_sn, m_popII, sn_input=source, feh=None)
         Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=None)
         if Yz_sn <= 0.0:
-            # Turnoff mass above the SN grid's top (e.g. Nomoto13 max 40 Msun
-            # for young populations): no CCSN has exploded yet, so the IMF-
-            # integrated SNII metal yield vanishes and the ratio is undefined.
-            return np.nan
-        sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
-        sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
+            # Turnoff mass above the SN grid's top (e.g. WW95 max 40 Msun for
+            # young populations): no CCSN has exploded yet, so clamp the SNII
+            # contribution to zero (pure-PISN limit) rather than returning NaN.
+            sn_term_1 = 0.0
+            sn_term_2 = 0.0
+        else:
+            sn_term_1 = (Yz_pisn/Yz_sn) * Yx1_sn
+            sn_term_2 = (Yz_pisn/Yz_sn) * Yx2_sn
 
     else:
         salv_sn_data = copy.deepcopy(salv_sn_data)
@@ -461,10 +463,11 @@ def salvadori_combined_abundratio_WrtH(
         Yx1_sn = salvadori_Y_X_II(sn_dr_data, elem1_sn, m_popII, sn_input=source, feh=None)
         Yz_sn  = salvadori_Y_Z_II(sn_dr_data, m_popII, sn_input=source, feh=None)
         if Yz_sn <= 0.0:
-            # Same guard as salvadori_combined_abundratio: turnoff mass above
-            # the SN grid top means no SNII metal yield yet.
-            return np.nan
-        sn_term = Yx1_sn * Yz_pisn / Yz_sn
+            # Same clamp as salvadori_combined_abundratio: turnoff mass above
+            # the SN grid top -> no SNII metal yet -> pure-PISN limit.
+            sn_term = 0.0
+        else:
+            sn_term = Yx1_sn * Yz_pisn / Yz_sn
 
     else:
         salv_sn_data = copy.deepcopy(salv_sn_data)

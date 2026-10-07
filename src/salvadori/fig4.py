@@ -13,7 +13,6 @@ ww95_yields = load_ww95()
 hw_yields = hw_yields[1:]
 
 limongi18 = load_limongi18()
-limongi18 = [e for e in limongi18 if e['params']['mass'] <= 25]
 
 pisn_yields = takahashi_yields
 sn_yields = limongi18
@@ -30,15 +29,15 @@ salvadori_sn_yields = salvadori_yields_convert(sn_yields)
 # }
 
 STYLE = {
-    4:  ("<", "#e6555a"),   # red left-triangle
-    6:  ("p", "#f2a13c"),   # orange pentagon
+    3:  ("<", "#e6555a"),   # red left-triangle
+    8:  ("p", "#f2a13c"),   # orange pentagon
     10: ("s", "#c9c93f"),   # olive/yellow square
     14: ("o", "#4caf6a"),   # green circle
     17: ("^", "#b09cd9"),   # purple triangle
 }
 
 # tpop2_list = [3e6, 6e6, 10e6, 20e6, 30e6]  # in years
-tpop2_list = [4e6, 6e6, 10e6, 14e6, 17e6]  # in years
+tpop2_list = [3e6, 8e6, 10e6, 14e6, 17e6]  # in years
 f_pisn = 0.90
 
 fig, ax = plt.subplots(figsize=(6, 5))

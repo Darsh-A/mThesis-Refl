@@ -1,0 +1,11 @@
+Cross-yield generalization (test_v6)
+Positive class = f_pisn > 0.5.
+
+train4_3_test4_3: R2=0.9956  RMSE=0.0210  rho=+0.995  bias=+0.000  F1=0.979  acc=0.990
+    CM [[TN,FP],[FN,TP]]=[[303, 1], [3, 93]]
+train4_3_test5: R2=0.5973  RMSE=0.2013  rho=+0.816  bias=+0.166  F1=0.900  acc=0.950
+    CM [[TN,FP],[FN,TP]]=[[1442, 75], [26, 457]]
+train5_test5: R2=0.9968  RMSE=0.0180  rho=+0.999  bias=+0.001  F1=0.984  acc=0.993
+    CM [[TN,FP],[FN,TP]]=[[303, 1], [2, 94]]
+train5_test4_3: R2=0.8908  RMSE=0.1048  rho=+0.897  bias=+0.074  F1=0.886  acc=0.939
+    CM [[TN,FP],[FN,TP]]=[[1397, 120], [3, 480]]

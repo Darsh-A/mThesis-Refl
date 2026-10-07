@@ -1,0 +1,24 @@
+Held-out performance: test_v4_3 vs test_v5_0
+Positive class = f_pisn > 0.5 (PISN-dominated).
+Detection view = f_pisn > 0 (any PISN), pred threshold 0.05.
+
+== 4_3: 4_3 (Takahashi + Limongi18 + noise) (n_test=400) ==
+  [standard]
+    R2=0.9956  RMSE=0.0210  MAE=0.0106  rho=+0.995  bias=+0.000
+    strong(>0.5) CM [[TN,FP],[FN,TP]]=[[303, 1], [3, 93]]  acc=0.990 prec=0.989 rec=0.969 F1=0.979
+    detection(>0) CM=[[221, 0], [12, 167]]  acc=0.970 prec=1.000 rec=0.933 F1=0.965
+  [mask_aware]
+    R2=0.9929  RMSE=0.0267  MAE=0.0133  rho=+0.996  bias=+0.001
+    strong(>0.5) CM [[TN,FP],[FN,TP]]=[[302, 2], [5, 91]]  acc=0.983 prec=0.978 rec=0.948 F1=0.963
+    detection(>0) CM=[[221, 0], [11, 168]]  acc=0.973 prec=1.000 rec=0.939 F1=0.968
+
+== 5: 5 (Takahashi + Nomoto13) (n_test=400) ==
+  [standard]
+    R2=0.9968  RMSE=0.0180  MAE=0.0089  rho=+0.999  bias=+0.001
+    strong(>0.5) CM [[TN,FP],[FN,TP]]=[[303, 1], [2, 94]]  acc=0.993 prec=0.989 rec=0.979 F1=0.984
+    detection(>0) CM=[[221, 0], [11, 168]]  acc=0.973 prec=1.000 rec=0.939 F1=0.968
+  [mask_aware]
+    R2=0.9957  RMSE=0.0207  MAE=0.0106  rho=+0.996  bias=+0.000
+    strong(>0.5) CM [[TN,FP],[FN,TP]]=[[303, 1], [3, 93]]  acc=0.990 prec=0.989 rec=0.969 F1=0.979
+    detection(>0) CM=[[221, 0], [13, 166]]  acc=0.968 prec=1.000 rec=0.927 F1=0.962
+

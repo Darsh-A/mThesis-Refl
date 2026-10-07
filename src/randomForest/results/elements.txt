@@ -1,0 +1,12 @@
+
+  Li+22 — 21 elements (22 spectral lines: FeI+FeII both → Fe):
+  Li, C, Na, Mg, Si, Ca, Sc, Ti, V, Cr, Mn, Fe, Co, Ni, Zn, Sr, Y, Zr, Ba, La, Eu
+
+  Xiang+2019 (LAMOST DR5) — 15 elements:
+  C, N, O, Na, Mg, Al, Si, Ca, Ti, Cr, Mn, Fe, Co, Ni, Cu
+
+  Common to both — 11 elements:
+  C, Na, Mg, Si, Ca, Ti, Cr, Mn, Fe, Co, Ni
+
+  Only in Li+22: Li, Sc, V, Zn, Sr, Y, Zr, Ba, La, Eu (the neutron-capture/heavy elements + Li + Zn)
+  Only in Xiang: N, O, Al, Cu

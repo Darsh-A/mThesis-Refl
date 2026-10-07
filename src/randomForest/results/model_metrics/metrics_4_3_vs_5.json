@@ -1,0 +1,202 @@
+{
+  "4_3": {
+    "label": "4_3 (Takahashi + Limongi18 + noise)",
+    "n_test": 400,
+    "standard": {
+      "regression": {
+        "r2": 0.995610423800286,
+        "rmse": 0.020995914848443962,
+        "mae": 0.010579164735760278,
+        "spearman_rho": 0.9950209846988127,
+        "spearman_p": 0.0,
+        "bias": 0.00047861005812024763,
+        "pred_mean": 0.22389238167398628,
+        "true_mean": 0.22341377161586604
+      },
+      "strong_pisn_thr0.5": {
+        "confusion_matrix": [
+          [
+            303,
+            1
+          ],
+          [
+            3,
+            93
+          ]
+        ],
+        "accuracy": 0.99,
+        "precision": 0.9893617021276596,
+        "recall": 0.96875,
+        "f1": 0.9789473684210527,
+        "n_positive": 96,
+        "n_negative": 304
+      },
+      "detection_thr0.05": {
+        "confusion_matrix": [
+          [
+            221,
+            0
+          ],
+          [
+            12,
+            167
+          ]
+        ],
+        "accuracy": 0.97,
+        "precision": 1.0,
+        "recall": 0.9329608938547486,
+        "f1": 0.9653179190751445,
+        "n_positive": 179,
+        "n_negative": 221
+      }
+    },
+    "mask_aware": {
+      "regression": {
+        "r2": 0.9929022904759245,
+        "rmse": 0.0266982390557659,
+        "mae": 0.01334289856915584,
+        "spearman_rho": 0.9958189243488881,
+        "spearman_p": 0.0,
+        "bias": 0.0007635748832576056,
+        "pred_mean": 0.2241773464991236,
+        "true_mean": 0.22341377161586604
+      },
+      "strong_pisn_thr0.5": {
+        "confusion_matrix": [
+          [
+            302,
+            2
+          ],
+          [
+            5,
+            91
+          ]
+        ],
+        "accuracy": 0.9825,
+        "precision": 0.978494623655914,
+        "recall": 0.9479166666666666,
+        "f1": 0.9629629629629629,
+        "n_positive": 96,
+        "n_negative": 304
+      },
+      "detection_thr0.05": {
+        "confusion_matrix": [
+          [
+            221,
+            0
+          ],
+          [
+            11,
+            168
+          ]
+        ],
+        "accuracy": 0.9725,
+        "precision": 1.0,
+        "recall": 0.9385474860335196,
+        "f1": 0.968299711815562,
+        "n_positive": 179,
+        "n_negative": 221
+      }
+    }
+  },
+  "5": {
+    "label": "5 (Takahashi + Nomoto13)",
+    "n_test": 400,
+    "standard": {
+      "regression": {
+        "r2": 0.9967567683003904,
+        "rmse": 0.018047310678678038,
+        "mae": 0.008892134400481264,
+        "spearman_rho": 0.9994611305549443,
+        "spearman_p": 0.0,
+        "bias": 0.0011950284242258494,
+        "pred_mean": 0.2246088000400919,
+        "true_mean": 0.22341377161586604
+      },
+      "strong_pisn_thr0.5": {
+        "confusion_matrix": [
+          [
+            303,
+            1
+          ],
+          [
+            2,
+            94
+          ]
+        ],
+        "accuracy": 0.9925,
+        "precision": 0.9894736842105263,
+        "recall": 0.9791666666666666,
+        "f1": 0.9842931937172775,
+        "n_positive": 96,
+        "n_negative": 304
+      },
+      "detection_thr0.05": {
+        "confusion_matrix": [
+          [
+            221,
+            0
+          ],
+          [
+            11,
+            168
+          ]
+        ],
+        "accuracy": 0.9725,
+        "precision": 1.0,
+        "recall": 0.9385474860335196,
+        "f1": 0.968299711815562,
+        "n_positive": 179,
+        "n_negative": 221
+      }
+    },
+    "mask_aware": {
+      "regression": {
+        "r2": 0.9957222797647414,
+        "rmse": 0.020726677768019983,
+        "mae": 0.010627340259720479,
+        "spearman_rho": 0.9963940699425493,
+        "spearman_p": 0.0,
+        "bias": 0.000149849007312037,
+        "pred_mean": 0.22356362062317806,
+        "true_mean": 0.22341377161586604
+      },
+      "strong_pisn_thr0.5": {
+        "confusion_matrix": [
+          [
+            303,
+            1
+          ],
+          [
+            3,
+            93
+          ]
+        ],
+        "accuracy": 0.99,
+        "precision": 0.9893617021276596,
+        "recall": 0.96875,
+        "f1": 0.9789473684210527,
+        "n_positive": 96,
+        "n_negative": 304
+      },
+      "detection_thr0.05": {
+        "confusion_matrix": [
+          [
+            221,
+            0
+          ],
+          [
+            13,
+            166
+          ]
+        ],
+        "accuracy": 0.9675,
+        "precision": 1.0,
+        "recall": 0.9273743016759777,
+        "f1": 0.9623188405797102,
+        "n_positive": 179,
+        "n_negative": 221
+      }
+    }
+  }
+}
