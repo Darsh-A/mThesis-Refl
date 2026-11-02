@@ -1,0 +1,9 @@
+Element tracer strength (signal = [X/Fe] range over f_pisn;
+nuisance = [X/Fe] range over f_ratio/tpop2/M_pisn at f_pisn=0.5).
+
+element  signal(dex) nuisance(dex)  strength
+N               1.59          3.54      0.45
+Cu              1.60          2.42      0.66
+Zn              1.33          1.56      0.85
+Ca              1.22          0.84      1.45
+Si              0.87          1.00      0.87

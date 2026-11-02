@@ -1,0 +1,4 @@
+density_estimator=maf
+n_train=786 n_test=197
+max_epochs=200 batch_size=128
+train_time_s=7.3

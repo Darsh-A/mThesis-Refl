@@ -1,0 +1,19 @@
+Ensemble 4-D NPE detection, Nomoto13 (N_ensemble=5, epochs=400)
+
+Complete Li+22 stars (all 11 elements, no imputation): 118
+
+P(f_pisn>0.5) > 0.9: mean=0  member counts=[np.int64(2), np.int64(5), np.int64(1), np.int64(2), np.int64(0)]  (mean 2.0 +/- 1.7)
+P(f_pisn>0.5) > 0.68: mean=2  member counts=[np.int64(2), np.int64(5), np.int64(2), np.int64(2), np.int64(0)]  (mean 2.2 +/- 1.6)
+P(f_pisn>0.5) > 0.5: mean=2  member counts=[np.int64(2), np.int64(5), np.int64(2), np.int64(3), np.int64(0)]  (mean 2.4 +/- 1.6)
+
+top-10 by ensemble-mean P(f_pisn>0.5):
+  J0023+3558   FeH= -2.56  P=0.798 +/- 0.399
+  J1153+3112   FeH= -3.12  P=0.735 +/- 0.379
+  J2257+3859   FeH= -2.65  P=0.329 +/- 0.417
+  J0600+2301   FeH= -1.53  P=0.206 +/- 0.395
+  J2253+1134   FeH= -2.51  P=0.195 +/- 0.385
+  J0127+1100   FeH= -2.41  P=0.007 +/- 0.007
+  J1230+2119   FeH= -2.64  P=0.004 +/- 0.002
+  J1326+3937   FeH= -2.48  P=0.003 +/- 0.002
+  J1240+5216   FeH= -2.75  P=0.003 +/- 0.001
+  J1413+1727   FeH= -3.25  P=0.003 +/- 0.001

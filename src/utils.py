@@ -4,7 +4,11 @@ import re
 import numpy as np
 from scipy.stats import loguniform
 
-from params import limongi18_lifetime
+from params import Z_SUN, limongi18_lifetime
+
+LIMONGI_Z_SOLAR = 0.01345
+LIMONGI_Z_ALPHA = 0.03236
+LIMONGI_FEH_MIN = -3.0
 
 def _get_element(data: dict, isotope: str) -> float:
     """Get the element mass value from data
@@ -312,26 +316,33 @@ def limongi_lifetime(velc: int, feh: int, phase: str, initial_mass: int) -> dict
         "is_ppisn_truncated": reached_phase != phase,
     }
 
-def salvadori_select_limongi_feh(Z_rel: float) -> int:
-    """Select the nearest Limongi18 [Fe/H] grid point for Z_rel = Z*/Zsun.
+def limongi_feh_from_z(z_abs: float) -> float:
+    """Map an absolute metallicity to Limongi18's [Fe/H].
 
-    Grid is {0, -1, -2, -3} exactly -- lifetime lookups require an exact
-    integer match, so this snaps to the nearest tabulated point rather
-    than interpolating.
+    Limongi18's low-Z models are alpha-enhanced, so Z does not scale as
+    Z_sun * 10^[Fe/H]: the published values are Z = 3.236e-2 * 10^[Fe/H]
+    for [Fe/H] <= -1, and Z = 1.345e-2 at [Fe/H] = 0. The two branches are
+    joined linearly in log Z between Z = 3.236e-3 and Z = 1.345e-2.
     """
-    feh_grid = (0, -1, -2, -3)
-    target = np.log10(Z_rel)
-    return min(feh_grid, key=lambda feh: abs(target - feh))
+    z = max(float(z_abs), 1.0e-30)
+    if z <= 3.236e-3:
+        return float(np.clip(np.log10(z / LIMONGI_Z_ALPHA), LIMONGI_FEH_MIN, -1.0))
+    if z >= LIMONGI_Z_SOLAR:
+        return 0.0
+    span = np.log10(LIMONGI_Z_SOLAR) - np.log10(3.236e-3)
+    return float((np.log10(z) - np.log10(3.236e-3)) / span - 1.0)
 
 
 def limongi_feh_continuous(Z_rel: float) -> float:
-    """Continuous [Fe/H] for Limongi18, clipped to the tabulated grid.
+    """Continuous [Fe/H] for Limongi18 from Z relative to solar."""
+    return limongi_feh_from_z(Z_rel * Z_SUN)
 
-    [Fe/H] = log10(Z_rel) with Z_rel = Z*/Zsun, clipped to [-3, 0] so it
-    stays inside the LC18 grid. Unlike salvadori_select_limongi_feh this is
-    not snapped to an integer -- callers interpolate across the grid.
-    """
-    return float(np.clip(np.log10(Z_rel), -3.0, 0.0))
+
+def salvadori_select_limongi_feh(Z_rel: float) -> int:
+    """Snap to the nearest tabulated Limongi18 [Fe/H] point (0, -1, -2, -3)."""
+    feh_grid = (0, -1, -2, -3)
+    target = limongi_feh_continuous(Z_rel)
+    return min(feh_grid, key=lambda feh: abs(target - feh))
 
 from scipy.interpolate import interp1d
 

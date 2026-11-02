@@ -1,0 +1,136 @@
+test_v11_1: corrected multi-ratio 2D OOD overlay
+FIX: v11 computed Xiang [Ca/Mg] and [Si/Mg] from DIFFERENT row subsets
+(q_[Ca/Fe]==1 vs q_[Si/Fe]==1) then zipped after min-length truncation,
+mis-pairing stars.  Here every real point requires ALL components of
+BOTH ratios measured for the SAME star; no imputation anywhere.
+
+== availability (dataset x pair x real source) ==
+  4_3 P1 [Ca/Mg] vs [Si/Mg]        Xiang  AVAILABLE
+  4_3 P1 [Ca/Mg] vs [Si/Mg]        Li22   AVAILABLE
+  4_3 P2 [Ca/Mg] vs [Cu/Mg]        Xiang  AVAILABLE
+  4_3 P2 [Ca/Mg] vs [Cu/Mg]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  4_3 P3 [Ca/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  4_3 P3 [Ca/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  4_3 P4 [Ca/Fe] vs [Cu/Fe]        Xiang  AVAILABLE
+  4_3 P4 [Ca/Fe] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  4_3 P5 [Si/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  4_3 P5 [Si/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  4_3 P6 [Ca/Mg] vs [Zn/Mg]        Xiang  SKIP (Xiang missing element(s) ['Zn'])
+  4_3 P6 [Ca/Mg] vs [Zn/Mg]        Li22   AVAILABLE
+  4_3 P7 [Ca/Fe] vs [Zn/Fe]        Xiang  SKIP (Xiang missing element(s) ['Zn'])
+  4_3 P7 [Ca/Fe] vs [Zn/Fe]        Li22   AVAILABLE
+  4_3 P8 [Ca/Mg] vs [Ni/Fe]        Xiang  AVAILABLE
+  4_3 P8 [Ca/Mg] vs [Ni/Fe]        Li22   AVAILABLE
+  4_3 P9 [Ca/Mg] vs [Ti/Mg]        Xiang  SKIP (sim 4_3 missing element(s) ['Ti'])
+  4_3 P9 [Ca/Mg] vs [Ti/Mg]        Li22   SKIP (sim 4_3 missing element(s) ['Ti'])
+  4_3 P10 [Si/Mg] vs [Ti/Mg]       Xiang  SKIP (sim 4_3 missing element(s) ['Ti'])
+  4_3 P10 [Si/Mg] vs [Ti/Mg]       Li22   SKIP (sim 4_3 missing element(s) ['Ti'])
+  5 P1 [Ca/Mg] vs [Si/Mg]        Xiang  AVAILABLE
+  5 P1 [Ca/Mg] vs [Si/Mg]        Li22   AVAILABLE
+  5 P2 [Ca/Mg] vs [Cu/Mg]        Xiang  AVAILABLE
+  5 P2 [Ca/Mg] vs [Cu/Mg]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  5 P3 [Ca/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  5 P3 [Ca/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  5 P4 [Ca/Fe] vs [Cu/Fe]        Xiang  AVAILABLE
+  5 P4 [Ca/Fe] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  5 P5 [Si/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  5 P5 [Si/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  5 P6 [Ca/Mg] vs [Zn/Mg]        Xiang  SKIP (Xiang missing element(s) ['Zn'])
+  5 P6 [Ca/Mg] vs [Zn/Mg]        Li22   AVAILABLE
+  5 P7 [Ca/Fe] vs [Zn/Fe]        Xiang  SKIP (Xiang missing element(s) ['Zn'])
+  5 P7 [Ca/Fe] vs [Zn/Fe]        Li22   AVAILABLE
+  5 P8 [Ca/Mg] vs [Ni/Fe]        Xiang  AVAILABLE
+  5 P8 [Ca/Mg] vs [Ni/Fe]        Li22   AVAILABLE
+  5 P9 [Ca/Mg] vs [Ti/Mg]        Xiang  SKIP (sim 5 missing element(s) ['Ti'])
+  5 P9 [Ca/Mg] vs [Ti/Mg]        Li22   SKIP (sim 5 missing element(s) ['Ti'])
+  5 P10 [Si/Mg] vs [Ti/Mg]       Xiang  SKIP (sim 5 missing element(s) ['Ti'])
+  5 P10 [Si/Mg] vs [Ti/Mg]       Li22   SKIP (sim 5 missing element(s) ['Ti'])
+  L P1 [Ca/Mg] vs [Si/Mg]        Xiang  AVAILABLE
+  L P1 [Ca/Mg] vs [Si/Mg]        Li22   AVAILABLE
+  L P2 [Ca/Mg] vs [Cu/Mg]        Xiang  AVAILABLE
+  L P2 [Ca/Mg] vs [Cu/Mg]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  L P3 [Ca/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  L P3 [Ca/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  L P4 [Ca/Fe] vs [Cu/Fe]        Xiang  AVAILABLE
+  L P4 [Ca/Fe] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  L P5 [Si/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  L P5 [Si/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  L P6 [Ca/Mg] vs [Zn/Mg]        Xiang  SKIP (sim L missing element(s) ['Zn'])
+  L P6 [Ca/Mg] vs [Zn/Mg]        Li22   SKIP (sim L missing element(s) ['Zn'])
+  L P7 [Ca/Fe] vs [Zn/Fe]        Xiang  SKIP (sim L missing element(s) ['Zn'])
+  L P7 [Ca/Fe] vs [Zn/Fe]        Li22   SKIP (sim L missing element(s) ['Zn'])
+  L P8 [Ca/Mg] vs [Ni/Fe]        Xiang  AVAILABLE
+  L P8 [Ca/Mg] vs [Ni/Fe]        Li22   AVAILABLE
+  L P9 [Ca/Mg] vs [Ti/Mg]        Xiang  AVAILABLE
+  L P9 [Ca/Mg] vs [Ti/Mg]        Li22   AVAILABLE
+  L P10 [Si/Mg] vs [Ti/Mg]       Xiang  AVAILABLE
+  L P10 [Si/Mg] vs [Ti/Mg]       Li22   AVAILABLE
+  N P1 [Ca/Mg] vs [Si/Mg]        Xiang  AVAILABLE
+  N P1 [Ca/Mg] vs [Si/Mg]        Li22   AVAILABLE
+  N P2 [Ca/Mg] vs [Cu/Mg]        Xiang  AVAILABLE
+  N P2 [Ca/Mg] vs [Cu/Mg]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  N P3 [Ca/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  N P3 [Ca/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  N P4 [Ca/Fe] vs [Cu/Fe]        Xiang  AVAILABLE
+  N P4 [Ca/Fe] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  N P5 [Si/Mg] vs [Cu/Fe]        Xiang  AVAILABLE
+  N P5 [Si/Mg] vs [Cu/Fe]        Li22   SKIP (Li22 missing element(s) ['Cu'])
+  N P6 [Ca/Mg] vs [Zn/Mg]        Xiang  SKIP (sim N missing element(s) ['Zn'])
+  N P6 [Ca/Mg] vs [Zn/Mg]        Li22   SKIP (sim N missing element(s) ['Zn'])
+  N P7 [Ca/Fe] vs [Zn/Fe]        Xiang  SKIP (sim N missing element(s) ['Zn'])
+  N P7 [Ca/Fe] vs [Zn/Fe]        Li22   SKIP (sim N missing element(s) ['Zn'])
+  N P8 [Ca/Mg] vs [Ni/Fe]        Xiang  AVAILABLE
+  N P8 [Ca/Mg] vs [Ni/Fe]        Li22   AVAILABLE
+  N P9 [Ca/Mg] vs [Ti/Mg]        Xiang  AVAILABLE
+  N P9 [Ca/Mg] vs [Ti/Mg]        Li22   AVAILABLE
+  N P10 [Si/Mg] vs [Ti/Mg]       Xiang  AVAILABLE
+  N P10 [Si/Mg] vs [Ti/Mg]       Li22   AVAILABLE
+
+== overlap (frac of real stars in sim f=0 / f>=0.5 / neither 5-95% boxes) ==
+  4_3 P1 [Ca/Mg] vs [Si/Mg]        Xiang  n=  44 neg=0.05 pos=0.02 neither=0.93
+  4_3 P1 [Ca/Mg] vs [Si/Mg]        Li22   n= 177 neg=0.58 pos=0.00 neither=0.42
+  4_3 P2 [Ca/Mg] vs [Cu/Mg]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  4_3 P3 [Ca/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  4_3 P4 [Ca/Fe] vs [Cu/Fe]        Xiang  n=   8 neg=0.00 pos=0.00 neither=1.00
+  4_3 P5 [Si/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  4_3 P6 [Ca/Mg] vs [Zn/Mg]        Li22   n= 169 neg=0.77 pos=0.00 neither=0.23
+  4_3 P7 [Ca/Fe] vs [Zn/Fe]        Li22   n= 169 neg=0.18 pos=0.00 neither=0.82
+  4_3 P8 [Ca/Mg] vs [Ni/Fe]        Xiang  n=   1 neg=0.00 pos=0.00 neither=1.00
+  4_3 P8 [Ca/Mg] vs [Ni/Fe]        Li22   n= 288 neg=0.46 pos=0.00 neither=0.54
+  5 P1 [Ca/Mg] vs [Si/Mg]        Xiang  n=  44 neg=0.05 pos=0.02 neither=0.93
+  5 P1 [Ca/Mg] vs [Si/Mg]        Li22   n= 177 neg=0.26 pos=0.00 neither=0.74
+  5 P2 [Ca/Mg] vs [Cu/Mg]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  5 P3 [Ca/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  5 P4 [Ca/Fe] vs [Cu/Fe]        Xiang  n=   8 neg=0.12 pos=0.00 neither=0.88
+  5 P5 [Si/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  5 P6 [Ca/Mg] vs [Zn/Mg]        Li22   n= 169 neg=0.37 pos=0.00 neither=0.63
+  5 P7 [Ca/Fe] vs [Zn/Fe]        Li22   n= 169 neg=0.50 pos=0.00 neither=0.50
+  5 P8 [Ca/Mg] vs [Ni/Fe]        Xiang  n=   1 neg=0.00 pos=0.00 neither=1.00
+  5 P8 [Ca/Mg] vs [Ni/Fe]        Li22   n= 288 neg=0.00 pos=0.00 neither=1.00
+  L P1 [Ca/Mg] vs [Si/Mg]        Xiang  n=  44 neg=0.18 pos=0.02 neither=0.80
+  L P1 [Ca/Mg] vs [Si/Mg]        Li22   n= 177 neg=0.89 pos=0.00 neither=0.11
+  L P2 [Ca/Mg] vs [Cu/Mg]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  L P3 [Ca/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  L P4 [Ca/Fe] vs [Cu/Fe]        Xiang  n=   8 neg=0.00 pos=0.00 neither=1.00
+  L P5 [Si/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  L P8 [Ca/Mg] vs [Ni/Fe]        Xiang  n=   1 neg=0.00 pos=0.00 neither=1.00
+  L P8 [Ca/Mg] vs [Ni/Fe]        Li22   n= 288 neg=0.94 pos=0.00 neither=0.06
+  L P9 [Ca/Mg] vs [Ti/Mg]        Xiang  n=  45 neg=0.20 pos=0.00 neither=0.80
+  L P9 [Ca/Mg] vs [Ti/Mg]        Li22   n= 379 neg=0.46 pos=0.02 neither=0.52
+  L P10 [Si/Mg] vs [Ti/Mg]       Xiang  n=  45 neg=0.16 pos=0.04 neither=0.82
+  L P10 [Si/Mg] vs [Ti/Mg]       Li22   n= 177 neg=0.69 pos=0.04 neither=0.29
+  N P1 [Ca/Mg] vs [Si/Mg]        Xiang  n=  44 neg=0.07 pos=0.02 neither=0.91
+  N P1 [Ca/Mg] vs [Si/Mg]        Li22   n= 177 neg=0.86 pos=0.00 neither=0.14
+  N P2 [Ca/Mg] vs [Cu/Mg]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  N P3 [Ca/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  N P4 [Ca/Fe] vs [Cu/Fe]        Xiang  n=   8 neg=0.00 pos=0.00 neither=1.00
+  N P5 [Si/Mg] vs [Cu/Fe]        Xiang  n=   0 neg=nan pos=nan neither=nan
+  N P8 [Ca/Mg] vs [Ni/Fe]        Xiang  n=   1 neg=0.00 pos=0.00 neither=1.00
+  N P8 [Ca/Mg] vs [Ni/Fe]        Li22   n= 288 neg=0.30 pos=0.00 neither=0.70
+  N P9 [Ca/Mg] vs [Ti/Mg]        Xiang  n=  45 neg=0.13 pos=0.00 neither=0.87
+  N P9 [Ca/Mg] vs [Ti/Mg]        Li22   n= 379 neg=0.01 pos=0.01 neither=0.99
+  N P10 [Si/Mg] vs [Ti/Mg]       Xiang  n=  45 neg=0.04 pos=0.04 neither=0.91
+  N P10 [Si/Mg] vs [Ti/Mg]       Li22   n= 177 neg=0.01 pos=0.08 neither=0.91
+
+Note: test_v11's ood_2d Xiang points were mis-paired; this run is the
+corrected per-star version.

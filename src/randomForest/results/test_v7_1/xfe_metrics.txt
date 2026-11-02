@@ -1,0 +1,46 @@
+[X/Fe]-feature model + mass-gated review (test_v7.1)
+Combined held-out = QRF median; mass-gated/CV = point RF (same tree ensemble).
+Mass split: pisn_mass < 230 vs >= 230 (dominant Takahashi NR yield jump, 220->240).
+
+== 4_3: combined held-out R2=0.9932 RMSE=0.0261 rho=+0.997 (n_test=400) ==
+  n_total=2000  n_pisn=983  low<230=653  high>=230=330
+  combined [X/Fe] importance:
+    [Ca/Fe]    0.6829
+    [Cr/Fe]    0.1677
+    [Ni/Fe]    0.0573
+    [Co/Fe]    0.0414
+    [Al/Fe]    0.0161
+    [Zn/Fe]    0.0063
+    [C/Fe]     0.0062
+    [Na/Fe]    0.0051
+    [Mn/Fe]    0.0051
+    [Mg/Fe]    0.0038
+    [Si/Fe]    0.0038
+    [O/Fe]     0.0029
+    [Cu/Fe]    0.0015
+  mass-gated skill (out-of-fold, PISN only):
+    low<230      R2=+0.9798 RMSE=0.0400 rho=+0.990 n=653
+    high>=230    R2=+0.9653 RMSE=0.0558 rho=+0.982 n=330
+  regime-specific CV R2 (PISN only): low<230=0.9775  high>=230=0.9770
+
+== 5: combined held-out R2=0.9879 RMSE=0.0349 rho=+0.990 (n_test=400) ==
+  n_total=2000  n_pisn=983  low<230=653  high>=230=330
+  combined [X/Fe] importance:
+    [Al/Fe]    0.4511
+    [Ca/Fe]    0.2999
+    [Co/Fe]    0.1286
+    [Mg/Fe]    0.0346
+    [Zn/Fe]    0.0252
+    [C/Fe]     0.0154
+    [O/Fe]     0.0115
+    [Mn/Fe]    0.0094
+    [Cr/Fe]    0.0078
+    [Ni/Fe]    0.0066
+    [Cu/Fe]    0.0059
+    [Na/Fe]    0.0022
+    [Si/Fe]    0.0020
+  mass-gated skill (out-of-fold, PISN only):
+    low<230      R2=+0.9700 RMSE=0.0487 rho=+0.987 n=653
+    high>=230    R2=+0.9749 RMSE=0.0474 rho=+0.988 n=330
+  regime-specific CV R2 (PISN only): low<230=0.9722  high>=230=0.9761
+

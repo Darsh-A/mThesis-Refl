@@ -1,0 +1,6 @@
+params=['f_pisn', 'log10_f_ratio', 'log10_tpop2', 'M_pisn']
+density_estimator=nsf
+add_noise=True noise_seed=42
+n_train=786 n_test=197
+max_epochs=300 batch_size=128
+train_time_s=20.7

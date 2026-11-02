@@ -1,0 +1,133 @@
+test_v11_2: exhaustive all-[X/Y] OOD study
+Curated set: Ca,Mg,Si,Ti,Ni,Cr,Mn,Co,Al,Zn,Cu,C,N,O (+ Fe reference).
+Ratios = unordered pairs; [X/Y] = [X/Fe]-[Y/Fe] for real stars.
+Per-star completeness; no imputation; 5-95% sim envelopes.
+
+== element presence ==
+  dataset 4_3    Ca  present=True  count=2000
+  dataset L      Ca  present=True  count=2000
+  survey  Li22   Ca  present=True  count=384
+  survey  Xiang  Ca  present=True  count=763
+  dataset 4_3    Mg  present=True  count=2000
+  dataset L      Mg  present=True  count=2000
+  survey  Li22   Mg  present=True  count=385
+  survey  Xiang  Mg  present=True  count=46
+  dataset 4_3    Si  present=True  count=2000
+  dataset L      Si  present=True  count=2000
+  survey  Li22   Si  present=True  count=177
+  survey  Xiang  Si  present=True  count=270
+  dataset 4_3    Ti  present=False count=0
+  dataset L      Ti  present=True  count=2000
+  survey  Li22   Ti  present=True  count=380
+  survey  Xiang  Ti  present=True  count=170
+  dataset 4_3    Ni  present=True  count=2000
+  dataset L      Ni  present=True  count=2000
+  survey  Li22   Ni  present=True  count=288
+  survey  Xiang  Ni  present=True  count=25
+  dataset 4_3    Cr  present=True  count=2000
+  dataset L      Cr  present=True  count=2000
+  survey  Li22   Cr  present=True  count=369
+  survey  Xiang  Cr  present=True  count=51
+  dataset 4_3    Mn  present=True  count=2000
+  dataset L      Mn  present=True  count=2000
+  survey  Li22   Mn  present=True  count=178
+  survey  Xiang  Mn  present=True  count=79
+  dataset 4_3    Co  present=True  count=2000
+  dataset L      Co  present=True  count=2000
+  survey  Li22   Co  present=True  count=265
+  survey  Xiang  Co  present=True  count=149
+  dataset 4_3    Al  present=True  count=2000
+  dataset L      Al  present=True  count=2000
+  survey  Li22   Al  present=False count=0
+  survey  Xiang  Al  present=True  count=70
+  dataset 4_3    Zn  present=True  count=2000
+  dataset L      Zn  present=False count=0
+  survey  Li22   Zn  present=True  count=169
+  survey  Xiang  Zn  present=False count=0
+  dataset 4_3    Cu  present=True  count=2000
+  dataset L      Cu  present=True  count=2000
+  survey  Li22   Cu  present=False count=0
+  survey  Xiang  Cu  present=True  count=8
+  dataset 4_3    C   present=True  count=2000
+  dataset L      C   present=True  count=2000
+  survey  Li22   C   present=True  count=281
+  survey  Xiang  C   present=True  count=624
+  dataset 4_3    N   present=False count=0
+  dataset L      N   present=True  count=2000
+  survey  Li22   N   present=False count=0
+  survey  Xiang  N   present=True  count=46
+  dataset 4_3    O   present=True  count=2000
+  dataset L      O   present=True  count=2000
+  survey  Li22   O   present=False count=0
+  survey  Xiang  O   present=True  count=132
+  dataset 4_3    Fe  present=True  count=2000
+  dataset L      Fe  present=True  count=2000
+  survey  Li22   Fe  present=True  count=385
+  survey  Xiang  Fe  present=True  count=962
+
+== Li22 (dataset 4_3): top-10 single ratios ==
+  [C/Ca]    n= 281 auc=1.000 neg=0.43 pos=0.20 neither=0.36
+  [Ca/Co]   n= 265 auc=1.000 neg=0.86 pos=0.00 neither=0.14
+  [Ca/Mg]   n= 384 auc=1.000 neg=0.79 pos=0.02 neither=0.19
+  [Ca/Ni]   n= 288 auc=1.000 neg=0.62 pos=0.00 neither=0.38
+  [Ca/Si]   n= 177 auc=1.000 neg=0.82 pos=0.02 neither=0.15
+  [Ca/Zn]   n= 169 auc=1.000 neg=0.85 pos=0.00 neither=0.15
+  [Ca/Fe]   n= 384 auc=1.000 neg=0.53 pos=0.08 neither=0.39
+  [Cr/Ni]   n= 288 auc=1.000 neg=0.87 pos=0.02 neither=0.11
+  [Cr/Fe]   n= 369 auc=1.000 neg=0.77 pos=0.02 neither=0.21
+  [Mg/Si]   n= 177 auc=1.000 neg=0.59 pos=0.02 neither=0.40
+== Li22 (dataset 4_3): top-10 ratio-pairs ==
+  [C/Ca]    vs [C/Co]    n= 246 auc=1.000 neither=0.84
+  [C/Ca]    vs [C/Cr]    n= 279 auc=1.000 neither=0.46
+  [C/Ca]    vs [C/Mg]    n= 281 auc=1.000 neither=0.71
+  [C/Ca]    vs [C/Mn]    n= 171 auc=1.000 neither=0.41
+  [C/Ca]    vs [C/Ni]    n= 253 auc=1.000 neither=0.55
+  [C/Ca]    vs [C/Si]    n= 171 auc=1.000 neither=0.49
+  [C/Ca]    vs [C/Zn]    n= 167 auc=1.000 neither=0.88
+  [C/Ca]    vs [C/Fe]    n= 281 auc=1.000 neither=0.46
+  [C/Ca]    vs [Ca/Co]   n= 246 auc=1.000 neither=0.67
+  [C/Ca]    vs [Ca/Cr]   n= 279 auc=1.000 neither=0.56
+
+== Xiang (dataset L): top-10 single ratios ==
+  [Al/Ca]   n=  68 auc=1.000 neg=0.32 pos=0.26 neither=0.41
+  [Ca/O]    n= 132 auc=1.000 neg=0.32 pos=0.20 neither=0.48
+  [Ca/Ti]   n= 168 auc=1.000 neg=0.40 pos=0.20 neither=0.40
+  [Ca/Ni]   n=  21 auc=1.000 neg=0.33 pos=0.14 neither=0.52
+  [Ca/Co]   n= 149 auc=1.000 neg=0.26 pos=0.36 neither=0.38
+  [C/Ca]    n= 624 auc=1.000 neg=0.22 pos=0.47 neither=0.31
+  [O/Si]    n=  75 auc=0.999 neg=0.33 pos=0.08 neither=0.59
+  [Ca/Mg]   n=  45 auc=0.999 neg=0.44 pos=0.16 neither=0.40
+  [Ca/Fe]   n= 763 auc=0.993 neg=0.36 pos=0.47 neither=0.17
+  [C/Si]    n= 265 auc=0.991 neg=0.55 pos=0.39 neither=0.06
+== Xiang (dataset L): top-10 ratio-pairs ==
+  [Al/C]    vs [Al/Ca]   n=  61 auc=1.000 neither=0.80
+  [Al/C]    vs [Ca/O]    n=  18 auc=1.000 neither=0.89
+  [Al/C]    vs [Ca/Ti]   n=  49 auc=1.000 neither=0.84
+  [Al/Ca]   vs [Al/Co]   n=  24 auc=1.000 neither=0.79
+  [Al/Ca]   vs [Al/Cr]   n=  40 auc=1.000 neither=0.70
+  [Al/Ca]   vs [Al/Mg]   n=  41 auc=1.000 neither=0.80
+  [Al/Ca]   vs [Al/O]    n=  18 auc=1.000 neither=0.78
+  [Al/Ca]   vs [Al/Si]   n=  53 auc=1.000 neither=0.60
+  [Al/Ca]   vs [Al/Ti]   n=  55 auc=1.000 neither=0.64
+  [Al/Ca]   vs [Al/Fe]   n=  68 auc=1.000 neither=0.56
+
+== best HIGH-n NON-Mg ratio-pairs (vs Mg-based P1) ==
+  Li22: P1 [Ca/Mg] vs [Mg/Si] = (n=177, auc=1.000, neither=0.42)
+    [C/Ca]    vs [C/Co]    n= 246 auc=1.000 neither=0.84
+    [C/Ca]    vs [C/Cr]    n= 279 auc=1.000 neither=0.46
+    [C/Ca]    vs [C/Mn]    n= 171 auc=1.000 neither=0.41
+    [C/Ca]    vs [C/Ni]    n= 253 auc=1.000 neither=0.55
+    [C/Ca]    vs [C/Si]    n= 171 auc=1.000 neither=0.49
+    [C/Ca]    vs [C/Zn]    n= 167 auc=1.000 neither=0.88
+    [C/Ca]    vs [C/Fe]    n= 281 auc=1.000 neither=0.46
+    [C/Ca]    vs [Ca/Co]   n= 246 auc=1.000 neither=0.67
+  Xiang: P1 [Ca/Mg] vs [Mg/Si] = (n=44, auc=0.999, neither=0.80)
+    [Al/C]    vs [Al/Ca]   n=  61 auc=1.000 neither=0.80
+    [Al/Ca]   vs [Al/Si]   n=  53 auc=1.000 neither=0.60
+    [Al/Ca]   vs [Al/Ti]   n=  55 auc=1.000 neither=0.64
+    [Al/Ca]   vs [Al/Fe]   n=  68 auc=1.000 neither=0.56
+    [Al/Ca]   vs [C/Ca]    n=  61 auc=1.000 neither=0.70
+    [Al/Ca]   vs [Ca/Ti]   n=  55 auc=1.000 neither=0.78
+    [Al/Ca]   vs [Ca/Fe]   n=  68 auc=1.000 neither=0.74
+    [Al/Ca]   vs [Mn/Ti]   n=  53 auc=1.000 neither=0.91
+

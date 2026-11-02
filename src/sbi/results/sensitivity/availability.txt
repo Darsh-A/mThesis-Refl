@@ -1,0 +1,18 @@
+Element [X/Fe] tracer strength (signal / nuisance), by catalogue availability.
+
+element strength  Li+22  Xiang
+Ca          1.46  yes   yes
+Cr          1.44  yes   yes
+Co          1.08  yes   yes
+Si          0.97  yes   yes
+Ni          0.88  yes   yes
+Zn          0.80  yes    - 
+Na          0.71  yes   yes
+Cu          0.66   -    yes
+Al          0.51   -    yes
+N           0.45   -    yes
+Ti          0.41   -    yes
+Mn          0.29  yes   yes
+C           0.29  yes   yes
+O           0.28   -    yes
+Mg          0.24  yes   yes

@@ -1,0 +1,341 @@
+PISN vs CCSN-only abundance-ratio signature analysis (test_v9)
+Positive = PISN-dominated (f_pisn >= 0.5) in mass bin; Negative = CCSN-only (f_pisn == 0), always included.
+Single separability = max(signed AUC, 1 - AUC); direction 'high-in-PISN' means positives have larger values.
+Pair AUC = 5-fold CV logistic (balanced) over FE U Mg pool; delta = pair_auc - max single separability of the two members.
+
+== 4_3 / bin 210-230 (n_pos=72, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Cr/Fe]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Ni/Fe]    sep=1.000 low-in-PISN   KS_p=2.91e-114
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Cr/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+  top-10 pairs:
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Fe]  pair_auc=1.000 delta=+0.002
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.002)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 4_3 / bin >=230 (n_pos=168, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=5.26e-209
+    [Co/Fe]    sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [Cr/Fe]    sep=1.000 high-in-PISN  KS_p=5.26e-209
+    [Ni/Fe]    sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=5.26e-209
+  top-10 pairs:
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Mn/Fe]  pair_auc=1.000 delta=+0.001
+    [Al/Fe]  & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Mn/Mg]  pair_auc=1.000 delta=+0.001
+    [Al/Fe]  & [Ni/Mg]  pair_auc=1.000 delta=+0.001
+    [Al/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.001)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 4_3 / bin all (n_pos=483, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Cr/Fe]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Si/Mg]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Ni/Fe]    sep=0.969 low-in-PISN   KS_p=3.14e-301
+  top-10 pairs:
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Si/Fe]  pair_auc=1.000 delta=+0.144
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Co/Fe]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: YES (max delta=+0.144 from [C/Fe] & [Si/Fe])
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 4_3 / bin <210 (n_pos=243, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Cr/Fe]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Si/Fe]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Si/Mg]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+  top-10 pairs:
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Si/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ni/Mg]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.000)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 5 / bin 210-230 (n_pos=72, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Cr/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Mn/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Si/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Mg/Fe]    sep=1.000 low-in-PISN   KS_p=1.97e-109
+  top-10 pairs:
+    [Al/Fe]  & [C/Fe]   pair_auc=1.000 delta=+0.001
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.001
+    [Al/Fe]  & [Cu/Fe]  pair_auc=1.000 delta=+0.015
+    [Al/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Mn/Fe]  pair_auc=1.000 delta=+0.015
+    [Al/Fe]  & [Si/Fe]  pair_auc=1.000 delta=+0.015
+    [Al/Fe]  & [Al/Mg]  pair_auc=1.000 delta=+0.015
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cu/Mg]  pair_auc=1.000 delta=+0.015
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.015)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 5 / bin >=230 (n_pos=168, n_neg=1017) ==
+  top-5 single features:
+    [Al/Fe]    sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [C/Fe]     sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [Mg/Fe]    sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [O/Fe]     sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=5.26e-209
+  top-10 pairs:
+    [Al/Fe]  & [C/Fe]   pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Co/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cu/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [O/Fe]   pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Zn/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Al/Mg]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.000)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 5 / bin all (n_pos=483, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Si/Mg]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Mn/Mg]    sep=0.938 high-in-PISN  KS_p=5.42e-152
+    [Ca/Fe]    sep=0.933 high-in-PISN  KS_p=2.14e-162
+    [Al/Fe]    sep=0.899 low-in-PISN   KS_p=1.14e-170
+  top-10 pairs:
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.067
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.067
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.067
+    [Ca/Fe]  & [Mn/Fe]  pair_auc=1.000 delta=+0.067
+    [Ca/Fe]  & [O/Fe]   pair_auc=1.000 delta=+0.067
+    [Ca/Fe]  & [Si/Fe]  pair_auc=1.000 delta=+0.067
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: YES (max delta=+0.268 from [Mg/Fe] & [Si/Fe])
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== 5 / bin <210 (n_pos=243, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Si/Mg]    sep=1.000 high-in-PISN  KS_p=3.37e-267
+    [Si/Fe]    sep=0.985 high-in-PISN  KS_p=2.78e-168
+    [Mn/Fe]    sep=0.910 high-in-PISN  KS_p=2.08e-109
+  top-10 pairs:
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Co/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cu/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.000)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== L / bin 210-230 (n_pos=72, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=1.97e-109
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=8.45e-104
+    [Cr/Mg]    sep=0.992 high-in-PISN  KS_p=6.10e-74
+    [Cr/Fe]    sep=0.985 high-in-PISN  KS_p=1.55e-58
+    [Si/Mg]    sep=0.984 high-in-PISN  KS_p=1.51e-57
+  top-10 pairs:
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [O/Fe]   pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Cr/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Mn/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [N/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.015)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== L / bin >=230 (n_pos=168, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=4.31e-203
+    [Cr/Mg]    sep=0.999 high-in-PISN  KS_p=2.46e-183
+    [Si/Mg]    sep=0.988 high-in-PISN  KS_p=4.25e-128
+    [Al/Fe]    sep=0.988 low-in-PISN   KS_p=2.76e-121
+    [C/Fe]     sep=0.985 low-in-PISN   KS_p=2.92e-127
+  top-10 pairs:
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Cr/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Cr/Mg]  pair_auc=1.000 delta=+0.001
+    [Ca/Mg]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Ni/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+    [Ni/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.001
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.001)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== L / bin all (n_pos=483, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=0.999 high-in-PISN  KS_p=6.42e-323
+    [Ca/Fe]    sep=0.993 high-in-PISN  KS_p=8.79e-303
+    [Si/Mg]    sep=0.958 high-in-PISN  KS_p=7.23e-200
+    [Cr/Fe]    sep=0.945 high-in-PISN  KS_p=1.26e-176
+    [C/Mg]     sep=0.903 low-in-PISN   KS_p=1.43e-140
+  top-10 pairs:
+    [Ca/Mg]  & [Ni/Mg]  pair_auc=1.000 delta=+0.001
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.007
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.001
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.007
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.001
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.001
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.007
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.001
+    [Ca/Fe]  & [Co/Fe]  pair_auc=1.000 delta=+0.007
+    [Ca/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.007
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.007)
+  (global best single sep=0.999; a pair can only exceed a single when that single < 1.000)
+
+== L / bin <210 (n_pos=243, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Fe]    sep=1.000 high-in-PISN  KS_p=8.22e-265
+    [Ca/Mg]    sep=0.998 high-in-PISN  KS_p=1.46e-222
+    [Si/Fe]    sep=0.995 high-in-PISN  KS_p=8.49e-202
+    [Ni/Mg]    sep=0.952 low-in-PISN   KS_p=3.70e-117
+    [Cr/Fe]    sep=0.939 high-in-PISN  KS_p=1.72e-100
+  top-10 pairs:
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Na/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [C/Mg]   pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ni/Mg]  pair_auc=1.000 delta=+0.000
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.002
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.002
+    [Ca/Fe]  & [Co/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.002)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== N / bin 210-230 (n_pos=72, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Ti/Mg]    sep=1.000 high-in-PISN  KS_p=2.91e-114
+    [Si/Mg]    sep=0.995 high-in-PISN  KS_p=1.08e-72
+    [Cr/Mg]    sep=0.994 high-in-PISN  KS_p=2.91e-74
+    [Mn/Mg]    sep=0.991 high-in-PISN  KS_p=2.43e-66
+  top-10 pairs:
+    [Al/Fe]  & [Ti/Fe]  pair_auc=1.000 delta=+0.026
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.026
+    [Ca/Fe]  & [O/Fe]   pair_auc=1.000 delta=+0.026
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.026
+    [Ca/Fe]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: YES (max delta=+0.026 from [Al/Fe] & [Ti/Fe])
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== N / bin >=230 (n_pos=168, n_neg=1017) ==
+  top-5 single features:
+    [O/Fe]     sep=1.000 low-in-PISN   KS_p=5.26e-209
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=5.26e-209
+    [Ti/Mg]    sep=1.000 high-in-PISN  KS_p=5.26e-209
+    [Al/Fe]    sep=1.000 low-in-PISN   KS_p=1.02e-195
+    [Cr/Mg]    sep=0.999 high-in-PISN  KS_p=2.08e-181
+  top-10 pairs:
+    [Al/Fe]  & [Cu/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [O/Fe]   pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ti/Fe]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Al/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [N/Mg]   pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Na/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [O/Mg]   pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.003)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== N / bin all (n_pos=483, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=4.94e-324
+    [Si/Mg]    sep=0.987 high-in-PISN  KS_p=9.74e-270
+    [Ca/Fe]    sep=0.937 high-in-PISN  KS_p=1.11e-172
+    [Ti/Mg]    sep=0.905 high-in-PISN  KS_p=2.73e-125
+    [Al/Fe]    sep=0.879 low-in-PISN   KS_p=3.21e-165
+  top-10 pairs:
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.063
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.063
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Mn/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Mn/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: YES (max delta=+0.063 from [Ca/Fe] & [Mg/Fe])
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+
+== N / bin <210 (n_pos=243, n_neg=1017) ==
+  top-5 single features:
+    [Ca/Mg]    sep=1.000 high-in-PISN  KS_p=8.22e-265
+    [Ca/Fe]    sep=0.999 high-in-PISN  KS_p=3.76e-229
+    [Si/Mg]    sep=0.977 high-in-PISN  KS_p=1.61e-149
+    [Ti/Fe]    sep=0.961 high-in-PISN  KS_p=2.19e-126
+    [Si/Fe]    sep=0.952 high-in-PISN  KS_p=2.32e-117
+  top-10 pairs:
+    [Ca/Fe]  & [Mg/Fe]  pair_auc=1.000 delta=+0.001
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.001
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Mn/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Na/Mg]  pair_auc=1.000 delta=+0.000
+  PAIR BEATS ITS OWN BEST SINGLE by >0.02: NO (max delta=+0.001)
+  (global best single sep=1.000; a pair can only exceed a single when that single < 1.000)
+

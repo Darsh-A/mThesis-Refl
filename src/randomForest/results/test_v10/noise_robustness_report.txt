@@ -1,0 +1,285 @@
+Observational-noise robustness of PISN-vs-CCSN signatures (test_v10)
+Class/bins identical to test_v9 (pos = f_pisn>=0.5 & finite mass & in bin; neg = f_pisn==0).
+Noise: Gaussian(0, sigma) dex added to every cell of X, R=10 realizations, seed = 1000*round(sigma*100)+r.
+Survival @0.1 dex: mean separability >= 0.90 AND KS p < 0.05.
+
+== dataset source check ==
+  4_3      pisn_source=Takahashi  sn_source=Limongi18  dex_error=0.0
+  5        pisn_source=Takahashi  sn_source=Nomoto13  dex_error=0.0
+  L        pisn_source=Takahashi  sn_source=Limongi18  dex_error=0.0
+  N        pisn_source=Takahashi  sn_source=Nomoto13  dex_error=0.0
+  taka_0.1 pisn_source=Takahashi  sn_source=Limongi18  dex_error=0.1
+  taka_0.1 has the SAME yield sources as 4_3: True. (It is an independent realization, not 4_3+noise: pisn_mass differs.)
+
+== 4_3 / bin 210-230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Fe]   1.000 -> 1.000 -> 0.995  (KS_p@0.10=8.4e-106)  SURVIVES
+    [Ca/Mg]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=2.9e-114)  SURVIVES
+    [Cr/Fe]   1.000 -> 0.999 -> 0.950  (KS_p@0.10=6.0e-88)  SURVIVES
+    [Cr/Mg]   1.000 -> 0.996 -> 0.975  (KS_p@0.10=2.6e-67)  SURVIVES
+    [Ni/Fe]   1.000 -> 0.995 -> 0.964  (KS_p@0.10=9.7e-71)  SURVIVES
+    [Si/Mg]   1.000 -> 1.000 -> 0.977  (KS_p@0.10=5.1e-90)  SURVIVES
+    [Si/Fe]   0.998 -> 0.963 -> 0.871  (KS_p@0.10=2.9e-34)  SURVIVES
+    [Ni/Mg]   0.991 -> 0.965 -> 0.903  (KS_p@0.10=4.7e-43)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Ca/Mg]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [Cr/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [Mn/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+
+== 4_3 / bin >=230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Fe]   1.000 -> 0.991 -> 0.948  (KS_p@0.10=6.7e-122)  SURVIVES
+    [Ca/Mg]   1.000 -> 1.000 -> 1.000  (KS_p@0.10=5.3e-209)  SURVIVES
+    [Co/Fe]   1.000 -> 0.998 -> 0.983  (KS_p@0.10=3.6e-161)  SURVIVES
+    [Cr/Fe]   1.000 -> 0.968 -> 0.877  (KS_p@0.10=8.7e-95)  SURVIVES
+    [Cr/Mg]   1.000 -> 1.000 -> 0.997  (KS_p@0.10=1.8e-207)  SURVIVES
+    [Ni/Fe]   1.000 -> 0.999 -> 0.968  (KS_p@0.10=1.8e-161)  SURVIVES
+    [Si/Mg]   1.000 -> 1.000 -> 0.985  (KS_p@0.10=1.6e-189)  SURVIVES
+    [Fe/Mg]   1.000 -> 0.995 -> 0.964  (KS_p@0.10=4.0e-138)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Al/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.004
+    [Mn/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+
+== 4_3 / bin all ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Fe]   1.000 -> 0.997 -> 0.981  (KS_p@0.10=3.2e-319)  SURVIVES
+    [Ca/Mg]   1.000 -> 1.000 -> 0.996  (KS_p@0.10=9.9e-324)  SURVIVES
+    [Cr/Fe]   1.000 -> 0.980 -> 0.906  (KS_p@0.10=1.3e-238)  SURVIVES
+    [Si/Mg]   1.000 -> 0.997 -> 0.955  (KS_p@0.10=1.0e-316)  SURVIVES
+    [Ni/Fe]   0.969 -> 0.945 -> 0.887  (KS_p@0.10=2.4e-170)  SURVIVES
+    [C/Mg]    0.910 -> 0.892 -> 0.841  (KS_p@0.10=2.7e-124)  collapse
+    [Al/Mg]   0.891 -> 0.876 -> 0.844  (KS_p@0.10=4.3e-87)  collapse
+    [Co/Fe]   0.879 -> 0.874 -> 0.844  (KS_p@0.10=1.5e-127)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.003
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+
+== 4_3 / bin <210 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Fe]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=3.4e-267)  SURVIVES
+    [Ca/Mg]   1.000 -> 1.000 -> 0.993  (KS_p@0.10=3.9e-255)  SURVIVES
+    [Cr/Fe]   1.000 -> 0.983 -> 0.913  (KS_p@0.10=3.9e-149)  SURVIVES
+    [Si/Fe]   1.000 -> 0.999 -> 0.986  (KS_p@0.10=3.8e-231)  SURVIVES
+    [Si/Mg]   1.000 -> 0.994 -> 0.927  (KS_p@0.10=1.9e-184)  SURVIVES
+    [Ni/Mg]   1.000 -> 0.991 -> 0.950  (KS_p@0.10=5.5e-176)  SURVIVES
+    [Fe/Mg]   0.946 -> 0.909 -> 0.835  (KS_p@0.10=8.0e-77)  SURVIVES
+    [Mg/Fe]   0.946 -> 0.909 -> 0.835  (KS_p@0.10=8.0e-77)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Co/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Mn/Mg]  pair_auc=1.000 delta=+0.000
+
+== 5 / bin 210-230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 1.000  (KS_p@0.10=2.9e-114)  SURVIVES
+    [Cr/Mg]   1.000 -> 0.999 -> 0.980  (KS_p@0.10=5.7e-89)  SURVIVES
+    [Mn/Mg]   1.000 -> 0.999 -> 0.979  (KS_p@0.10=7.2e-84)  SURVIVES
+    [Si/Mg]   1.000 -> 1.000 -> 0.985  (KS_p@0.10=6.2e-108)  SURVIVES
+    [Fe/Mg]   1.000 -> 0.995 -> 0.967  (KS_p@0.10=1.9e-62)  SURVIVES
+    [Mg/Fe]   1.000 -> 0.995 -> 0.967  (KS_p@0.10=1.9e-62)  SURVIVES
+    [Ca/Fe]   0.999 -> 0.986 -> 0.936  (KS_p@0.10=1.8e-59)  SURVIVES
+    [C/Fe]    0.999 -> 0.987 -> 0.943  (KS_p@0.10=5.1e-57)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Ca/Mg]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Fe/Mg]  pair_auc=1.000 delta=+0.005
+    [Mn/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+
+== 5 / bin >=230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Al/Fe]   1.000 -> 0.999 -> 0.994  (KS_p@0.10=4.2e-169)  SURVIVES
+    [C/Fe]    1.000 -> 1.000 -> 0.998  (KS_p@0.10=3.6e-194)  SURVIVES
+    [Ca/Mg]   1.000 -> 1.000 -> 1.000  (KS_p@0.10=5.3e-209)  SURVIVES
+    [Cr/Mg]   1.000 -> 1.000 -> 0.998  (KS_p@0.10=5.3e-209)  SURVIVES
+    [Fe/Mg]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=1.9e-202)  SURVIVES
+    [Mg/Fe]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=1.9e-202)  SURVIVES
+    [Mn/Mg]   1.000 -> 1.000 -> 0.989  (KS_p@0.10=3.2e-189)  SURVIVES
+    [O/Fe]    1.000 -> 1.000 -> 0.997  (KS_p@0.10=4.6e-204)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Al/Fe]  & [C/Fe]   pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Zn/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [Fe/Mg]  & [Mn/Mg]  pair_auc=1.000 delta=+0.000
+
+== 5 / bin all ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=4.9e-324)  SURVIVES
+    [Si/Mg]   1.000 -> 0.999 -> 0.972  (KS_p@0.10=5.4e-323)  SURVIVES
+    [Mn/Mg]   0.938 -> 0.903 -> 0.851  (KS_p@0.10=8.5e-116)  SURVIVES
+    [Ca/Fe]   0.933 -> 0.918 -> 0.889  (KS_p@0.10=3.6e-142)  SURVIVES
+    [Al/Fe]   0.899 -> 0.888 -> 0.866  (KS_p@0.10=1.6e-134)  collapse
+    [Co/Fe]   0.855 -> 0.852 -> 0.832  (KS_p@0.10=1.5e-136)  collapse
+    [Na/Fe]   0.855 -> 0.849 -> 0.834  (KS_p@0.10=7.4e-124)  collapse
+    [Zn/Fe]   0.800 -> 0.801 -> 0.795  (KS_p@0.10=6.7e-132)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Mg]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Na/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ni/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+
+== 5 / bin <210 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Fe]   1.000 -> 1.000 -> 0.995  (KS_p@0.10=1.9e-249)  SURVIVES
+    [Ca/Mg]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=3.4e-267)  SURVIVES
+    [Si/Mg]   1.000 -> 0.999 -> 0.955  (KS_p@0.10=1.5e-213)  SURVIVES
+    [Si/Fe]   0.985 -> 0.971 -> 0.923  (KS_p@0.10=8.8e-133)  SURVIVES
+    [Mn/Fe]   0.910 -> 0.830 -> 0.710  (KS_p@0.10=1.2e-48)  collapse
+    [Mn/Mg]   0.876 -> 0.808 -> 0.717  (KS_p@0.10=1.3e-33)  collapse
+    [O/Mg]    0.837 -> 0.631 -> 0.562  (KS_p@0.10=1.7e-06)  collapse
+    [C/Mg]    0.821 -> 0.768 -> 0.691  (KS_p@0.10=3.9e-30)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Mg]  & [Cu/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Na/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ni/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+
+== L / bin 210-230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 0.995  (KS_p@0.10=5.4e-95)  SURVIVES
+    [Ca/Fe]   1.000 -> 0.998 -> 0.986  (KS_p@0.10=4.1e-82)  SURVIVES
+    [Cr/Mg]   0.992 -> 0.983 -> 0.955  (KS_p@0.10=4.8e-58)  SURVIVES
+    [Cr/Fe]   0.985 -> 0.971 -> 0.929  (KS_p@0.10=1.8e-46)  SURVIVES
+    [Si/Mg]   0.984 -> 0.969 -> 0.922  (KS_p@0.10=3.5e-47)  SURVIVES
+    [Ni/Fe]   0.948 -> 0.939 -> 0.915  (KS_p@0.10=7.4e-37)  SURVIVES
+    [C/Fe]    0.932 -> 0.918 -> 0.894  (KS_p@0.10=2.6e-31)  SURVIVES
+    [Si/Fe]   0.923 -> 0.886 -> 0.831  (KS_p@0.10=1.8e-23)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Cr/Mg]  pair_auc=1.000 delta=+0.002
+    [Cr/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Ni/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+
+== L / bin >=230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 0.997  (KS_p@0.10=3.1e-186)  SURVIVES
+    [Cr/Mg]   0.999 -> 0.997 -> 0.986  (KS_p@0.10=3.9e-156)  SURVIVES
+    [Si/Mg]   0.988 -> 0.976 -> 0.934  (KS_p@0.10=1.4e-105)  SURVIVES
+    [Al/Fe]   0.988 -> 0.983 -> 0.967  (KS_p@0.10=5.2e-113)  SURVIVES
+    [C/Fe]    0.985 -> 0.981 -> 0.966  (KS_p@0.10=2.5e-115)  SURVIVES
+    [Ca/Fe]   0.980 -> 0.967 -> 0.926  (KS_p@0.10=2.9e-90)  SURVIVES
+    [Ti/Mg]   0.978 -> 0.946 -> 0.896  (KS_p@0.10=2.1e-79)  SURVIVES
+    [Co/Fe]   0.978 -> 0.971 -> 0.952  (KS_p@0.10=5.0e-113)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ni/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+
+== L / bin all ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   0.999 -> 0.997 -> 0.985  (KS_p@0.10=1.2e-320)  SURVIVES
+    [Ca/Fe]   0.993 -> 0.988 -> 0.971  (KS_p@0.10=4.8e-274)  SURVIVES
+    [Si/Mg]   0.958 -> 0.939 -> 0.885  (KS_p@0.10=5.6e-161)  SURVIVES
+    [Cr/Fe]   0.945 -> 0.923 -> 0.873  (KS_p@0.10=3.2e-138)  SURVIVES
+    [C/Mg]    0.903 -> 0.885 -> 0.846  (KS_p@0.10=1.3e-107)  collapse
+    [Ni/Fe]   0.891 -> 0.876 -> 0.837  (KS_p@0.10=1.7e-109)  collapse
+    [Al/Mg]   0.888 -> 0.876 -> 0.841  (KS_p@0.10=1.6e-80)  collapse
+    [Co/Fe]   0.849 -> 0.841 -> 0.818  (KS_p@0.10=3.8e-99)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.003
+    [Ca/Mg]  & [Ni/Mg]  pair_auc=1.000 delta=+0.003
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.012
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.003
+    [C/Mg]   & [Ca/Mg]  pair_auc=0.999 delta=+0.003
+
+== L / bin <210 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Fe]   1.000 -> 1.000 -> 0.998  (KS_p@0.10=9.3e-251)  SURVIVES
+    [Ca/Mg]   0.998 -> 0.994 -> 0.974  (KS_p@0.10=1.4e-185)  SURVIVES
+    [Si/Fe]   0.995 -> 0.990 -> 0.970  (KS_p@0.10=7.6e-173)  SURVIVES
+    [Ni/Mg]   0.952 -> 0.939 -> 0.912  (KS_p@0.10=1.5e-94)  SURVIVES
+    [Cr/Fe]   0.939 -> 0.918 -> 0.867  (KS_p@0.10=9.7e-82)  SURVIVES
+    [Si/Mg]   0.930 -> 0.904 -> 0.840  (KS_p@0.10=1.9e-74)  SURVIVES
+    [C/Mg]    0.919 -> 0.901 -> 0.863  (KS_p@0.10=2.8e-70)  SURVIVES
+    [Al/Mg]   0.914 -> 0.902 -> 0.868  (KS_p@0.10=1.2e-62)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ni/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Si/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Fe]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [C/Mg]   pair_auc=1.000 delta=+0.000
+
+== N / bin 210-230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=5.8e-108)  SURVIVES
+    [Ti/Mg]   1.000 -> 0.999 -> 0.974  (KS_p@0.10=4.1e-85)  SURVIVES
+    [Si/Mg]   0.995 -> 0.986 -> 0.954  (KS_p@0.10=5.9e-61)  SURVIVES
+    [Cr/Mg]   0.994 -> 0.985 -> 0.953  (KS_p@0.10=2.7e-60)  SURVIVES
+    [Mn/Mg]   0.991 -> 0.981 -> 0.939  (KS_p@0.10=2.9e-52)  SURVIVES
+    [Ca/Fe]   0.974 -> 0.962 -> 0.925  (KS_p@0.10=1.1e-45)  SURVIVES
+    [Al/Fe]   0.974 -> 0.960 -> 0.932  (KS_p@0.10=1.3e-41)  SURVIVES
+    [O/Fe]    0.961 -> 0.940 -> 0.887  (KS_p@0.10=1.9e-35)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Ca/Mg]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [C/Mg]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Na/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+
+== N / bin >=230 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 0.999  (KS_p@0.10=1.9e-202)  SURVIVES
+    [O/Fe]    1.000 -> 0.999 -> 0.987  (KS_p@0.10=7.0e-176)  SURVIVES
+    [Ti/Mg]   1.000 -> 1.000 -> 0.993  (KS_p@0.10=1.2e-190)  SURVIVES
+    [Al/Fe]   1.000 -> 0.996 -> 0.987  (KS_p@0.10=4.7e-157)  SURVIVES
+    [Cr/Mg]   0.999 -> 0.997 -> 0.984  (KS_p@0.10=3.8e-155)  SURVIVES
+    [C/Fe]    0.998 -> 0.996 -> 0.984  (KS_p@0.10=2.4e-140)  SURVIVES
+    [Fe/Mg]   0.997 -> 0.993 -> 0.978  (KS_p@0.10=1.6e-132)  SURVIVES
+    [Mg/Fe]   0.997 -> 0.993 -> 0.978  (KS_p@0.10=1.6e-132)  SURVIVES
+  top-5 pairs @0.10 dex:
+    [Ca/Mg]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+    [N/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [O/Fe]   & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Al/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Co/Fe]  & [Ti/Mg]  pair_auc=1.000 delta=+0.000
+
+== N / bin all ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 1.000 -> 0.995  (KS_p@0.10=3.5e-323)  SURVIVES
+    [Si/Mg]   0.987 -> 0.975 -> 0.932  (KS_p@0.10=5.0e-230)  SURVIVES
+    [Ca/Fe]   0.937 -> 0.928 -> 0.900  (KS_p@0.10=1.1e-154)  SURVIVES
+    [Ti/Mg]   0.905 -> 0.881 -> 0.843  (KS_p@0.10=6.9e-107)  collapse
+    [Al/Fe]   0.879 -> 0.865 -> 0.836  (KS_p@0.10=2.8e-116)  collapse
+    [Mn/Mg]   0.834 -> 0.819 -> 0.791  (KS_p@0.10=1.0e-79)  collapse
+    [Co/Fe]   0.833 -> 0.825 -> 0.809  (KS_p@0.10=5.8e-100)  collapse
+    [O/Mg]    0.822 -> 0.654 -> 0.574  (KS_p@0.10=5.0e-15)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Co/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Na/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+
+== N / bin <210 ==
+  top-8 @0.0 dex -> sep@0.10 -> sep@0.20 -> survives?
+    [Ca/Mg]   1.000 -> 0.999 -> 0.992  (KS_p@0.10=3.8e-230)  SURVIVES
+    [Ca/Fe]   0.999 -> 0.997 -> 0.988  (KS_p@0.10=1.0e-205)  SURVIVES
+    [Si/Mg]   0.977 -> 0.961 -> 0.905  (KS_p@0.10=1.0e-120)  SURVIVES
+    [Ti/Fe]   0.961 -> 0.907 -> 0.793  (KS_p@0.10=3.4e-80)  SURVIVES
+    [Si/Fe]   0.952 -> 0.937 -> 0.904  (KS_p@0.10=4.7e-100)  SURVIVES
+    [O/Mg]    0.869 -> 0.682 -> 0.593  (KS_p@0.10=1.5e-12)  collapse
+    [Al/Mg]   0.822 -> 0.816 -> 0.782  (KS_p@0.10=4.1e-66)  collapse
+    [Ti/Mg]   0.810 -> 0.763 -> 0.700  (KS_p@0.10=4.9e-24)  collapse
+  top-5 pairs @0.10 dex:
+    [Ca/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Si/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Cr/Mg]  pair_auc=1.000 delta=+0.000
+    [Ca/Mg]  & [Fe/Mg]  pair_auc=1.000 delta=+0.000
+    [Mg/Fe]  & [Ca/Mg]  pair_auc=1.000 delta=+0.000
+

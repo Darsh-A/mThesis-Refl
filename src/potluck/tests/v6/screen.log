@@ -1,0 +1,212 @@
+generating p00 (3000 samples)
+drawn=5000 accepted=2533 acceptance=0.51
+drawn=10000 accepted=3000 acceptance=0.30
+generating p01 (3000 samples)
+drawn=5000 accepted=2023 acceptance=0.40
+drawn=10000 accepted=3000 acceptance=0.30
+generating p02 (3000 samples)
+drawn=5000 accepted=3 acceptance=0.00
+drawn=10000 accepted=4 acceptance=0.00
+drawn=15000 accepted=4 acceptance=0.00
+drawn=20000 accepted=4 acceptance=0.00
+drawn=25000 accepted=4 acceptance=0.00
+drawn=30000 accepted=4 acceptance=0.00
+drawn=35000 accepted=6 acceptance=0.00
+drawn=40000 accepted=8 acceptance=0.00
+drawn=45000 accepted=10 acceptance=0.00
+drawn=50000 accepted=11 acceptance=0.00
+drawn=55000 accepted=14 acceptance=0.00
+drawn=60000 accepted=14 acceptance=0.00
+generating p03 (3000 samples)
+drawn=5000 accepted=0 acceptance=0.00
+drawn=10000 accepted=1 acceptance=0.00
+drawn=15000 accepted=1 acceptance=0.00
+drawn=20000 accepted=2 acceptance=0.00
+drawn=25000 accepted=3 acceptance=0.00
+drawn=30000 accepted=4 acceptance=0.00
+drawn=35000 accepted=6 acceptance=0.00
+drawn=40000 accepted=6 acceptance=0.00
+drawn=45000 accepted=7 acceptance=0.00
+drawn=50000 accepted=7 acceptance=0.00
+drawn=55000 accepted=8 acceptance=0.00
+drawn=60000 accepted=11 acceptance=0.00
+generating p04 (3000 samples)
+drawn=5000 accepted=360 acceptance=0.07
+drawn=10000 accepted=744 acceptance=0.07
+drawn=15000 accepted=1101 acceptance=0.07
+drawn=20000 accepted=1447 acceptance=0.07
+drawn=25000 accepted=1826 acceptance=0.07
+drawn=30000 accepted=2217 acceptance=0.07
+drawn=35000 accepted=2592 acceptance=0.07
+drawn=40000 accepted=2966 acceptance=0.07
+drawn=45000 accepted=3000 acceptance=0.07
+generating p05 (3000 samples)
+drawn=5000 accepted=1690 acceptance=0.34
+drawn=10000 accepted=3000 acceptance=0.30
+generating p06 (3000 samples)
+drawn=5000 accepted=2144 acceptance=0.43
+drawn=10000 accepted=3000 acceptance=0.30
+generating p07 (3000 samples)
+drawn=5000 accepted=2161 acceptance=0.43
+drawn=10000 accepted=3000 acceptance=0.30
+generating p08 (3000 samples)
+drawn=5000 accepted=2089 acceptance=0.42
+drawn=10000 accepted=3000 acceptance=0.30
+generating p09 (3000 samples)
+drawn=5000 accepted=2131 acceptance=0.43
+drawn=10000 accepted=3000 acceptance=0.30
+generating p10 (3000 samples)
+drawn=5000 accepted=457 acceptance=0.09
+drawn=10000 accepted=902 acceptance=0.09
+drawn=15000 accepted=1370 acceptance=0.09
+drawn=20000 accepted=1835 acceptance=0.09
+drawn=25000 accepted=2292 acceptance=0.09
+drawn=30000 accepted=2760 acceptance=0.09
+drawn=35000 accepted=3000 acceptance=0.09
+generating p11 (3000 samples)
+drawn=5000 accepted=2563 acceptance=0.51
+drawn=10000 accepted=3000 acceptance=0.30
+generating p12 (3000 samples)
+drawn=5000 accepted=1035 acceptance=0.21
+drawn=10000 accepted=2012 acceptance=0.20
+drawn=15000 accepted=3000 acceptance=0.20
+generating p13 (3000 samples)
+drawn=5000 accepted=33 acceptance=0.01
+drawn=10000 accepted=67 acceptance=0.01
+drawn=15000 accepted=99 acceptance=0.01
+drawn=20000 accepted=137 acceptance=0.01
+drawn=25000 accepted=176 acceptance=0.01
+drawn=30000 accepted=208 acceptance=0.01
+drawn=35000 accepted=242 acceptance=0.01
+drawn=40000 accepted=277 acceptance=0.01
+drawn=45000 accepted=332 acceptance=0.01
+drawn=50000 accepted=366 acceptance=0.01
+drawn=55000 accepted=405 acceptance=0.01
+drawn=60000 accepted=430 acceptance=0.01
+generating p14 (3000 samples)
+drawn=5000 accepted=2235 acceptance=0.45
+drawn=10000 accepted=3000 acceptance=0.30
+generating p15 (3000 samples)
+drawn=5000 accepted=2181 acceptance=0.44
+drawn=10000 accepted=3000 acceptance=0.30
+generating p16 (3000 samples)
+drawn=5000 accepted=2043 acceptance=0.41
+drawn=10000 accepted=3000 acceptance=0.30
+generating p17 (3000 samples)
+drawn=5000 accepted=0 acceptance=0.00
+drawn=10000 accepted=0 acceptance=0.00
+drawn=15000 accepted=0 acceptance=0.00
+drawn=20000 accepted=0 acceptance=0.00
+drawn=25000 accepted=0 acceptance=0.00
+drawn=30000 accepted=0 acceptance=0.00
+drawn=35000 accepted=0 acceptance=0.00
+drawn=40000 accepted=0 acceptance=0.00
+drawn=45000 accepted=0 acceptance=0.00
+drawn=50000 accepted=0 acceptance=0.00
+drawn=55000 accepted=0 acceptance=0.00
+drawn=60000 accepted=0 acceptance=0.00
+generating p18 (3000 samples)
+drawn=5000 accepted=1663 acceptance=0.33
+drawn=10000 accepted=3000 acceptance=0.30
+generating p19 (3000 samples)
+drawn=5000 accepted=554 acceptance=0.11
+drawn=10000 accepted=1076 acceptance=0.11
+drawn=15000 accepted=1665 acceptance=0.11
+drawn=20000 accepted=2231 acceptance=0.11
+drawn=25000 accepted=2777 acceptance=0.11
+drawn=30000 accepted=3000 acceptance=0.10
+generating p20 (3000 samples)
+drawn=5000 accepted=577 acceptance=0.12
+drawn=10000 accepted=1122 acceptance=0.11
+drawn=15000 accepted=1671 acceptance=0.11
+drawn=20000 accepted=2207 acceptance=0.11
+drawn=25000 accepted=2785 acceptance=0.11
+drawn=30000 accepted=3000 acceptance=0.10
+generating p21 (3000 samples)
+drawn=5000 accepted=256 acceptance=0.05
+drawn=10000 accepted=515 acceptance=0.05
+drawn=15000 accepted=767 acceptance=0.05
+drawn=20000 accepted=1022 acceptance=0.05
+drawn=25000 accepted=1298 acceptance=0.05
+drawn=30000 accepted=1564 acceptance=0.05
+drawn=35000 accepted=1830 acceptance=0.05
+drawn=40000 accepted=2088 acceptance=0.05
+drawn=45000 accepted=2380 acceptance=0.05
+drawn=50000 accepted=2647 acceptance=0.05
+drawn=55000 accepted=2880 acceptance=0.05
+drawn=60000 accepted=3000 acceptance=0.05
+generating p22 (3000 samples)
+drawn=5000 accepted=0 acceptance=0.00
+drawn=10000 accepted=0 acceptance=0.00
+drawn=15000 accepted=0 acceptance=0.00
+drawn=20000 accepted=0 acceptance=0.00
+drawn=25000 accepted=0 acceptance=0.00
+drawn=30000 accepted=0 acceptance=0.00
+drawn=35000 accepted=0 acceptance=0.00
+drawn=40000 accepted=0 acceptance=0.00
+drawn=45000 accepted=0 acceptance=0.00
+drawn=50000 accepted=0 acceptance=0.00
+drawn=55000 accepted=0 acceptance=0.00
+drawn=60000 accepted=0 acceptance=0.00
+generating p23 (3000 samples)
+drawn=5000 accepted=1782 acceptance=0.36
+drawn=10000 accepted=3000 acceptance=0.30
+generating p24 (3000 samples)
+drawn=5000 accepted=0 acceptance=0.00
+drawn=10000 accepted=1 acceptance=0.00
+drawn=15000 accepted=1 acceptance=0.00
+drawn=20000 accepted=1 acceptance=0.00
+drawn=25000 accepted=1 acceptance=0.00
+drawn=30000 accepted=3 acceptance=0.00
+drawn=35000 accepted=5 acceptance=0.00
+drawn=40000 accepted=6 acceptance=0.00
+drawn=45000 accepted=7 acceptance=0.00
+drawn=50000 accepted=9 acceptance=0.00
+drawn=55000 accepted=12 acceptance=0.00
+drawn=60000 accepted=12 acceptance=0.00
+generating baseline (3000 samples)
+drawn=5000 accepted=1858 acceptance=0.37
+drawn=10000 accepted=3000 acceptance=0.30
+{
+  "baseline": 0.6051948051948052,
+  "best": 0.7012987012987013,
+  "best_label": "p11",
+  "failed": 6,
+  "effects": {
+    "pisn_mass": {
+      "(140, 270)": 0.6086580086580087,
+      "(140, 300)": 0.5863636363636363,
+      "(160, 260)": 0.5490909090909091,
+      "(180, 260)": 0.522077922077922,
+      "(200, 300)": 0.5454545454545454
+    },
+    "mdil": {
+      "(200000, 1e+09)": 0.577922077922078,
+      "(1e+06, 1e+09)": 0.4798701298701298,
+      "(200000, 1e+08)": 0.6166233766233766,
+      "(5e+06, 1e+09)": 0.4874458874458874,
+      "(200000, 5e+07)": 0.6025974025974026
+    },
+    "z_cr": {
+      "1e-06": 0.5614718614718613,
+      "1e-05": 0.5807792207792207,
+      "1e-04": 0.559090909090909,
+      "1e-03": null,
+      "none": 0.5355844155844156
+    },
+    "lambda_iii": {
+      "(0.1, 1000)": 0.522077922077922,
+      "(0.1, 100)": 0.5579220779220778,
+      "(1, 1000)": 0.6350649350649351,
+      "(0.01, 1000)": 0.48636363636363633,
+      "(0.3, 300)": 0.6077922077922078
+    },
+    "popiii": {
+      "uniform": 0.5902597402597403,
+      "low_mass": 0.6227272727272727,
+      "high_mass": 0.525974025974026,
+      "high_energy": 0.535064935064935,
+      "row": 0.5186147186147186
+    }
+  }
+}

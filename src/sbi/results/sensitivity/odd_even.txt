@@ -1,0 +1,18 @@
+Odd-even effect: tracer score by ratio parity.
+
+class      n_ratios  mean scoremedian score
+odd-even         54        1.44        1.24
+even-even        36        1.19        0.99
+odd-odd          15        0.76        0.55
+
+Top odd-even ratios by tracer score:
+  [Al/Ca]    4.57
+  [Al/Si]    3.87
+  [Na/Ca]    3.61
+  [Mg/Al]    3.01
+  [Na/Si]    2.85
+  [Ca/Co]    2.44
+  [Na/Ti]    2.23
+  [O/Al]     2.17
+  [Al/Ti]    2.15
+  [Na/Cr]    2.13

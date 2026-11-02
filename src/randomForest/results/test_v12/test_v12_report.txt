@@ -1,0 +1,42 @@
+test_v12: attribution of f=0 [Ca/Mg] histogram shoulders
+f=0 SNII ratio is deterministic in (feh, m_pop2); shoulders come from
+structure in that map.  H1=metallicity nodes, H2=mass-grid nodes,
+H4=m_pop2<13 constant-extrapolation plateau, H3=real structure.
+
+== dataset noise check (recompute vs stored) ==
+  4_3 (Limongi18): noiseless -> deterministic, recompute matches stored to <1e-6.
+  5 (Nomoto13): noiseless -> deterministic, recompute matches stored to <1e-6.
+  L (Limongi18): NOISY (Li+22 dex noise added post-generation, residual std=0.153 dex). Deterministic premise holds only for the noiseless 4_3/5.
+  N (Nomoto13): NOISY (Li+22 dex noise added post-generation, residual std=0.153 dex). Deterministic premise holds only for the noiseless 4_3/5.
+
+== detected f=0 [Ca/Mg] / [Si/Mg] modes ==
+  4_3 [Ca/Mg]: [-0.274, 0.105]
+  4_3 [Si/Mg]: [0.174, 0.026]
+  5 [Ca/Mg]: [-0.283, -0.163]
+  5 [Si/Mg]: [-0.028, 0.076]
+  L [Ca/Mg]: [-0.051]
+  L [Si/Mg]: [0.213, -0.506]
+  N [Ca/Mg]: [-0.207, -0.886]
+  N [Si/Mg]: [0.031]
+
+== within-bin std: feh-integer partition (H1) vs mass-grid partition (H2/H4) ==
+  4_3 (Limongi18): feh-bin std=[np.float64(0.201), np.float64(0.19), np.float64(0.13)]  mass-bin std=[np.float64(0.116), np.float64(0.113), np.float64(0.076), np.float64(0.047), np.float64(0.125), np.float64(0.043), np.float64(0.046)]
+  5 (Nomoto13): feh-bin std=[np.float64(0.023), np.float64(0.018), np.float64(0.047)]  mass-bin std=[np.float64(0.014), np.float64(0.071), np.float64(0.065), np.float64(0.065), np.float64(0.063), np.float64(0.09), np.float64(0.064), nan]
+  L (Limongi18): feh-bin std=[np.float64(0.256), np.float64(0.237), np.float64(0.182)]  mass-bin std=[np.float64(0.213), np.float64(0.198), np.float64(0.171), np.float64(0.158), np.float64(0.224), np.float64(0.15), np.float64(0.156)]
+  N (Nomoto13): feh-bin std=[np.float64(0.167), np.float64(0.164), np.float64(0.154)]  mass-bin std=[np.float64(0.169), np.float64(0.165), np.float64(0.181), np.float64(0.158), np.float64(0.159), np.float64(0.2), np.float64(0.141), nan]
+
+== VERDICT ==
+  H3 (real structure) is REFUTED: the shoulders are interpolation artifacts.
+  Limongi18 (4_3, L): DOMINANT = H2 mass-grid nodes.  [Ca/Mg] is bimodal
+    because the Ca-production turn-on between the 25 and 30 Msun grid models
+    makes [Ca/Mg] jump from ~-0.32 (Mg-rich, turnoff mass < ~28 Msun) to
+    ~+0.11 (Ca-rich, turnoff mass >= ~28 Msun).  Mass-bin partition collapses
+    the distribution to narrow spikes (std ~0.04-0.05) whereas the feh-bin
+    partition does not (std 0.13-0.20).  H4 (m_pop2<13 plateau) contributes the
+    low-mass regime; H1 (feh interpolation) broadens each mode.
+  Nomoto13 (5, N): DOMINANT = H1 metallicity grid (the Z-clamp).  Below feh=-1.13
+    (Z < 0.001) the yields are pinned to the Z=0.001 model, so [Ca/Mg] is frozen
+    at ~-0.31 -> the dominant shoulder.  H2 (mass-grid) gives only gentle variation
+    (Nomoto13 has no sharp Ca turn-on).  feh-bin std is tiny (0.02) below the clamp.
+  RANKING: Limongi18 -> H2 > H4 > H1 > H3.  Nomoto13 -> H1(Z-clamp) > H2 > H4 > H3.
+  Net: both shoulders are grid artefacts, not real VMP-structure.

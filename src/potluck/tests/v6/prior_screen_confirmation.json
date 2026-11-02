@@ -1,0 +1,2058 @@
+{
+  "n_samples": 20000,
+  "seeds": [
+    1,
+    2,
+    3,
+    4
+  ],
+  "labels": [
+    "baseline",
+    "p11",
+    "p15"
+  ],
+  "excluded_elements": [
+    "Ti"
+  ],
+  "aggregate": {
+    "baseline": {
+      "n_runs": 4,
+      "in_model_values": [
+        0.4909090909090909,
+        0.5116883116883116,
+        0.5532467532467532,
+        0.5662337662337662
+      ],
+      "in_model_mean": 0.5305194805194805,
+      "in_model_min": 0.4909090909090909,
+      "in_model_max": 0.5662337662337662,
+      "threshold_mean": 2.806639665635779,
+      "classifier_auc_mean": 0.9623068433002185,
+      "fpr_at_tpr_90_mean": 0.10563236860053804,
+      "two_sample_auc_mean": 0.9919015804597701,
+      "cr_ks_mean": 0.775404236252039,
+      "ni_ks_mean": 0.7762805233721861,
+      "positive_rate_mean": 0.17734881572156277
+    },
+    "p11": {
+      "n_runs": 4,
+      "in_model_values": [
+        0.625974025974026,
+        0.5532467532467532,
+        0.561038961038961,
+        0.5584415584415584
+      ],
+      "in_model_mean": 0.5746753246753247,
+      "in_model_min": 0.5532467532467532,
+      "in_model_max": 0.625974025974026,
+      "threshold_mean": 2.77573671899097,
+      "classifier_auc_mean": 0.9584016021395423,
+      "fpr_at_tpr_90_mean": 0.11888079897972129,
+      "two_sample_auc_mean": 0.9913742816091953,
+      "cr_ks_mean": 0.7960223860702218,
+      "ni_ks_mean": 0.6647243243782683,
+      "positive_rate_mean": 0.19714222927093095
+    },
+    "p15": {
+      "n_runs": 4,
+      "in_model_values": [
+        0.44155844155844154,
+        0.37402597402597404,
+        0.44415584415584414,
+        0.4649350649350649
+      ],
+      "in_model_mean": 0.4311688311688312,
+      "in_model_min": 0.37402597402597404,
+      "in_model_max": 0.4649350649350649,
+      "threshold_mean": 2.8325521718047737,
+      "classifier_auc_mean": 0.9821971025149161,
+      "fpr_at_tpr_90_mean": 0.04930556293911194,
+      "two_sample_auc_mean": 0.9923649425287356,
+      "cr_ks_mean": 0.8093391854867158,
+      "ni_ks_mean": 0.8115694875608024,
+      "positive_rate_mean": 0.114863726729752
+    }
+  },
+  "runs": [
+    {
+      "label": "baseline",
+      "seed": 1,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          270.0
+        ],
+        "mdil": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          270.0
+        ],
+        "mdil_range": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.746999791867399,
+        "in_model": 189,
+        "in_model_fraction": 0.4909090909090909,
+        "median_distance": 2.6511836234339134,
+        "p95_distance": 5.35152223884111,
+        "ks": {
+          "Na": {
+            "statistic": 0.4093653818522804,
+            "pvalue": 1.3066848546267864e-54
+          },
+          "Mg": {
+            "statistic": 0.26768311688311686,
+            "pvalue": 2.091903036183657e-24
+          },
+          "Ca": {
+            "statistic": 0.2087220460962692,
+            "pvalue": 6.939365494245098e-15
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7738041102313793,
+            "pvalue": 1.0175483178601308e-228
+          },
+          "Ni": {
+            "statistic": 0.777132079040801,
+            "pvalue": 6.251411184924102e-181
+          }
+        },
+        "two_sample_auc": 0.992721264367816,
+        "classifier_auc": 0.9622016434368676,
+        "fpr_at_tpr_90": 0.105417433939906,
+        "positive_rate": 0.1743229622301218,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.15146395564079285,
+            "offset": 0.45146395564079284
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.35735225677490234,
+            "offset": 0.20735225677490235
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.347982257604599,
+            "offset": 0.022017742395400997
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5513936877250671,
+            "offset": -0.06139368772506715
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.30807146430015564,
+            "offset": 0.021928535699844376
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.19244205951690674,
+            "offset": -0.39244205951690675
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.446109414100647,
+            "offset": 0.06610941410064697
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.6461083292961121,
+            "offset": 0.866108329296112
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.2978622615337372,
+            "offset": 0.3128622615337372
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.09393803775310516,
+            "offset": 0.34393803775310516
+          }
+        },
+        "ledger": {
+          "drawn": 55000,
+          "r1": 5426,
+          "r2": 19685,
+          "r3": 12,
+          "r4": 9064,
+          "accepted": 20000,
+          "discarded": 813,
+          "r2_no_pre": 10310,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 9375,
+          "r2_other": 0,
+          "pisn_drawn": 27400,
+          "no_pisn_drawn": 27600,
+          "pisn_r1": 0,
+          "no_pisn_r1": 5426,
+          "pisn_r2": 8561,
+          "no_pisn_r2": 11124,
+          "pisn_r3": 12,
+          "no_pisn_r3": 0,
+          "pisn_r4": 5863,
+          "no_pisn_r4": 3201,
+          "pisn_accepted": 12437,
+          "no_pisn_accepted": 7563,
+          "pisn_discarded": 527,
+          "no_pisn_discarded": 286
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "baseline",
+      "seed": 2,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          270.0
+        ],
+        "mdil": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          270.0
+        ],
+        "mdil_range": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.667052616408769,
+        "in_model": 197,
+        "in_model_fraction": 0.5116883116883116,
+        "median_distance": 2.5135472465238275,
+        "p95_distance": 5.217606151983553,
+        "ks": {
+          "Na": {
+            "statistic": 0.407127707923042,
+            "pvalue": 5.390659080676804e-54
+          },
+          "Mg": {
+            "statistic": 0.2642461038961038,
+            "pvalue": 8.739732629217741e-24
+          },
+          "Ca": {
+            "statistic": 0.2031751403931007,
+            "pvalue": 4.029882595236632e-14
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.778635726055753,
+            "pvalue": 1.8013411166777943e-232
+          },
+          "Ni": {
+            "statistic": 0.7758015552932431,
+            "pvalue": 4.02071335168661e-180
+          }
+        },
+        "two_sample_auc": 0.9929425287356322,
+        "classifier_auc": 0.9604664542935478,
+        "fpr_at_tpr_90": 0.11390488058193665,
+        "positive_rate": 0.1826959524392556,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.1464756429195404,
+            "offset": 0.4464756429195404
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.35610827803611755,
+            "offset": 0.20610827803611756
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.35573840141296387,
+            "offset": 0.014261598587036128
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5603253841400146,
+            "offset": -0.07032538414001466
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.31435534358024597,
+            "offset": 0.015644656419754044
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.18990419805049896,
+            "offset": -0.389904198050499
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.4436977803707123,
+            "offset": 0.06369778037071228
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.6428255438804626,
+            "offset": 0.8628255438804626
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.3006405830383301,
+            "offset": 0.3156405830383301
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.09862346947193146,
+            "offset": 0.34862346947193146
+          }
+        },
+        "ledger": {
+          "drawn": 55000,
+          "r1": 5362,
+          "r2": 19675,
+          "r3": 9,
+          "r4": 9050,
+          "accepted": 20000,
+          "discarded": 904,
+          "r2_no_pre": 10419,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 9256,
+          "r2_other": 0,
+          "pisn_drawn": 27551,
+          "no_pisn_drawn": 27449,
+          "pisn_r1": 0,
+          "no_pisn_r1": 5362,
+          "pisn_r2": 8509,
+          "no_pisn_r2": 11166,
+          "pisn_r3": 9,
+          "no_pisn_r3": 0,
+          "pisn_r4": 5883,
+          "no_pisn_r4": 3167,
+          "pisn_accepted": 12577,
+          "no_pisn_accepted": 7423,
+          "pisn_discarded": 573,
+          "no_pisn_discarded": 331
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "baseline",
+      "seed": 3,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          270.0
+        ],
+        "mdil": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          270.0
+        ],
+        "mdil_range": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.9664855590058368,
+        "in_model": 213,
+        "in_model_fraction": 0.5532467532467532,
+        "median_distance": 2.73979648550488,
+        "p95_distance": 5.575161567677514,
+        "ks": {
+          "Na": {
+            "statistic": 0.40829544252934336,
+            "pvalue": 2.5760529559630863e-54
+          },
+          "Mg": {
+            "statistic": 0.2653331168831169,
+            "pvalue": 5.572314859639367e-24
+          },
+          "Ca": {
+            "statistic": 0.2038434988387054,
+            "pvalue": 3.268665057264256e-14
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7719519350262254,
+            "pvalue": 2.6825459656957e-227
+          },
+          "Ni": {
+            "statistic": 0.7727285303231517,
+            "pvalue": 2.8603001373109587e-178
+          }
+        },
+        "two_sample_auc": 0.9895,
+        "classifier_auc": 0.9625801975052037,
+        "fpr_at_tpr_90": 0.09875877397360742,
+        "positive_rate": 0.17602186336978928,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.15150165557861328,
+            "offset": 0.45150165557861327
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.3610517978668213,
+            "offset": 0.2110517978668213
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.3530639410018921,
+            "offset": 0.016936058998107906
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5619527697563171,
+            "offset": -0.07195276975631715
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.31284311413764954,
+            "offset": 0.01715688586235048
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.19299697875976562,
+            "offset": -0.39299697875976564
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.4491594135761261,
+            "offset": 0.0691594135761261
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.6483993530273438,
+            "offset": 0.8683993530273437
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.29993507266044617,
+            "offset": 0.3149350726604462
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.0931452289223671,
+            "offset": 0.3431452289223671
+          }
+        },
+        "ledger": {
+          "drawn": 55000,
+          "r1": 5480,
+          "r2": 19601,
+          "r3": 10,
+          "r4": 9167,
+          "accepted": 20000,
+          "discarded": 742,
+          "r2_no_pre": 10157,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 9444,
+          "r2_other": 0,
+          "pisn_drawn": 27584,
+          "no_pisn_drawn": 27416,
+          "pisn_r1": 0,
+          "no_pisn_r1": 5480,
+          "pisn_r2": 8550,
+          "no_pisn_r2": 11051,
+          "pisn_r3": 10,
+          "no_pisn_r3": 0,
+          "pisn_r4": 6023,
+          "no_pisn_r4": 3144,
+          "pisn_accepted": 12540,
+          "no_pisn_accepted": 7460,
+          "pisn_discarded": 461,
+          "no_pisn_discarded": 281
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "baseline",
+      "seed": 4,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          270.0
+        ],
+        "mdil": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          270.0
+        ],
+        "mdil_range": [
+          200000.0,
+          1000000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          0.1,
+          1000.0
+        ],
+        "popiii": "uniform"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.8460206952611107,
+        "in_model": 218,
+        "in_model_fraction": 0.5662337662337662,
+        "median_distance": 2.5152916138771557,
+        "p95_distance": 5.223328077432421,
+        "ks": {
+          "Na": {
+            "statistic": 0.3994410135078954,
+            "pvalue": 6.540314212291674e-52
+          },
+          "Mg": {
+            "statistic": 0.2643961038961038,
+            "pvalue": 8.21441421604292e-24
+          },
+          "Ca": {
+            "statistic": 0.20023603318137034,
+            "pvalue": 1.0033468542870009e-13
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7772251736947987,
+            "pvalue": 2.2792378824403096e-231
+          },
+          "Ni": {
+            "statistic": 0.7794599288315487,
+            "pvalue": 2.356427168976386e-182
+          }
+        },
+        "two_sample_auc": 0.9924425287356322,
+        "classifier_auc": 0.9639790779652548,
+        "fpr_at_tpr_90": 0.10444838590670208,
+        "positive_rate": 0.1763544848470844,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.14463943243026733,
+            "offset": 0.4446394324302673
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.3331030309200287,
+            "offset": 0.1831030309200287
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.3644910156726837,
+            "offset": 0.00550898432731628
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5622109174728394,
+            "offset": -0.07221091747283936
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.3142891824245453,
+            "offset": 0.015710817575454727
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.19503164291381836,
+            "offset": -0.39503164291381837
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.4408780038356781,
+            "offset": 0.060878003835678096
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.6434184312820435,
+            "offset": 0.8634184312820434
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.30263659358024597,
+            "offset": 0.317636593580246
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.09245085716247559,
+            "offset": 0.3424508571624756
+          }
+        },
+        "ledger": {
+          "drawn": 55000,
+          "r1": 5485,
+          "r2": 19437,
+          "r3": 10,
+          "r4": 9154,
+          "accepted": 20000,
+          "discarded": 914,
+          "r2_no_pre": 10232,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 9205,
+          "r2_other": 0,
+          "pisn_drawn": 27570,
+          "no_pisn_drawn": 27430,
+          "pisn_r1": 0,
+          "no_pisn_r1": 5485,
+          "pisn_r2": 8467,
+          "no_pisn_r2": 10970,
+          "pisn_r3": 10,
+          "no_pisn_r3": 0,
+          "pisn_r4": 5984,
+          "no_pisn_r4": 3170,
+          "pisn_accepted": 12520,
+          "no_pisn_accepted": 7480,
+          "pisn_discarded": 589,
+          "no_pisn_discarded": 325
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p11",
+      "seed": 1,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          300.0
+        ],
+        "mdil": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          300.0
+        ],
+        "mdil_range": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.844296402642636,
+        "in_model": 241,
+        "in_model_fraction": 0.625974025974026,
+        "median_distance": 2.279393943478862,
+        "p95_distance": 4.748327241227257,
+        "ks": {
+          "Na": {
+            "statistic": 0.3563456968384321,
+            "pvalue": 4.4763478628144754e-41
+          },
+          "Mg": {
+            "statistic": 0.30139610389610383,
+            "pvalue": 5.908736171585574e-31
+          },
+          "Ca": {
+            "statistic": 0.18790199596673174,
+            "pvalue": 3.971138958820529e-12
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7945155627023874,
+            "pvalue": 2.7233392412228145e-245
+          },
+          "Ni": {
+            "statistic": 0.6633466014217548,
+            "pvalue": 5.800860131127528e-123
+          }
+        },
+        "two_sample_auc": 0.9924396551724138,
+        "classifier_auc": 0.9557684337965239,
+        "fpr_at_tpr_90": 0.13143239194215103,
+        "positive_rate": 0.1992911875673179,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.0640166848897934,
+            "offset": 0.3640166848897934
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.2668500542640686,
+            "offset": 0.11685005426406861
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.4181140065193176,
+            "offset": -0.04811400651931763
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5969467163085938,
+            "offset": -0.10694671630859376
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.33431264758110046,
+            "offset": -0.004312647581100448
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.20934346318244934,
+            "offset": -0.40934346318244935
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.4142800271511078,
+            "offset": 0.034280027151107784
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.5493056774139404,
+            "offset": 0.7693056774139404
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.2533475458621979,
+            "offset": 0.2683475458621979
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.09701307117938995,
+            "offset": 0.34701307117938995
+          }
+        },
+        "ledger": {
+          "drawn": 40000,
+          "r1": 642,
+          "r2": 11623,
+          "r3": 7,
+          "r4": 7261,
+          "accepted": 20000,
+          "discarded": 467,
+          "r2_no_pre": 8784,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 2839,
+          "r2_other": 0,
+          "pisn_drawn": 20039,
+          "no_pisn_drawn": 19961,
+          "pisn_r1": 0,
+          "no_pisn_r1": 642,
+          "pisn_r2": 3465,
+          "no_pisn_r2": 8158,
+          "pisn_r3": 5,
+          "no_pisn_r3": 2,
+          "pisn_r4": 4724,
+          "no_pisn_r4": 2537,
+          "pisn_accepted": 11596,
+          "no_pisn_accepted": 8404,
+          "pisn_discarded": 249,
+          "no_pisn_discarded": 218
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p11",
+      "seed": 2,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          300.0
+        ],
+        "mdil": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          300.0
+        ],
+        "mdil_range": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.75517624545216,
+        "in_model": 213,
+        "in_model_fraction": 0.5532467532467532,
+        "median_distance": 2.3919647611062698,
+        "p95_distance": 5.194158649837024,
+        "ks": {
+          "Na": {
+            "statistic": 0.3528619852566848,
+            "pvalue": 2.9196105329549657e-40
+          },
+          "Mg": {
+            "statistic": 0.3018961038961039,
+            "pvalue": 4.6562878985773375e-31
+          },
+          "Ca": {
+            "statistic": 0.18871995704123035,
+            "pvalue": 3.1348619777115144e-12
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7985735458928414,
+            "pvalue": 1.0708938568469743e-248
+          },
+          "Ni": {
+            "statistic": 0.6619129411846478,
+            "pvalue": 2.385071093006597e-122
+          }
+        },
+        "two_sample_auc": 0.9914626436781608,
+        "classifier_auc": 0.9598901516104179,
+        "fpr_at_tpr_90": 0.11309422000965356,
+        "positive_rate": 0.19391077608920296,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.060224659740924835,
+            "offset": 0.3602246597409248
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.26627376675605774,
+            "offset": 0.11627376675605774
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.42029643058776855,
+            "offset": -0.05029643058776856
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5947714447975159,
+            "offset": -0.10477144479751588
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.3349835276603699,
+            "offset": -0.0049835276603698575
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.20522770285606384,
+            "offset": -0.40522770285606385
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.41205698251724243,
+            "offset": 0.03205698251724243
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.5459638237953186,
+            "offset": 0.7659638237953186
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.25142818689346313,
+            "offset": 0.26642818689346315
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.0892399400472641,
+            "offset": 0.3392399400472641
+          }
+        },
+        "ledger": {
+          "drawn": 40000,
+          "r1": 624,
+          "r2": 11689,
+          "r3": 2,
+          "r4": 7290,
+          "accepted": 20000,
+          "discarded": 395,
+          "r2_no_pre": 8743,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 2946,
+          "r2_other": 0,
+          "pisn_drawn": 19706,
+          "no_pisn_drawn": 20294,
+          "pisn_r1": 0,
+          "no_pisn_r1": 624,
+          "pisn_r2": 3273,
+          "no_pisn_r2": 8416,
+          "pisn_r3": 2,
+          "no_pisn_r3": 0,
+          "pisn_r4": 4792,
+          "no_pisn_r4": 2498,
+          "pisn_accepted": 11411,
+          "no_pisn_accepted": 8589,
+          "pisn_discarded": 228,
+          "no_pisn_discarded": 167
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p11",
+      "seed": 3,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          300.0
+        ],
+        "mdil": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          300.0
+        ],
+        "mdil_range": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.8036004987236254,
+        "in_model": 216,
+        "in_model_fraction": 0.561038961038961,
+        "median_distance": 2.4482446389269916,
+        "p95_distance": 5.227148656377269,
+        "ks": {
+          "Na": {
+            "statistic": 0.3569845959063093,
+            "pvalue": 3.1665353222363387e-41
+          },
+          "Mg": {
+            "statistic": 0.2946961038961038,
+            "pvalue": 1.379781913724046e-29
+          },
+          "Ca": {
+            "statistic": 0.18566365172759136,
+            "pvalue": 7.54387717328145e-12
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7937525562156993,
+            "pvalue": 1.172894002194606e-244
+          },
+          "Ni": {
+            "statistic": 0.6632638888888889,
+            "pvalue": 6.294796880311323e-123
+          }
+        },
+        "two_sample_auc": 0.988396551724138,
+        "classifier_auc": 0.9572859980838202,
+        "fpr_at_tpr_90": 0.12048206744145767,
+        "positive_rate": 0.1942764994535655,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.06817351281642914,
+            "offset": 0.3681735128164291
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.27577608823776245,
+            "offset": 0.12577608823776246
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.4168832302093506,
+            "offset": -0.04688323020935059
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5945767164230347,
+            "offset": -0.10457671642303468
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.33326658606529236,
+            "offset": -0.003266586065292343
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.205488920211792,
+            "offset": -0.405488920211792
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.41708725690841675,
+            "offset": 0.037087256908416744
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.5461730360984802,
+            "offset": 0.7661730360984802
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.24981816112995148,
+            "offset": 0.2648181611299515
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.09048455953598022,
+            "offset": 0.3404845595359802
+          }
+        },
+        "ledger": {
+          "drawn": 40000,
+          "r1": 591,
+          "r2": 11668,
+          "r3": 8,
+          "r4": 7329,
+          "accepted": 20000,
+          "discarded": 404,
+          "r2_no_pre": 8794,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 2874,
+          "r2_other": 0,
+          "pisn_drawn": 19858,
+          "no_pisn_drawn": 20142,
+          "pisn_r1": 0,
+          "no_pisn_r1": 591,
+          "pisn_r2": 3395,
+          "no_pisn_r2": 8273,
+          "pisn_r3": 8,
+          "no_pisn_r3": 0,
+          "pisn_r4": 4826,
+          "no_pisn_r4": 2503,
+          "pisn_accepted": 11403,
+          "no_pisn_accepted": 8597,
+          "pisn_discarded": 226,
+          "no_pisn_discarded": 178
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p11",
+      "seed": 4,
+      "levels": {
+        "pisn_mass": [
+          140.0,
+          300.0
+        ],
+        "mdil": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          140.0,
+          300.0
+        ],
+        "mdil_range": [
+          200000.0,
+          50000000.0
+        ],
+        "z_cr": 1e-06,
+        "lambda_iii_range": [
+          1.0,
+          1000.0
+        ],
+        "popiii": "low_mass"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.6998737291454584,
+        "in_model": 215,
+        "in_model_fraction": 0.5584415584415584,
+        "median_distance": 2.352528945333745,
+        "p95_distance": 5.0549819105042815,
+        "ks": {
+          "Na": {
+            "statistic": 0.360096020091283,
+            "pvalue": 5.80863452306292e-42
+          },
+          "Mg": {
+            "statistic": 0.2984461038961038,
+            "pvalue": 2.3882540238194643e-30
+          },
+          "Ca": {
+            "statistic": 0.1886355241410398,
+            "pvalue": 3.212479930133208e-12
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.7972478794699589,
+            "pvalue": 1.4070887511064058e-247
+          },
+          "Ni": {
+            "statistic": 0.6703738660177816,
+            "pvalue": 5.2341954505244684e-126
+          }
+        },
+        "two_sample_auc": 0.993198275862069,
+        "classifier_auc": 0.960661825067407,
+        "fpr_at_tpr_90": 0.1105145165256229,
+        "positive_rate": 0.2010904539736375,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.06366869062185287,
+            "offset": 0.36366869062185286
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.27288126945495605,
+            "offset": 0.12288126945495606
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.4170392155647278,
+            "offset": -0.04703921556472779
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5932459831237793,
+            "offset": -0.1032459831237793
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.33176934719085693,
+            "offset": -0.001769347190856918
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.20621396601200104,
+            "offset": -0.40621396601200105
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.41454818844795227,
+            "offset": 0.034548188447952266
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.550324559211731,
+            "offset": 0.7703245592117309
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.2526074945926666,
+            "offset": 0.26760749459266664
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.09753475338220596,
+            "offset": 0.34753475338220596
+          }
+        },
+        "ledger": {
+          "drawn": 40000,
+          "r1": 623,
+          "r2": 11739,
+          "r3": 5,
+          "r4": 7458,
+          "accepted": 20000,
+          "discarded": 175,
+          "r2_no_pre": 8885,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 2854,
+          "r2_other": 0,
+          "pisn_drawn": 20054,
+          "no_pisn_drawn": 19946,
+          "pisn_r1": 0,
+          "no_pisn_r1": 623,
+          "pisn_r2": 3412,
+          "no_pisn_r2": 8327,
+          "pisn_r3": 5,
+          "no_pisn_r3": 0,
+          "pisn_r4": 4941,
+          "no_pisn_r4": 2517,
+          "pisn_accepted": 11590,
+          "no_pisn_accepted": 8410,
+          "pisn_discarded": 106,
+          "no_pisn_discarded": 69
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p15",
+      "seed": 1,
+      "levels": {
+        "pisn_mass": [
+          160.0,
+          260.0
+        ],
+        "mdil": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          160.0,
+          260.0
+        ],
+        "mdil_range": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii_range": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.851970985001807,
+        "in_model": 170,
+        "in_model_fraction": 0.44155844155844154,
+        "median_distance": 2.9829766007061913,
+        "p95_distance": 6.230691723534144,
+        "ks": {
+          "Na": {
+            "statistic": 0.33502500493518456,
+            "pvalue": 3.1230643296082575e-36
+          },
+          "Mg": {
+            "statistic": 0.32424610389610387,
+            "pvalue": 7.1044611890393e-36
+          },
+          "Ca": {
+            "statistic": 0.16419729961879914,
+            "pvalue": 2.377936709308016e-09
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.8095098967281,
+            "pvalue": 3.6686628597916762e-258
+          },
+          "Ni": {
+            "statistic": 0.8117138223373384,
+            "pvalue": 9.564429181501685e-203
+          }
+        },
+        "two_sample_auc": 0.9931293103448275,
+        "classifier_auc": 0.9819116061078565,
+        "fpr_at_tpr_90": 0.051104958408328786,
+        "positive_rate": 0.11913493001201406,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.10427701473236084,
+            "offset": 0.40427701473236083
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.06697331368923187,
+            "offset": -0.08302668631076812
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.43304136395454407,
+            "offset": -0.06304136395454407
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.572857141494751,
+            "offset": -0.08285714149475099
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.3336673080921173,
+            "offset": -0.003667308092117294
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.22809983789920807,
+            "offset": -0.4280998378992081
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.39846891164779663,
+            "offset": 0.018468911647796626
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.584663450717926,
+            "offset": 0.804663450717926
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.3226436674594879,
+            "offset": 0.33764366745948793
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.1091616228222847,
+            "offset": 0.3591616228222847
+          }
+        },
+        "ledger": {
+          "drawn": 50000,
+          "r1": 8789,
+          "r2": 8234,
+          "r3": 9,
+          "r4": 11555,
+          "accepted": 20000,
+          "discarded": 1413,
+          "r2_no_pre": 8234,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 0,
+          "r2_other": 0,
+          "pisn_drawn": 25109,
+          "no_pisn_drawn": 24891,
+          "pisn_r1": 0,
+          "no_pisn_r1": 8789,
+          "pisn_r2": 4124,
+          "no_pisn_r2": 4110,
+          "pisn_r3": 0,
+          "no_pisn_r3": 9,
+          "pisn_r4": 6824,
+          "no_pisn_r4": 4731,
+          "pisn_accepted": 13232,
+          "no_pisn_accepted": 6768,
+          "pisn_discarded": 929,
+          "no_pisn_discarded": 484
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p15",
+      "seed": 2,
+      "levels": {
+        "pisn_mass": [
+          160.0,
+          260.0
+        ],
+        "mdil": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          160.0,
+          260.0
+        ],
+        "mdil_range": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii_range": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.692918150946582,
+        "in_model": 144,
+        "in_model_fraction": 0.37402597402597404,
+        "median_distance": 3.024011707034196,
+        "p95_distance": 6.222533553352129,
+        "ks": {
+          "Na": {
+            "statistic": 0.32792777645640425,
+            "pvalue": 1.079085377199859e-34
+          },
+          "Mg": {
+            "statistic": 0.32924610389610387,
+            "pvalue": 5.273712917424334e-37
+          },
+          "Ca": {
+            "statistic": 0.1626925596880172,
+            "pvalue": 3.463974657432103e-09
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.8074723828024772,
+            "pvalue": 2.2967757690014694e-256
+          },
+          "Ni": {
+            "statistic": 0.8119995221113843,
+            "pvalue": 6.047364171919098e-203
+          }
+        },
+        "two_sample_auc": 0.9912298850574712,
+        "classifier_auc": 0.9813081599420279,
+        "fpr_at_tpr_90": 0.04920654551917682,
+        "positive_rate": 0.11210494830265993,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.09540465474128723,
+            "offset": 0.3954046547412872
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.05212424695491791,
+            "offset": -0.09787575304508209
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.4407922923564911,
+            "offset": -0.0707922923564911
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5782772898674011,
+            "offset": -0.08827728986740113
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.3347952663898468,
+            "offset": -0.004795266389846786
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.22676178812980652,
+            "offset": -0.42676178812980653
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.397967129945755,
+            "offset": 0.017967129945755
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.5819458961486816,
+            "offset": 0.8019458961486816
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.3211100399494171,
+            "offset": 0.3361100399494171
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.11853556334972382,
+            "offset": 0.3685355633497238
+          }
+        },
+        "ledger": {
+          "drawn": 50000,
+          "r1": 8924,
+          "r2": 8385,
+          "r3": 9,
+          "r4": 11396,
+          "accepted": 20000,
+          "discarded": 1286,
+          "r2_no_pre": 8385,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 0,
+          "r2_other": 0,
+          "pisn_drawn": 24666,
+          "no_pisn_drawn": 25334,
+          "pisn_r1": 0,
+          "no_pisn_r1": 8924,
+          "pisn_r2": 4221,
+          "no_pisn_r2": 4164,
+          "pisn_r3": 0,
+          "no_pisn_r3": 9,
+          "pisn_r4": 6590,
+          "no_pisn_r4": 4806,
+          "pisn_accepted": 13018,
+          "no_pisn_accepted": 6982,
+          "pisn_discarded": 837,
+          "no_pisn_discarded": 449
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p15",
+      "seed": 3,
+      "levels": {
+        "pisn_mass": [
+          160.0,
+          260.0
+        ],
+        "mdil": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          160.0,
+          260.0
+        ],
+        "mdil_range": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii_range": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.9250524938373106,
+        "in_model": 171,
+        "in_model_fraction": 0.44415584415584414,
+        "median_distance": 2.995537917494221,
+        "p95_distance": 6.2322625489742896,
+        "ks": {
+          "Na": {
+            "statistic": 0.3369248420611887,
+            "pvalue": 1.1927041614435483e-36
+          },
+          "Mg": {
+            "statistic": 0.3276461038961038,
+            "pvalue": 1.2178988272823683e-36
+          },
+          "Ca": {
+            "statistic": 0.1629589686998395,
+            "pvalue": 3.2416176293777424e-09
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.8111517462739849,
+            "pvalue": 1.2742470153726862e-259
+          },
+          "Ni": {
+            "statistic": 0.8104731912144703,
+            "pvalue": 6.955575414878245e-202
+          }
+        },
+        "two_sample_auc": 0.9922873563218392,
+        "classifier_auc": 0.9819885881386539,
+        "fpr_at_tpr_90": 0.05146986716197806,
+        "positive_rate": 0.11629963393801893,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.0958552211523056,
+            "offset": 0.3958552211523056
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.06141069903969765,
+            "offset": -0.08858930096030235
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.4367649257183075,
+            "offset": -0.0667649257183075
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5775405168533325,
+            "offset": -0.08754051685333253
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.33503612875938416,
+            "offset": -0.00503612875938414
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.22885319590568542,
+            "offset": -0.42885319590568544
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.39901968836784363,
+            "offset": 0.019019688367843623
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.5767949223518372,
+            "offset": 0.7967949223518371
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.32118117809295654,
+            "offset": 0.33618117809295656
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.11330179870128632,
+            "offset": 0.3633017987012863
+          }
+        },
+        "ledger": {
+          "drawn": 50000,
+          "r1": 8668,
+          "r2": 8389,
+          "r3": 12,
+          "r4": 11433,
+          "accepted": 20000,
+          "discarded": 1498,
+          "r2_no_pre": 8389,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 0,
+          "r2_other": 0,
+          "pisn_drawn": 25048,
+          "no_pisn_drawn": 24952,
+          "pisn_r1": 0,
+          "no_pisn_r1": 8668,
+          "pisn_r2": 4225,
+          "no_pisn_r2": 4164,
+          "pisn_r3": 0,
+          "no_pisn_r3": 12,
+          "pisn_r4": 6712,
+          "no_pisn_r4": 4721,
+          "pisn_accepted": 13137,
+          "no_pisn_accepted": 6863,
+          "pisn_discarded": 974,
+          "no_pisn_discarded": 524
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    },
+    {
+      "label": "p15",
+      "seed": 4,
+      "levels": {
+        "pisn_mass": [
+          160.0,
+          260.0
+        ],
+        "mdil": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "settings": {
+        "pisn_mass_range": [
+          160.0,
+          260.0
+        ],
+        "mdil_range": [
+          5000000.0,
+          1000000000.0
+        ],
+        "z_cr": null,
+        "lambda_iii_range": [
+          0.01,
+          1000.0
+        ],
+        "popiii": "row"
+      },
+      "metrics": {
+        "n": 20000,
+        "threshold": 2.8602670574333953,
+        "in_model": 179,
+        "in_model_fraction": 0.4649350649350649,
+        "median_distance": 2.881186854676542,
+        "p95_distance": 6.225441446617735,
+        "ks": {
+          "Na": {
+            "statistic": 0.3307826248222712,
+            "pvalue": 2.6218233210545484e-35
+          },
+          "Mg": {
+            "statistic": 0.32939610389610385,
+            "pvalue": 4.874591337110457e-37
+          },
+          "Ca": {
+            "statistic": 0.16779538701669927,
+            "pvalue": 9.534745189719724e-10
+          },
+          "Ti": {
+            "statistic": null,
+            "pvalue": null
+          },
+          "Cr": {
+            "statistic": 0.8092227161423012,
+            "pvalue": 6.586985572969902e-258
+          },
+          "Ni": {
+            "statistic": 0.8120914145800164,
+            "pvalue": 5.217673915205139e-203
+          }
+        },
+        "two_sample_auc": 0.9928132183908046,
+        "classifier_auc": 0.9835800558711264,
+        "fpr_at_tpr_90": 0.0454408806669641,
+        "positive_rate": 0.11191539466631507,
+        "medians": {
+          "C": {
+            "real_median": 0.3,
+            "mock_median": -0.09862625598907471,
+            "offset": 0.3986262559890747
+          },
+          "Na": {
+            "real_median": -0.15,
+            "mock_median": -0.05623584985733032,
+            "offset": -0.09376415014266967
+          },
+          "Mg": {
+            "real_median": 0.37,
+            "mock_median": 0.4450007677078247,
+            "offset": -0.07500076770782471
+          },
+          "Si": {
+            "real_median": 0.49,
+            "mock_median": 0.5781953930854797,
+            "offset": -0.08819539308547975
+          },
+          "Ca": {
+            "real_median": 0.33,
+            "mock_median": 0.33445170521736145,
+            "offset": -0.004451705217361435
+          },
+          "Ti": {
+            "real_median": 0.445,
+            "mock_median": null,
+            "offset": null
+          },
+          "Cr": {
+            "real_median": -0.2,
+            "mock_median": 0.23211245238780975,
+            "offset": -0.43211245238780976
+          },
+          "Mn": {
+            "real_median": -0.38,
+            "mock_median": -0.40194961428642273,
+            "offset": 0.021949614286422725
+          },
+          "Co": {
+            "real_median": 0.22,
+            "mock_median": -0.5839689373970032,
+            "offset": 0.8039689373970031
+          },
+          "Ni": {
+            "real_median": 0.015,
+            "mock_median": -0.3200347423553467,
+            "offset": 0.3350347423553467
+          },
+          "Zn": {
+            "real_median": 0.25,
+            "mock_median": -0.10728742927312851,
+            "offset": 0.3572874292731285
+          }
+        },
+        "ledger": {
+          "drawn": 50000,
+          "r1": 8692,
+          "r2": 8450,
+          "r3": 14,
+          "r4": 11454,
+          "accepted": 20000,
+          "discarded": 1390,
+          "r2_no_pre": 8450,
+          "r2_above_z_max": 0,
+          "r2_below_z_cr": 0,
+          "r2_other": 0,
+          "pisn_drawn": 25166,
+          "no_pisn_drawn": 24834,
+          "pisn_r1": 0,
+          "no_pisn_r1": 8692,
+          "pisn_r2": 4330,
+          "no_pisn_r2": 4120,
+          "pisn_r3": 0,
+          "no_pisn_r3": 14,
+          "pisn_r4": 6679,
+          "no_pisn_r4": 4775,
+          "pisn_accepted": 13225,
+          "no_pisn_accepted": 6775,
+          "pisn_discarded": 932,
+          "no_pisn_discarded": 458
+        },
+        "core_elements": [
+          "Na",
+          "Mg",
+          "Ca",
+          "Cr",
+          "Ni"
+        ]
+      }
+    }
+  ]
+}

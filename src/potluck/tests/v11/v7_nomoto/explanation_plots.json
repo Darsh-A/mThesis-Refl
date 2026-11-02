@@ -1,0 +1,42 @@
+{
+  "n_mocks": 50000,
+  "positive_fraction": 0.1817,
+  "feature_names": [
+    "C/Fe",
+    "N/Fe",
+    "O/Fe",
+    "Na/Fe",
+    "Mg/Fe",
+    "Al/Fe",
+    "Si/Fe",
+    "Ca/Fe",
+    "Ti/Fe",
+    "Cr/Fe",
+    "Mn/Fe",
+    "Co/Fe",
+    "Ni/Fe",
+    "Zn/Fe"
+  ],
+  "figures": [
+    "fig1_priors.png",
+    "fig2_timeline.png",
+    "fig3_metallicity.png",
+    "fig4_yields.png",
+    "fig5_trends.png",
+    "fig6_ratios.png",
+    "fig7_label.png",
+    "fig8_zstar.png"
+  ],
+  "source_share_median": {
+    "PISN": 0.038857896732228635,
+    "Pop III": 0.1599969840858287,
+    "Pop II": 0.41328712945532453
+  },
+  "ratio_spearman": {
+    "Na/Mg": -0.3930130799059241,
+    "Co/Ni": -0.4348409446425661,
+    "Mn/Cr": 0.008501387868863074,
+    "Zn/Mg": -0.48418557124916073
+  },
+  "z_star_below_table_floor_fraction": 0.5767
+}

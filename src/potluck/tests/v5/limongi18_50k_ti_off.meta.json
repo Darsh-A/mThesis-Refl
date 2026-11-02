@@ -1,0 +1,324 @@
+{
+  "format_version": 1,
+  "created_at": "2026-10-27T14:14:29.553866+00:00",
+  "config_hash": "b3b488daf02fb8ae",
+  "git_commit": "ab1e2c3f336cc70c86c2ae83e5d8ca0c474230fb",
+  "python": "3.12.12",
+  "numpy": "2.5.2",
+  "config": {
+    "feature_elements": [
+      "C",
+      "N",
+      "O",
+      "Na",
+      "Mg",
+      "Al",
+      "Si",
+      "Ca",
+      "Ti",
+      "Cr",
+      "Mn",
+      "Fe",
+      "Co",
+      "Ni",
+      "Zn"
+    ],
+    "reference": "Fe",
+    "min_valid_features": 3,
+    "min_element_fraction": 1e-10,
+    "min_fe_fraction": 1e-10,
+    "prior": {
+      "n_pisn_probs": [
+        0.5,
+        0.3,
+        0.15,
+        0.05
+      ],
+      "lambda_iii_range": [
+        0.1,
+        1000.0
+      ],
+      "n_iii_max": 4096,
+      "pisn_mass_range": [
+        140.0,
+        270.0
+      ],
+      "delta_range_myr": [
+        1.0,
+        100.0
+      ],
+      "t_range_myr": [
+        3.0,
+        40.0
+      ],
+      "mdil_range": [
+        200000.0,
+        1000000000.0
+      ],
+      "mstar_ii_range": [
+        1000.0,
+        10000000.0
+      ],
+      "mstar_ii_max_ratio": null,
+      "mstar_total_max_ratio": 0.1,
+      "z_max": null,
+      "z_cr": 1e-06,
+      "feh_range": [
+        -3.8,
+        -1.7
+      ],
+      "popiii_sampling": "combo",
+      "popiii_mass_energy_weights": null
+    },
+    "yields": {
+      "pisn_table": "HW2002",
+      "popiii_table": "Ishigaki18",
+      "popii_table": "Limongi18",
+      "popii_model": "A",
+      "fe_scale_ww95": 0.5,
+      "popii_m_max": null,
+      "popii_z_grid_size": 4,
+      "popii_t_grid_size": 25,
+      "popii_z_min": 1e-06,
+      "popii_z_max": 0.05,
+      "popii_z_nodes": [
+        3.236e-05,
+        0.0003236,
+        0.003236,
+        0.01345
+      ],
+      "popii_t_min_myr": 3.0,
+      "popii_t_max_myr": 40.0,
+      "raiteri_z_floor": 7e-05,
+      "popii_cache": true,
+      "popii_stochastic": true
+    },
+    "detect": {
+      "sigma_dex": 0.2,
+      "sigma_fe_dex": 0.1,
+      "k": 3.0,
+      "min_detected": 4,
+      "inject_noise": false
+    },
+    "observation": {
+      "catalogue": "Li",
+      "feature_elements": [
+        "C",
+        "Na",
+        "Mg",
+        "Si",
+        "Ca",
+        "Ti",
+        "Cr",
+        "Mn",
+        "Fe",
+        "Co",
+        "Ni",
+        "Zn"
+      ],
+      "exclude_elements": [
+        "Ti"
+      ],
+      "feh_kernel_dex": 0.2,
+      "c_mode": "inflate",
+      "c_giant_sigma_dex": 0.3,
+      "default_sigma_dex": 0.2,
+      "non_detection_mode": "threshold",
+      "non_detection_elements": [
+        "Si",
+        "Mn",
+        "Co",
+        "Zn"
+      ],
+      "non_detection_quantile": 0.0,
+      "non_detection_snr_bins": 6,
+      "weight_by_feh": true,
+      "weight_clip": 20.0
+    },
+    "runtime": {
+      "seed": 42,
+      "n_samples": 50000,
+      "chunk_size": 5000,
+      "max_draw_factor": 20,
+      "cache_dir": "data/potluck/cache",
+      "output_dir": "data/potluck",
+      "overwrite_cache": false
+    }
+  },
+  "elements": [
+    "Al",
+    "Ar",
+    "B",
+    "Be",
+    "C",
+    "Ca",
+    "Cl",
+    "Co",
+    "Cr",
+    "Cu",
+    "F",
+    "Fe",
+    "Ga",
+    "Ge",
+    "H",
+    "He",
+    "K",
+    "Li",
+    "Mg",
+    "Mn",
+    "N",
+    "Na",
+    "Ne",
+    "Ni",
+    "O",
+    "P",
+    "S",
+    "Sc",
+    "Si",
+    "Ti",
+    "V",
+    "Zn"
+  ],
+  "metals": [
+    "Al",
+    "Ar",
+    "B",
+    "Be",
+    "C",
+    "Ca",
+    "Cl",
+    "Co",
+    "Cr",
+    "Cu",
+    "F",
+    "Fe",
+    "Ga",
+    "Ge",
+    "K",
+    "Li",
+    "Mg",
+    "Mn",
+    "N",
+    "Na",
+    "Ne",
+    "Ni",
+    "O",
+    "P",
+    "S",
+    "Sc",
+    "Si",
+    "Ti",
+    "V",
+    "Zn"
+  ],
+  "feature_elements": [
+    "C",
+    "N",
+    "O",
+    "Na",
+    "Mg",
+    "Al",
+    "Si",
+    "Ca",
+    "Ti",
+    "Cr",
+    "Mn",
+    "Fe",
+    "Co",
+    "Ni",
+    "Zn"
+  ],
+  "reference": "Fe",
+  "feature_names": [
+    "C/Fe",
+    "N/Fe",
+    "O/Fe",
+    "Na/Fe",
+    "Mg/Fe",
+    "Al/Fe",
+    "Si/Fe",
+    "Ca/Fe",
+    "Ti/Fe",
+    "Cr/Fe",
+    "Mn/Fe",
+    "Co/Fe",
+    "Ni/Fe",
+    "Zn/Fe"
+  ],
+  "source_names": [
+    "PISN",
+    "POPIII",
+    "POPII",
+    "SNIA"
+  ],
+  "units": {
+    "mass": "solar masses per event or per cloud",
+    "abundance": "log10(mass fraction / solar mass fraction)",
+    "ratio": "dex",
+    "time": "Myr",
+    "metallicity": "mass fraction"
+  },
+  "cuts": {
+    "r1": "n_pisn + n_iii > 0",
+    "r2": "z_star > 0 and z_star <= z_max (and z_star >= z_cr if set)",
+    "r3": "Fe and at least min_valid_features feature elements above the relative floor"
+  },
+  "ledger": {
+    "drawn": 135000,
+    "r1": 13548,
+    "r2": 48138,
+    "r3": 7,
+    "r4": 22849,
+    "accepted": 50000,
+    "discarded": 458,
+    "r2_no_pre": 25376,
+    "r2_above_z_max": 0,
+    "r2_below_z_cr": 22762,
+    "r2_other": 0,
+    "pisn_drawn": 67093,
+    "no_pisn_drawn": 67907,
+    "pisn_r1": 0,
+    "no_pisn_r1": 13548,
+    "pisn_r2": 20752,
+    "no_pisn_r2": 27386,
+    "pisn_r3": 7,
+    "no_pisn_r3": 0,
+    "pisn_r4": 14766,
+    "no_pisn_r4": 8083,
+    "pisn_accepted": 31283,
+    "no_pisn_accepted": 18717,
+    "pisn_discarded": 285,
+    "no_pisn_discarded": 173
+  },
+  "n_drawn": 135000,
+  "n_accepted": 50000,
+  "acceptance": 0.37037037037037035,
+  "n_accepted_drawn": 50458,
+  "independent_feature_names": [
+    "Na/Mg",
+    "Co/Ni",
+    "Mn/Cr",
+    "Zn/Mg"
+  ],
+  "observation_feature_names": [
+    "C/Fe",
+    "Na/Fe",
+    "Mg/Fe",
+    "Si/Fe",
+    "Ca/Fe",
+    "Cr/Fe",
+    "Mn/Fe",
+    "Co/Fe",
+    "Ni/Fe",
+    "Zn/Fe"
+  ],
+  "observation_excluded_elements": [
+    "Ti"
+  ],
+  "observation_independent_names": [
+    "Na/Mg",
+    "Co/Ni",
+    "Mn/Cr",
+    "Zn/Mg"
+  ]
+}

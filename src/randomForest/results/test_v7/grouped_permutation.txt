@@ -1,0 +1,36 @@
+Grouped permutation importance (test_v7)
+Positive importance = R2 drop when permuting the element's ratios together.
+Higher grouped-than-sum-per-feature => signal diluted across ratios.
+
+== 4_3: baseline R2 = 0.9961 (n_train=1600, n_test=400) ==
+  Ca     grouped=+1.2461(+/-0.0685)  sum-per-feat=+0.8351  diff=+0.4110
+  Al     grouped=+1.2300(+/-0.0638)  sum-per-feat=+0.8425  diff=+0.3875
+  Si     grouped=+0.0775(+/-0.0045)  sum-per-feat=+0.0492  diff=+0.0283
+  Ni     grouped=+0.0407(+/-0.0022)  sum-per-feat=+0.0368  diff=+0.0040
+  Fe     grouped=+0.0280(+/-0.0023)  sum-per-feat=+0.0246  diff=+0.0035
+  Cr     grouped=+0.0149(+/-0.0012)  sum-per-feat=+0.0139  diff=+0.0011
+  Mg     grouped=+0.0116(+/-0.0006)  sum-per-feat=+0.0074  diff=+0.0042
+  Cu     grouped=+0.0051(+/-0.0005)  sum-per-feat=+0.0035  diff=+0.0016
+  O      grouped=+0.0033(+/-0.0003)  sum-per-feat=+0.0026  diff=+0.0007
+  C      grouped=+0.0031(+/-0.0005)  sum-per-feat=+0.0020  diff=+0.0010
+  Mn     grouped=+0.0020(+/-0.0003)  sum-per-feat=+0.0017  diff=+0.0003
+  Co     grouped=+0.0016(+/-0.0002)  sum-per-feat=+0.0013  diff=+0.0003
+  Zn     grouped=+0.0014(+/-0.0001)  sum-per-feat=+0.0013  diff=+0.0001
+  Na     grouped=+0.0014(+/-0.0002)  sum-per-feat=+0.0013  diff=+0.0001
+
+== 5: baseline R2 = 0.9973 (n_train=1600, n_test=400) ==
+  Si     grouped=+1.0147(+/-0.0490)  sum-per-feat=+0.5875  diff=+0.4272
+  Mg     grouped=+0.6890(+/-0.0303)  sum-per-feat=+0.5490  diff=+0.1400
+  Ca     grouped=+0.2966(+/-0.0123)  sum-per-feat=+0.0926  diff=+0.2040
+  Al     grouped=+0.0658(+/-0.0099)  sum-per-feat=+0.0534  diff=+0.0124
+  O      grouped=+0.0518(+/-0.0033)  sum-per-feat=+0.0442  diff=+0.0076
+  Mn     grouped=+0.0285(+/-0.0022)  sum-per-feat=+0.0258  diff=+0.0027
+  Cr     grouped=+0.0140(+/-0.0010)  sum-per-feat=+0.0122  diff=+0.0018
+  Cu     grouped=+0.0106(+/-0.0015)  sum-per-feat=+0.0054  diff=+0.0051
+  Na     grouped=+0.0033(+/-0.0006)  sum-per-feat=+0.0029  diff=+0.0004
+  C      grouped=+0.0015(+/-0.0002)  sum-per-feat=+0.0012  diff=+0.0004
+  Fe     grouped=+0.0003(+/-0.0000)  sum-per-feat=+0.0003  diff=+0.0000
+  Zn     grouped=+0.0003(+/-0.0001)  sum-per-feat=+0.0002  diff=+0.0002
+  Co     grouped=+0.0002(+/-0.0000)  sum-per-feat=+0.0002  diff=+0.0000
+  Ni     grouped=+0.0001(+/-0.0000)  sum-per-feat=+0.0001  diff=+0.0000
+

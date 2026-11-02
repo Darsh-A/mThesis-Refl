@@ -1,0 +1,1542 @@
+{
+  "n_mocks": 50000,
+  "n_real": 385,
+  "elements": [
+    "C",
+    "Na",
+    "Mg",
+    "Si",
+    "Ca",
+    "Cr",
+    "Mn",
+    "Co",
+    "Ni",
+    "Zn"
+  ],
+  "excluded_elements": [
+    "Ti"
+  ],
+  "core_elements": [
+    "Na",
+    "Mg",
+    "Ca",
+    "Cr",
+    "Ni"
+  ],
+  "min_elements": 4,
+  "schemes": {
+    "all": {
+      "n_stars": 364,
+      "ess": 5704.186210463988,
+      "ess_fraction": 0.11408372420927976,
+      "max_weight": 0.002450786146211575,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.16846823683465317,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1574673.875,
+          "posterior_median": 11334867.0,
+          "posterior_p84": 92236696.0,
+          "top_median": 9453250.5
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 6290.80517578125,
+          "posterior_median": 38409.66796875,
+          "posterior_p84": 151961.734375,
+          "top_median": 22999.2861328125
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 13.0,
+          "posterior_median": 91.0,
+          "posterior_p84": 457.0,
+          "top_median": 97.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.566446781158447,
+          "posterior_median": 15.537096977233887,
+          "posterior_p84": 55.0830078125,
+          "top_median": 13.994991302490234
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 7.64961576461792,
+          "posterior_median": 15.304840087890625,
+          "posterior_p84": 28.89024543762207,
+          "top_median": 15.500781059265137
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.3597123622894287,
+          "posterior_median": -2.606161594390869,
+          "posterior_p84": -1.9818466901779175,
+          "top_median": -2.6473108530044556
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 12.41553020477295,
+          "posterior_median": 91.22604370117188,
+          "posterior_p84": 459.4727783203125,
+          "top_median": 95.77201461791992
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 5.906932983634761e-06,
+          "posterior_median": 3.3302014344371855e-05,
+          "posterior_p84": 0.00014973753422964364,
+          "top_median": 3.9198241211124696e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 14.0,
+          "posterior_median": 84.0,
+          "posterior_p84": 328.0,
+          "top_median": 53.0
+        }
+      },
+      "elements": [
+        "C",
+        "Na",
+        "Mg",
+        "Si",
+        "Ca",
+        "Cr",
+        "Mn",
+        "Co",
+        "Ni",
+        "Zn"
+      ]
+    },
+    "all_no_Cr": {
+      "n_stars": 318,
+      "ess": 5181.3559776023385,
+      "ess_fraction": 0.10362711955204677,
+      "max_weight": 0.0032427255988461963,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.1833446523534109,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1456849.375,
+          "posterior_median": 11142391.0,
+          "posterior_p84": 90729080.0,
+          "top_median": 6103570.25
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 8487.013671875,
+          "posterior_median": 57577.734375,
+          "posterior_p84": 238050.765625,
+          "top_median": 34057.755859375
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 1.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 9.0,
+          "posterior_median": 75.0,
+          "posterior_p84": 386.0,
+          "top_median": 55.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.713226795196533,
+          "posterior_median": 15.945061683654785,
+          "posterior_p84": 56.640140533447266,
+          "top_median": 15.828376293182373
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 7.318391799926758,
+          "posterior_median": 15.366314888000488,
+          "posterior_p84": 28.982078552246094,
+          "top_median": 15.17650556564331
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.35630202293396,
+          "posterior_median": -2.6022536754608154,
+          "posterior_p84": -1.9878560304641724,
+          "top_median": -2.644547700881958
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 8.5309419631958,
+          "posterior_median": 74.1227798461914,
+          "posterior_p84": 385.4812927246094,
+          "top_median": 56.366233825683594
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 5.254129519016715e-06,
+          "posterior_median": 2.9357412131503224e-05,
+          "posterior_p84": 0.00013430019316729158,
+          "top_median": 3.328636012156494e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 19.0,
+          "posterior_median": 123.0,
+          "posterior_p84": 494.0,
+          "top_median": 75.5
+        }
+      },
+      "elements": [
+        "C",
+        "Na",
+        "Mg",
+        "Si",
+        "Ca",
+        "Mn",
+        "Co",
+        "Ni",
+        "Zn"
+      ]
+    },
+    "all_no_Ni": {
+      "n_stars": 364,
+      "ess": 6487.124684988663,
+      "ess_fraction": 0.12974249369977325,
+      "max_weight": 0.0025355322149068337,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.15558655202327745,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1675571.625,
+          "posterior_median": 11703547.0,
+          "posterior_p84": 94919048.0,
+          "top_median": 10072714.5
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 7004.85498046875,
+          "posterior_median": 40611.73046875,
+          "posterior_p84": 158645.84375,
+          "top_median": 27134.4150390625
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 11.0,
+          "posterior_median": 91.0,
+          "posterior_p84": 457.0,
+          "top_median": 109.5
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.536113262176514,
+          "posterior_median": 15.55038070678711,
+          "posterior_p84": 54.94130325317383,
+          "top_median": 14.507970809936523
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 7.7090744972229,
+          "posterior_median": 15.449051856994629,
+          "posterior_p84": 29.161378860473633,
+          "top_median": 15.8853120803833
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.3635826110839844,
+          "posterior_median": -2.6111667156219482,
+          "posterior_p84": -1.9798520803451538,
+          "top_median": -2.642385721206665
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 11.010560035705566,
+          "posterior_median": 90.97923278808594,
+          "posterior_p84": 460.06402587890625,
+          "top_median": 110.80714797973633
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 5.731225883209845e-06,
+          "posterior_median": 3.246003689127974e-05,
+          "posterior_p84": 0.00014748694957233965,
+          "top_median": 3.747397749975789e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 15.0,
+          "posterior_median": 89.0,
+          "posterior_p84": 346.0,
+          "top_median": 61.5
+        }
+      },
+      "elements": [
+        "C",
+        "Na",
+        "Mg",
+        "Si",
+        "Ca",
+        "Cr",
+        "Mn",
+        "Co",
+        "Zn"
+      ]
+    },
+    "core": {
+      "n_stars": 358,
+      "ess": 5891.690334564021,
+      "ess_fraction": 0.11783380669128042,
+      "max_weight": 0.0011436700552880626,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.18255859041805006,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1901590.375,
+          "posterior_median": 12884814.0,
+          "posterior_p84": 102187784.0,
+          "top_median": 10018104.0
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 8555.2265625,
+          "posterior_median": 53050.203125,
+          "posterior_p84": 199412.328125,
+          "top_median": 35550.265625
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 12.0,
+          "posterior_median": 91.0,
+          "posterior_p84": 451.0,
+          "top_median": 65.5
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.586167335510254,
+          "posterior_median": 15.725247383117676,
+          "posterior_p84": 55.614013671875,
+          "top_median": 15.633244037628174
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 8.134459495544434,
+          "posterior_median": 16.260835647583008,
+          "posterior_p84": 29.735008239746094,
+          "top_median": 16.593366622924805
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.35713529586792,
+          "posterior_median": -2.618469476699829,
+          "posterior_p84": -1.978583574295044,
+          "top_median": -2.7003095149993896
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 11.301705360412598,
+          "posterior_median": 90.55606842041016,
+          "posterior_p84": 452.59539794921875,
+          "top_median": 66.78611755371094
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 5.01353997606202e-06,
+          "posterior_median": 2.7653899451252073e-05,
+          "posterior_p84": 0.00013114011380821466,
+          "top_median": 2.6532764422881883e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 19.0,
+          "posterior_median": 123.0,
+          "posterior_p84": 493.0,
+          "top_median": 94.0
+        }
+      },
+      "elements": [
+        "Na",
+        "Mg",
+        "Ca",
+        "Cr",
+        "Ni"
+      ]
+    },
+    "core_no_Na": {
+      "n_stars": 288,
+      "ess": 7983.954328882518,
+      "ess_fraction": 0.15967908657765037,
+      "max_weight": 0.0011019557307617438,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.16533521087863456,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1716527.625,
+          "posterior_median": 12198863.0,
+          "posterior_p84": 95555328.0,
+          "top_median": 4328255.75
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 2234.36962890625,
+          "posterior_median": 13705.5693359375,
+          "posterior_p84": 123921.4453125,
+          "top_median": 4874.014404296875
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 1.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 32.0,
+          "posterior_median": 156.0,
+          "posterior_p84": 556.0,
+          "top_median": 80.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.720418930053711,
+          "posterior_median": 16.20766830444336,
+          "posterior_p84": 55.844932556152344,
+          "top_median": 15.631278038024902
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 4.152556896209717,
+          "posterior_median": 10.174198150634766,
+          "posterior_p84": 25.7532901763916,
+          "top_median": 7.235785722732544
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.372274398803711,
+          "posterior_median": -2.606454372406006,
+          "posterior_p84": -1.9659169912338257,
+          "top_median": -2.598021149635315
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 32.45039749145508,
+          "posterior_median": 155.39402770996094,
+          "posterior_p84": 555.66796875,
+          "top_median": 79.37508773803711
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 7.022869340289617e-06,
+          "posterior_median": 4.108472421648912e-05,
+          "posterior_p84": 0.00020912014588247985,
+          "top_median": 6.813010986661538e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 12.0,
+          "posterior_p84": 137.0,
+          "top_median": 3.0
+        }
+      },
+      "elements": [
+        "Mg",
+        "Ca",
+        "Cr",
+        "Ni"
+      ]
+    },
+    "core_no_Mg": {
+      "n_stars": 280,
+      "ess": 3597.2752505145227,
+      "ess_fraction": 0.07194550501029046,
+      "max_weight": 0.00664414822545613,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.23860188193783935,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1191954.625,
+          "posterior_median": 10098327.0,
+          "posterior_p84": 86786616.0,
+          "top_median": 3949461.125
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 5955.0390625,
+          "posterior_median": 45451.55078125,
+          "posterior_p84": 207455.40625,
+          "top_median": 16943.43359375
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 1.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 12.0,
+          "posterior_median": 77.0,
+          "posterior_p84": 407.0,
+          "top_median": 55.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.696923732757568,
+          "posterior_median": 16.21684455871582,
+          "posterior_p84": 55.9154052734375,
+          "top_median": 16.877033233642578
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 7.409061908721924,
+          "posterior_median": 15.687701225280762,
+          "posterior_p84": 29.15804100036621,
+          "top_median": 15.14070463180542
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.3611769676208496,
+          "posterior_median": -2.6678519248962402,
+          "posterior_p84": -2.009618043899536,
+          "top_median": -2.731924891471863
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 11.090255737304688,
+          "posterior_median": 77.40724182128906,
+          "posterior_p84": 404.8395690917969,
+          "top_median": 56.81024169921875
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 5.462509307108121e-06,
+          "posterior_median": 3.012841807503719e-05,
+          "posterior_p84": 0.00014144438318908215,
+          "top_median": 3.788597496168222e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 10.0,
+          "posterior_median": 105.0,
+          "posterior_p84": 506.0,
+          "top_median": 36.0
+        }
+      },
+      "elements": [
+        "Na",
+        "Ca",
+        "Cr",
+        "Ni"
+      ]
+    },
+    "core_no_Ca": {
+      "n_stars": 280,
+      "ess": 3886.166951566001,
+      "ess_fraction": 0.07772333903132002,
+      "max_weight": 0.0028429960109954784,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.2573650743897138,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1419194.125,
+          "posterior_median": 11498266.0,
+          "posterior_p84": 94788264.0,
+          "top_median": 5774780.0
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 6872.20361328125,
+          "posterior_median": 51319.77734375,
+          "posterior_p84": 216377.359375,
+          "top_median": 27073.5791015625
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 1.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 9.0,
+          "posterior_median": 67.0,
+          "posterior_p84": 408.0,
+          "top_median": 37.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.72018575668335,
+          "posterior_median": 15.615747451782227,
+          "posterior_p84": 54.88161849975586,
+          "top_median": 14.42303466796875
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 8.790664672851562,
+          "posterior_median": 17.047134399414062,
+          "posterior_p84": 29.983919143676758,
+          "top_median": 17.48558807373047
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.3448758125305176,
+          "posterior_median": -2.6427626609802246,
+          "posterior_p84": -1.9882620573043823,
+          "top_median": -2.6744054555892944
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 8.192622184753418,
+          "posterior_median": 66.61329650878906,
+          "posterior_p84": 405.25787353515625,
+          "top_median": 36.52419090270996
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 4.418425760377431e-06,
+          "posterior_median": 2.4118373403325677e-05,
+          "posterior_p84": 0.00011591464863158762,
+          "top_median": 2.4185711481550243e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 17.0,
+          "posterior_median": 127.0,
+          "posterior_p84": 561.0,
+          "top_median": 75.5
+        }
+      },
+      "elements": [
+        "Na",
+        "Mg",
+        "Cr",
+        "Ni"
+      ]
+    },
+    "core_no_Cr": {
+      "n_stars": 280,
+      "ess": 5824.732951203047,
+      "ess_fraction": 0.11649465902406095,
+      "max_weight": 0.0014023500389651932,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.18782586443535831,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1836453.25,
+          "posterior_median": 13435529.0,
+          "posterior_p84": 105973344.0,
+          "top_median": 7056969.25
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 12440.91796875,
+          "posterior_median": 76614.078125,
+          "posterior_p84": 310860.15625,
+          "top_median": 34141.13671875
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 0.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 9.0,
+          "posterior_median": 78.0,
+          "posterior_p84": 413.0,
+          "top_median": 62.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.72896671295166,
+          "posterior_median": 16.263376235961914,
+          "posterior_p84": 56.30677795410156,
+          "top_median": 15.837503433227539
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 8.539298057556152,
+          "posterior_median": 16.88082504272461,
+          "posterior_p84": 30.163482666015625,
+          "top_median": 16.679096221923828
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.328791379928589,
+          "posterior_median": -2.593690872192383,
+          "posterior_p84": -1.9798520803451538,
+          "top_median": -2.661290764808655
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 8.968168258666992,
+          "posterior_median": 78.78895568847656,
+          "posterior_p84": 411.4059753417969,
+          "top_median": 60.86647415161133
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 4.160578100709245e-06,
+          "posterior_median": 2.379578108957503e-05,
+          "posterior_p84": 0.00011467577860457823,
+          "top_median": 2.768920148810139e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 29.0,
+          "posterior_median": 177.0,
+          "posterior_p84": 763.0,
+          "top_median": 90.0
+        }
+      },
+      "elements": [
+        "Na",
+        "Mg",
+        "Ca",
+        "Ni"
+      ]
+    },
+    "core_no_Ni": {
+      "n_stars": 350,
+      "ess": 7713.725854107307,
+      "ess_fraction": 0.15427451708214615,
+      "max_weight": 0.0005875609555364401,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.1290584988197328,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 2038079.625,
+          "posterior_median": 13718526.0,
+          "posterior_p84": 107761880.0,
+          "top_median": 13622973.5
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 11764.7880859375,
+          "posterior_median": 61191.52734375,
+          "posterior_p84": 224149.921875,
+          "top_median": 55438.54296875
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 9.0,
+          "posterior_median": 89.0,
+          "posterior_p84": 450.0,
+          "top_median": 128.5
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.5491719245910645,
+          "posterior_median": 15.86094856262207,
+          "posterior_p84": 55.52937698364258,
+          "top_median": 15.630903244018555
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 8.117508888244629,
+          "posterior_median": 16.129547119140625,
+          "posterior_p84": 29.80019187927246,
+          "top_median": 17.12577533721924
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.343874216079712,
+          "posterior_median": -2.599310874938965,
+          "posterior_p84": -1.97049081325531,
+          "top_median": -2.6652092933654785
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 8.283709526062012,
+          "posterior_median": 88.73967742919922,
+          "posterior_p84": 451.6304931640625,
+          "top_median": 128.2317886352539
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 4.797146175405942e-06,
+          "posterior_median": 2.713110370677896e-05,
+          "posterior_p84": 0.00012920044537167996,
+          "top_median": 2.9956857360957656e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 27.0,
+          "posterior_median": 138.0,
+          "posterior_p84": 542.0,
+          "top_median": 133.5
+        }
+      },
+      "elements": [
+        "Na",
+        "Mg",
+        "Ca",
+        "Cr"
+      ]
+    },
+    "Na": {
+      "n_stars": 364,
+      "ess": 19636.86221515648,
+      "ess_fraction": 0.3927372443031296,
+      "max_weight": 9.014473007704213e-05,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.04502316976804069,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1043696.4375,
+          "posterior_median": 9038545.0,
+          "posterior_p84": 78895632.0,
+          "top_median": 6996131.5
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 7348.20166015625,
+          "posterior_median": 56995.8828125,
+          "posterior_p84": 405428.53125,
+          "top_median": 46146.57421875
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 1.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 1.0,
+          "posterior_median": 23.0,
+          "posterior_p84": 244.0,
+          "top_median": 31.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.477939128875732,
+          "posterior_median": 16.012977600097656,
+          "posterior_p84": 55.965641021728516,
+          "top_median": 17.62930679321289
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 6.7660088539123535,
+          "posterior_median": 14.59800910949707,
+          "posterior_p84": 28.84703254699707,
+          "top_median": 14.770854949951172
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.342653751373291,
+          "posterior_median": -2.643221139907837,
+          "posterior_p84": -2.0180346965789795,
+          "top_median": -2.610130548477173
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 1.046942949295044,
+          "posterior_median": 23.371767044067383,
+          "posterior_p84": 243.94143676757812,
+          "top_median": 30.289852142333984
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 3.884554644173477e-06,
+          "posterior_median": 2.3678943762206472e-05,
+          "posterior_p84": 0.00012745153799187392,
+          "top_median": 3.696465319080744e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 13.0,
+          "posterior_median": 117.0,
+          "posterior_p84": 784.0,
+          "top_median": 95.5
+        }
+      },
+      "elements": [
+        "Na"
+      ]
+    },
+    "Mg": {
+      "n_stars": 385,
+      "ess": 28961.975762478545,
+      "ess_fraction": 0.579239515249571,
+      "max_weight": 5.47126623477657e-05,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.027341470979297084,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1435249.25,
+          "posterior_median": 11154496.0,
+          "posterior_p84": 85814240.0,
+          "top_median": 7357957.25
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 3887.815185546875,
+          "posterior_median": 40369.69921875,
+          "posterior_p84": 332777.5,
+          "top_median": 39037.228515625
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 1.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 2.0,
+          "posterior_median": 50.0,
+          "posterior_p84": 368.0,
+          "top_median": 40.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.530609607696533,
+          "posterior_median": 16.0992431640625,
+          "posterior_p84": 56.04054641723633,
+          "top_median": 17.205723762512207
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 5.449932098388672,
+          "posterior_median": 13.438511848449707,
+          "posterior_p84": 28.076322555541992,
+          "top_median": 13.777105808258057
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.3213131427764893,
+          "posterior_median": -2.5721120834350586,
+          "posterior_p84": -1.9738388061523438,
+          "top_median": -2.6030431985855103
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 2.1383845806121826,
+          "posterior_median": 49.80422592163086,
+          "posterior_p84": 367.9008483886719,
+          "top_median": 38.52979850769043
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 4.4948465074412525e-06,
+          "posterior_median": 2.6146883101318963e-05,
+          "posterior_p84": 0.0001474420860176906,
+          "top_median": 3.5238961572758853e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 3.0,
+          "posterior_median": 61.0,
+          "posterior_p84": 677.0,
+          "top_median": 71.0
+        }
+      },
+      "elements": [
+        "Mg"
+      ]
+    },
+    "Ca": {
+      "n_stars": 384,
+      "ess": 38359.10382220647,
+      "ess_fraction": 0.7671820764441294,
+      "max_weight": 3.4251547964010106e-05,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.017124841467145942,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1743715.75,
+          "posterior_median": 13581204.0,
+          "posterior_p84": 95329920.0,
+          "top_median": 18148410.0
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 4066.6455078125,
+          "posterior_median": 50418.859375,
+          "posterior_p84": 655983.625,
+          "top_median": 137352.4609375
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 1.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 1.0,
+          "posterior_median": 35.0,
+          "posterior_p84": 306.0,
+          "top_median": 42.5
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.503028869628906,
+          "posterior_median": 15.999683380126953,
+          "posterior_p84": 55.606788635253906,
+          "top_median": 16.236088752746582
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 5.419651031494141,
+          "posterior_median": 13.35680103302002,
+          "posterior_p84": 28.103727340698242,
+          "top_median": 16.658726692199707
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.275003671646118,
+          "posterior_median": -2.5372273921966553,
+          "posterior_p84": -1.969110131263733,
+          "top_median": -2.5054898262023926
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 1.3588565587997437,
+          "posterior_median": 34.50652313232422,
+          "posterior_p84": 306.2153015136719,
+          "top_median": 44.88692092895508
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 3.2103700959851267e-06,
+          "posterior_median": 1.773703479557298e-05,
+          "posterior_p84": 0.00010803616169141605,
+          "top_median": 1.4255249425332295e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 3.0,
+          "posterior_median": 75.0,
+          "posterior_p84": 1419.0,
+          "top_median": 298.5
+        }
+      },
+      "elements": [
+        "Ca"
+      ]
+    },
+    "Cr": {
+      "n_stars": 369,
+      "ess": 24183.257013040355,
+      "ess_fraction": 0.4836651402608071,
+      "max_weight": 0.00010746316707875641,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.04520489087769203,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1790880.25,
+          "posterior_median": 12435220.0,
+          "posterior_p84": 93780432.0,
+          "top_median": 2794686.125
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 2012.264892578125,
+          "posterior_median": 10289.2763671875,
+          "posterior_p84": 121943.2421875,
+          "top_median": 4667.46875
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 5.0,
+          "posterior_median": 84.0,
+          "posterior_p84": 489.0,
+          "top_median": 11.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.506735324859619,
+          "posterior_median": 15.74455451965332,
+          "posterior_p84": 55.33727264404297,
+          "top_median": 15.748001098632812
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 3.89284348487854,
+          "posterior_median": 9.376677513122559,
+          "posterior_p84": 25.051746368408203,
+          "top_median": 4.084649085998535
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.368096351623535,
+          "posterior_median": -2.6192612648010254,
+          "posterior_p84": -1.9684087038040161,
+          "top_median": -2.808409333229065
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 4.826676845550537,
+          "posterior_median": 83.59041595458984,
+          "posterior_p84": 488.5957946777344,
+          "top_median": 11.12250566482544
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 5.099131612951169e-06,
+          "posterior_median": 2.9556518711615354e-05,
+          "posterior_p84": 0.00015211888239718974,
+          "top_median": 2.060700808215188e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 8.0,
+          "posterior_p84": 102.0,
+          "top_median": 0.0
+        }
+      },
+      "elements": [
+        "Cr"
+      ]
+    },
+    "Ni": {
+      "n_stars": 288,
+      "ess": 26370.00048321493,
+      "ess_fraction": 0.5274000096642987,
+      "max_weight": 9.188386542773306e-05,
+      "top_fraction": 0.01,
+      "n_top": 500,
+      "top_share": 0.04421325678119597,
+      "parameters": {
+        "mdil": {
+          "prior_p16": 1259548.5,
+          "prior_median": 10505067.0,
+          "prior_p84": 83046944.0,
+          "posterior_p16": 1588644.875,
+          "posterior_median": 11816326.0,
+          "posterior_p84": 91515392.0,
+          "top_median": 1477523.4375
+        },
+        "mstar_ii": {
+          "prior_p16": 2926.65625,
+          "prior_median": 26985.248046875,
+          "prior_p84": 453522.1875,
+          "posterior_p16": 2312.54443359375,
+          "posterior_median": 14563.44921875,
+          "posterior_p84": 187752.875,
+          "top_median": 4160.375
+        },
+        "n_pisn": {
+          "prior_p16": 0.0,
+          "prior_median": 1.0,
+          "prior_p84": 2.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 1.0,
+          "posterior_p84": 2.0,
+          "top_median": 0.0
+        },
+        "n_iii": {
+          "prior_p16": 1.0,
+          "prior_median": 26.0,
+          "prior_p84": 302.0,
+          "posterior_p16": 4.0,
+          "posterior_median": 69.0,
+          "posterior_p84": 443.0,
+          "top_median": 29.0
+        },
+        "delta_myr": {
+          "prior_p16": 4.4650702476501465,
+          "prior_median": 15.925835609436035,
+          "prior_p84": 55.634483337402344,
+          "posterior_p16": 4.62608528137207,
+          "posterior_median": 16.18069076538086,
+          "posterior_p84": 55.866539001464844,
+          "top_median": 17.81462860107422
+        },
+        "t_myr": {
+          "prior_p16": 4.7632856369018555,
+          "prior_median": 11.287588119506836,
+          "prior_p84": 26.55682373046875,
+          "posterior_p16": 4.233612537384033,
+          "posterior_median": 11.494300842285156,
+          "posterior_p84": 26.52855110168457,
+          "top_median": 7.649270057678223
+        },
+        "feh": {
+          "prior_p16": -3.3249571323394775,
+          "prior_median": -2.6065640449523926,
+          "prior_p84": -1.997484564781189,
+          "posterior_p16": -3.355107069015503,
+          "posterior_median": -2.6122984886169434,
+          "posterior_p84": -1.977868676185608,
+          "top_median": -2.7938634157180786
+        },
+        "lambda_iii": {
+          "prior_p16": 0.978854775428772,
+          "prior_median": 26.135639190673828,
+          "prior_p84": 303.043701171875,
+          "posterior_p16": 4.170820713043213,
+          "posterior_median": 68.74136352539062,
+          "posterior_p84": 443.5865478515625,
+          "top_median": 27.59396266937256
+        },
+        "z_star": {
+          "prior_p16": 3.70145221495477e-06,
+          "prior_median": 2.1991685571265407e-05,
+          "prior_p84": 0.00013330832007341087,
+          "posterior_p16": 4.666268523578765e-06,
+          "posterior_median": 2.6902924219029956e-05,
+          "posterior_p84": 0.00014559672854375094,
+          "top_median": 3.9412727346643806e-05
+        },
+        "popii_n": {
+          "prior_p16": 1.0,
+          "prior_median": 31.0,
+          "prior_p84": 734.0,
+          "posterior_p16": 0.0,
+          "posterior_median": 14.0,
+          "posterior_p84": 231.0,
+          "top_median": 3.0
+        }
+      },
+      "elements": [
+        "Ni"
+      ]
+    }
+  },
+  "null": {
+    "n_draws": 5,
+    "n_stars": 385,
+    "values": [
+      10859.685612281724,
+      12119.220355907324,
+      11965.2639185602,
+      10453.111733022766,
+      11785.770759087793
+    ],
+    "mean": 11436.610475771962,
+    "median": 11785.770759087793
+  }
+}

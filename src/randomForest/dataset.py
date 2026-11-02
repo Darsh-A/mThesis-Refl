@@ -52,11 +52,12 @@ FEH_RANGE = (-3.0, 0.0)
 # yield vanishes and every mixed ratio becomes NaN (young population with no
 # CCSN in the grid yet).  Nomoto13's grid tops out at 40 Msun, whose max
 # lifetime is ~5.43 Myr across Z, so it needs a later start than Limongi18
-# (which reaches 120 Msun).  The upper bound (~lifetime of the 13 Msun lightest
-# model) is shared by both grids.
-TPOP2_RANGE = (3.2e6, 17.4e6)
+# (which reaches 120 Msun).  The upper bound is the ~8 Msun CCSN lower mass
+# limit (~42 Myr lifetime); below the 13 Msun lightest grid model the yields are
+# constant-extrapolated, so the 8-13 Msun CCSNe are included (crudely).
+TPOP2_RANGE = (3.2e6, 42e6)
 TPOP2_RANGE_BY_SOURCE = {
-    "Nomoto13": (5.5e6, 17.4e6),
+    "Nomoto13": (5.5e6, 42e6),
 }
 
 # Clamp floor for abundance ratios

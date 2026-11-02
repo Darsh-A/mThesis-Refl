@@ -1,0 +1,6 @@
+Cross-yield NPE generalization (test v1.2)
+
+train_Limongi18_test_Limongi18: R2=0.9982  RMSE=0.0127  rho=+0.998  bias=-0.000
+train_Limongi18_test_Nomoto13: R2=0.8556  RMSE=0.1093  rho=+0.953  bias=-0.062
+train_Nomoto13_test_Nomoto13: R2=0.9981  RMSE=0.0130  rho=+0.999  bias=+0.001
+train_Nomoto13_test_Limongi18: R2=0.7591  RMSE=0.1412  rho=+0.977  bias=+0.120

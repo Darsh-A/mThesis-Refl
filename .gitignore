@@ -5,6 +5,7 @@
 *__pycache__/
 
 # data stuff
+data/potluck
 data/raw/Ishigaki18
 data/raw/Ishigaki18_full.tsv
 data/Ishigaki18.tsv
@@ -12,3 +13,4 @@ notes.md
 data/raw/Obs_XiangLamost
 src/hypothesis/diagnostic_test_v2
 src/randomForest/data
+src/potluck/explanations

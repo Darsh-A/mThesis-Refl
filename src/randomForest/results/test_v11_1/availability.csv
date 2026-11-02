@@ -1,0 +1,81 @@
+dataset,pair,real_source,available,reason
+4_3,P1 [Ca/Mg] vs [Si/Mg],Xiang,True,ok
+4_3,P1 [Ca/Mg] vs [Si/Mg],Li22,True,ok
+4_3,P2 [Ca/Mg] vs [Cu/Mg],Xiang,True,ok
+4_3,P2 [Ca/Mg] vs [Cu/Mg],Li22,False,Li22 missing element(s) ['Cu']
+4_3,P3 [Ca/Mg] vs [Cu/Fe],Xiang,True,ok
+4_3,P3 [Ca/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+4_3,P4 [Ca/Fe] vs [Cu/Fe],Xiang,True,ok
+4_3,P4 [Ca/Fe] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+4_3,P5 [Si/Mg] vs [Cu/Fe],Xiang,True,ok
+4_3,P5 [Si/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+4_3,P6 [Ca/Mg] vs [Zn/Mg],Xiang,False,Xiang missing element(s) ['Zn']
+4_3,P6 [Ca/Mg] vs [Zn/Mg],Li22,True,ok
+4_3,P7 [Ca/Fe] vs [Zn/Fe],Xiang,False,Xiang missing element(s) ['Zn']
+4_3,P7 [Ca/Fe] vs [Zn/Fe],Li22,True,ok
+4_3,P8 [Ca/Mg] vs [Ni/Fe],Xiang,True,ok
+4_3,P8 [Ca/Mg] vs [Ni/Fe],Li22,True,ok
+4_3,P9 [Ca/Mg] vs [Ti/Mg],Xiang,False,sim 4_3 missing element(s) ['Ti']
+4_3,P9 [Ca/Mg] vs [Ti/Mg],Li22,False,sim 4_3 missing element(s) ['Ti']
+4_3,P10 [Si/Mg] vs [Ti/Mg],Xiang,False,sim 4_3 missing element(s) ['Ti']
+4_3,P10 [Si/Mg] vs [Ti/Mg],Li22,False,sim 4_3 missing element(s) ['Ti']
+5,P1 [Ca/Mg] vs [Si/Mg],Xiang,True,ok
+5,P1 [Ca/Mg] vs [Si/Mg],Li22,True,ok
+5,P2 [Ca/Mg] vs [Cu/Mg],Xiang,True,ok
+5,P2 [Ca/Mg] vs [Cu/Mg],Li22,False,Li22 missing element(s) ['Cu']
+5,P3 [Ca/Mg] vs [Cu/Fe],Xiang,True,ok
+5,P3 [Ca/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+5,P4 [Ca/Fe] vs [Cu/Fe],Xiang,True,ok
+5,P4 [Ca/Fe] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+5,P5 [Si/Mg] vs [Cu/Fe],Xiang,True,ok
+5,P5 [Si/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+5,P6 [Ca/Mg] vs [Zn/Mg],Xiang,False,Xiang missing element(s) ['Zn']
+5,P6 [Ca/Mg] vs [Zn/Mg],Li22,True,ok
+5,P7 [Ca/Fe] vs [Zn/Fe],Xiang,False,Xiang missing element(s) ['Zn']
+5,P7 [Ca/Fe] vs [Zn/Fe],Li22,True,ok
+5,P8 [Ca/Mg] vs [Ni/Fe],Xiang,True,ok
+5,P8 [Ca/Mg] vs [Ni/Fe],Li22,True,ok
+5,P9 [Ca/Mg] vs [Ti/Mg],Xiang,False,sim 5 missing element(s) ['Ti']
+5,P9 [Ca/Mg] vs [Ti/Mg],Li22,False,sim 5 missing element(s) ['Ti']
+5,P10 [Si/Mg] vs [Ti/Mg],Xiang,False,sim 5 missing element(s) ['Ti']
+5,P10 [Si/Mg] vs [Ti/Mg],Li22,False,sim 5 missing element(s) ['Ti']
+L,P1 [Ca/Mg] vs [Si/Mg],Xiang,True,ok
+L,P1 [Ca/Mg] vs [Si/Mg],Li22,True,ok
+L,P2 [Ca/Mg] vs [Cu/Mg],Xiang,True,ok
+L,P2 [Ca/Mg] vs [Cu/Mg],Li22,False,Li22 missing element(s) ['Cu']
+L,P3 [Ca/Mg] vs [Cu/Fe],Xiang,True,ok
+L,P3 [Ca/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+L,P4 [Ca/Fe] vs [Cu/Fe],Xiang,True,ok
+L,P4 [Ca/Fe] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+L,P5 [Si/Mg] vs [Cu/Fe],Xiang,True,ok
+L,P5 [Si/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+L,P6 [Ca/Mg] vs [Zn/Mg],Xiang,False,sim L missing element(s) ['Zn']
+L,P6 [Ca/Mg] vs [Zn/Mg],Li22,False,sim L missing element(s) ['Zn']
+L,P7 [Ca/Fe] vs [Zn/Fe],Xiang,False,sim L missing element(s) ['Zn']
+L,P7 [Ca/Fe] vs [Zn/Fe],Li22,False,sim L missing element(s) ['Zn']
+L,P8 [Ca/Mg] vs [Ni/Fe],Xiang,True,ok
+L,P8 [Ca/Mg] vs [Ni/Fe],Li22,True,ok
+L,P9 [Ca/Mg] vs [Ti/Mg],Xiang,True,ok
+L,P9 [Ca/Mg] vs [Ti/Mg],Li22,True,ok
+L,P10 [Si/Mg] vs [Ti/Mg],Xiang,True,ok
+L,P10 [Si/Mg] vs [Ti/Mg],Li22,True,ok
+N,P1 [Ca/Mg] vs [Si/Mg],Xiang,True,ok
+N,P1 [Ca/Mg] vs [Si/Mg],Li22,True,ok
+N,P2 [Ca/Mg] vs [Cu/Mg],Xiang,True,ok
+N,P2 [Ca/Mg] vs [Cu/Mg],Li22,False,Li22 missing element(s) ['Cu']
+N,P3 [Ca/Mg] vs [Cu/Fe],Xiang,True,ok
+N,P3 [Ca/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+N,P4 [Ca/Fe] vs [Cu/Fe],Xiang,True,ok
+N,P4 [Ca/Fe] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+N,P5 [Si/Mg] vs [Cu/Fe],Xiang,True,ok
+N,P5 [Si/Mg] vs [Cu/Fe],Li22,False,Li22 missing element(s) ['Cu']
+N,P6 [Ca/Mg] vs [Zn/Mg],Xiang,False,sim N missing element(s) ['Zn']
+N,P6 [Ca/Mg] vs [Zn/Mg],Li22,False,sim N missing element(s) ['Zn']
+N,P7 [Ca/Fe] vs [Zn/Fe],Xiang,False,sim N missing element(s) ['Zn']
+N,P7 [Ca/Fe] vs [Zn/Fe],Li22,False,sim N missing element(s) ['Zn']
+N,P8 [Ca/Mg] vs [Ni/Fe],Xiang,True,ok
+N,P8 [Ca/Mg] vs [Ni/Fe],Li22,True,ok
+N,P9 [Ca/Mg] vs [Ti/Mg],Xiang,True,ok
+N,P9 [Ca/Mg] vs [Ti/Mg],Li22,True,ok
+N,P10 [Si/Mg] vs [Ti/Mg],Xiang,True,ok
+N,P10 [Si/Mg] vs [Ti/Mg],Li22,True,ok

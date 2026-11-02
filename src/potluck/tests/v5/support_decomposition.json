@@ -1,0 +1,112 @@
+{
+  "n": 385,
+  "threshold": 2.662645493779182,
+  "in_model": 194,
+  "in_model_fraction": 0.5038961038961038,
+  "threshold_available": 2.6099081561383,
+  "in_model_available": 207,
+  "in_model_available_fraction": 0.5376623376623376,
+  "threshold_observed": 1.9136967565585583,
+  "in_model_observed": 300,
+  "in_model_observed_fraction": 0.7792207792207793,
+  "by_n_core": {
+    "2": {
+      "n": 3,
+      "in_model": 0,
+      "fraction": 0.0
+    },
+    "3": {
+      "n": 24,
+      "in_model": 0,
+      "fraction": 0.0
+    },
+    "4": {
+      "n": 78,
+      "in_model": 56,
+      "fraction": 0.717948717948718
+    },
+    "5": {
+      "n": 280,
+      "in_model": 138,
+      "fraction": 0.4928571428571429
+    }
+  },
+  "by_giant": {
+    "False": {
+      "n": 171,
+      "in_model": 105,
+      "fraction": 0.6140350877192983
+    },
+    "True": {
+      "n": 214,
+      "in_model": 89,
+      "fraction": 0.4158878504672897
+    }
+  },
+  "by_feh": {
+    "(-4.0, -3.5]": {
+      "n": 20,
+      "in_model": 5,
+      "fraction": 0.25
+    },
+    "(-3.5, -3.0]": {
+      "n": 88,
+      "in_model": 39,
+      "fraction": 0.4431818181818182
+    },
+    "(-3.0, -2.5]": {
+      "n": 118,
+      "in_model": 58,
+      "fraction": 0.4915254237288136
+    },
+    "(-2.5, -2.0]": {
+      "n": 130,
+      "in_model": 69,
+      "fraction": 0.5307692307692308
+    },
+    "(-2.0, -1.5]": {
+      "n": 24,
+      "in_model": 21,
+      "fraction": 0.875
+    }
+  },
+  "drivers": {
+    "Cr": 245,
+    "Ca": 55,
+    "Na": 26,
+    "Mg": 23,
+    "Ni": 9
+  },
+  "elements": {
+    "Na": {
+      "threshold": 0.008514720257064698,
+      "n": 364,
+      "median": 0.00016943613688151968,
+      "outlier_fraction": 0.03571428571428571
+    },
+    "Mg": {
+      "threshold": 0.005798494601309639,
+      "n": 385,
+      "median": 9.155273437486335e-05,
+      "outlier_fraction": 0.0
+    },
+    "Ca": {
+      "threshold": 0.043662812141080726,
+      "n": 384,
+      "median": 3.798348563068583e-05,
+      "outlier_fraction": 0.005208333333333333
+    },
+    "Cr": {
+      "threshold": 0.42041760756612717,
+      "n": 369,
+      "median": 0.018739912245008726,
+      "outlier_fraction": 0.04065040650406504
+    },
+    "Ni": {
+      "threshold": 0.007026035616775137,
+      "n": 288,
+      "median": 0.0007776113656850961,
+      "outlier_fraction": 0.04513888888888889
+    }
+  }
+}

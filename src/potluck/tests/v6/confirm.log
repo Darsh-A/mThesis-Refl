@@ -1,0 +1,117 @@
+confirming baseline seed 1
+drawn=5000 accepted=1881 acceptance=0.38
+drawn=10000 accepted=3783 acceptance=0.38
+drawn=15000 accepted=5720 acceptance=0.38
+drawn=20000 accepted=7626 acceptance=0.38
+drawn=25000 accepted=9518 acceptance=0.38
+drawn=30000 accepted=11454 acceptance=0.38
+drawn=35000 accepted=13334 acceptance=0.38
+drawn=40000 accepted=15262 acceptance=0.38
+drawn=45000 accepted=17102 acceptance=0.38
+drawn=50000 accepted=18939 acceptance=0.38
+drawn=55000 accepted=20000 acceptance=0.36
+confirming baseline seed 2
+drawn=5000 accepted=1892 acceptance=0.38
+drawn=10000 accepted=3805 acceptance=0.38
+drawn=15000 accepted=5688 acceptance=0.38
+drawn=20000 accepted=7564 acceptance=0.38
+drawn=25000 accepted=9456 acceptance=0.38
+drawn=30000 accepted=11375 acceptance=0.38
+drawn=35000 accepted=13289 acceptance=0.38
+drawn=40000 accepted=15188 acceptance=0.38
+drawn=45000 accepted=17055 acceptance=0.38
+drawn=50000 accepted=18953 acceptance=0.38
+drawn=55000 accepted=20000 acceptance=0.36
+confirming p11 seed 1
+drawn=5000 accepted=2581 acceptance=0.52
+drawn=10000 accepted=5145 acceptance=0.51
+drawn=15000 accepted=7706 acceptance=0.51
+drawn=20000 accepted=10241 acceptance=0.51
+drawn=25000 accepted=12807 acceptance=0.51
+drawn=30000 accepted=15382 acceptance=0.51
+drawn=35000 accepted=17873 acceptance=0.51
+drawn=40000 accepted=20000 acceptance=0.50
+confirming p11 seed 2
+drawn=5000 accepted=2551 acceptance=0.51
+drawn=10000 accepted=5030 acceptance=0.50
+drawn=15000 accepted=7616 acceptance=0.51
+drawn=20000 accepted=10198 acceptance=0.51
+drawn=25000 accepted=12749 acceptance=0.51
+drawn=30000 accepted=15271 acceptance=0.51
+drawn=35000 accepted=17863 acceptance=0.51
+drawn=40000 accepted=20000 acceptance=0.50
+confirming p15 seed 1
+drawn=5000 accepted=2148 acceptance=0.43
+drawn=10000 accepted=4253 acceptance=0.43
+drawn=15000 accepted=6399 acceptance=0.43
+drawn=20000 accepted=8574 acceptance=0.43
+drawn=25000 accepted=10712 acceptance=0.43
+drawn=30000 accepted=12809 acceptance=0.43
+drawn=35000 accepted=15006 acceptance=0.43
+drawn=40000 accepted=17125 acceptance=0.43
+drawn=45000 accepted=19272 acceptance=0.43
+drawn=50000 accepted=20000 acceptance=0.40
+confirming p15 seed 2
+drawn=5000 accepted=2167 acceptance=0.43
+drawn=10000 accepted=4298 acceptance=0.43
+drawn=15000 accepted=6392 acceptance=0.43
+drawn=20000 accepted=8520 acceptance=0.43
+drawn=25000 accepted=10640 acceptance=0.43
+drawn=30000 accepted=12721 acceptance=0.42
+drawn=35000 accepted=14852 acceptance=0.42
+drawn=40000 accepted=17044 acceptance=0.43
+drawn=45000 accepted=19190 acceptance=0.43
+drawn=50000 accepted=20000 acceptance=0.40
+{
+  "baseline": {
+    "n_runs": 2,
+    "in_model_values": [
+      0.4909090909090909,
+      0.5116883116883116
+    ],
+    "in_model_mean": 0.5012987012987012,
+    "in_model_min": 0.4909090909090909,
+    "in_model_max": 0.5116883116883116,
+    "threshold_mean": 2.707026204138084,
+    "classifier_auc_mean": 0.9613340488652078,
+    "fpr_at_tpr_90_mean": 0.10966115726092132,
+    "two_sample_auc_mean": 0.9928318965517241,
+    "cr_ks_mean": 0.7762199181435662,
+    "ni_ks_mean": 0.776466817167022,
+    "positive_rate_mean": 0.1785094573346887
+  },
+  "p11": {
+    "n_runs": 2,
+    "in_model_values": [
+      0.625974025974026,
+      0.5532467532467532
+    ],
+    "in_model_mean": 0.5896103896103896,
+    "in_model_min": 0.5532467532467532,
+    "in_model_max": 0.625974025974026,
+    "threshold_mean": 2.799736324047398,
+    "classifier_auc_mean": 0.9578292927034708,
+    "fpr_at_tpr_90_mean": 0.12226330597590229,
+    "two_sample_auc_mean": 0.9919511494252873,
+    "cr_ks_mean": 0.7965445542976144,
+    "ni_ks_mean": 0.6626297713032013,
+    "positive_rate_mean": 0.1966009818282604
+  },
+  "p15": {
+    "n_runs": 2,
+    "in_model_values": [
+      0.44155844155844154,
+      0.37402597402597404
+    ],
+    "in_model_mean": 0.4077922077922078,
+    "in_model_min": 0.37402597402597404,
+    "in_model_max": 0.44155844155844154,
+    "threshold_mean": 2.7724445679741945,
+    "classifier_auc_mean": 0.9816098830249422,
+    "fpr_at_tpr_90_mean": 0.0501557519637528,
+    "two_sample_auc_mean": 0.9921795977011494,
+    "cr_ks_mean": 0.8084911397652886,
+    "ni_ks_mean": 0.8118566722243613,
+    "positive_rate_mean": 0.115619939157337
+  }
+}

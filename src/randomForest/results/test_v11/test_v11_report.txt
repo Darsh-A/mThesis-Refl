@@ -1,0 +1,68 @@
+test_v11: within-class scatter + real-star OOD check
+Classes: neg = f_pisn==0; pos = f_pisn>=0.5 (overall and per mass bin).
+Near-point flag: f=0 std < 0.05 dex.
+
+== PART A: within-class scatter ==
+  4_3   [Ca/Mg]   neg         n=1017 mean=-0.083 std=0.1770 IQR=0.3652 p05=-0.321 p95=+0.130 [-0.342,+0.290] 
+  4_3   [Ca/Mg]   pos_all     n= 483 mean=+0.903 std=0.1842 IQR=0.3035 p05=+0.621 p95=+1.195 [+0.536,+1.271] 
+  4_3   [Ca/Mg]   pos_210-230 n=  72 mean=+0.988 std=0.1042 IQR=0.1675 p05=+0.821 p95=+1.151 [+0.778,+1.168] 
+  4_3   [Ca/Mg]   pos_>=230   n= 168 mean=+1.084 std=0.0993 IQR=0.1571 p05=+0.917 p95=+1.230 [+0.880,+1.271] 
+  4_3   [Si/Mg]   neg         n=1017 mean=+0.126 std=0.0820 IQR=0.1345 p05=+0.009 p95=+0.260 [-0.021,+0.394] 
+  4_3   [Si/Mg]   pos_all     n= 483 mean=+0.672 std=0.1320 IQR=0.2074 p05=+0.473 p95=+0.890 [+0.415,+0.941] 
+  4_3   [Si/Mg]   pos_210-230 n=  72 mean=+0.732 std=0.0838 IQR=0.1390 p05=+0.599 p95=+0.865 [+0.581,+0.877] 
+  4_3   [Si/Mg]   pos_>=230   n= 168 mean=+0.795 std=0.0829 IQR=0.1380 p05=+0.651 p95=+0.918 [+0.626,+0.941] 
+  5     [Ca/Mg]   neg         n=1017 mean=-0.239 std=0.0687 IQR=0.1103 p05=-0.313 p95=-0.106 [-0.315,-0.019] 
+  5     [Ca/Mg]   pos_all     n= 483 mean=+0.845 std=0.1923 IQR=0.2855 p05=+0.542 p95=+1.174 [+0.455,+1.257] 
+  5     [Ca/Mg]   pos_210-230 n=  72 mean=+0.926 std=0.1287 IQR=0.2177 p05=+0.728 p95=+1.129 [+0.707,+1.159] 
+  5     [Ca/Mg]   pos_>=230   n= 168 mean=+1.014 std=0.1331 IQR=0.2280 p05=+0.816 p95=+1.218 [+0.755,+1.257] 
+  5     [Si/Mg]   neg         n=1017 mean=+0.014 std=0.0626 IQR=0.0974 p05=-0.070 p95=+0.124 [-0.074,+0.194] 
+  5     [Si/Mg]   pos_all     n= 483 mean=+0.623 std=0.1386 IQR=0.1965 p05=+0.414 p95=+0.870 [+0.361,+0.931] 
+  5     [Si/Mg]   pos_210-230 n=  72 mean=+0.680 std=0.1039 IQR=0.1775 p05=+0.524 p95=+0.849 [+0.514,+0.870] 
+  5     [Si/Mg]   pos_>=230   n= 168 mean=+0.736 std=0.1110 IQR=0.1950 p05=+0.574 p95=+0.909 [+0.532,+0.931] 
+  L     [Ca/Mg]   neg         n=1017 mean=-0.047 std=0.2332 IQR=0.3293 p05=-0.429 p95=+0.331 [-0.712,+0.660] 
+  L     [Ca/Mg]   pos_all     n= 483 mean=+0.897 std=0.2365 IQR=0.3438 p05=+0.520 p95=+1.277 [+0.347,+1.519] 
+  L     [Ca/Mg]   pos_210-230 n=  72 mean=+0.986 std=0.1736 IQR=0.2450 p05=+0.747 p95=+1.288 [+0.630,+1.397] 
+  L     [Ca/Mg]   pos_>=230   n= 168 mean=+1.070 std=0.1863 IQR=0.2777 p05=+0.752 p95=+1.370 [+0.564,+1.519] 
+  L     [Si/Mg]   neg         n=1017 mean=+0.186 std=0.1957 IQR=0.2703 p05=-0.134 p95=+0.520 [-0.506,+0.779] 
+  L     [Si/Mg]   pos_all     n= 483 mean=+0.669 std=0.1964 IQR=0.2628 p05=+0.358 p95=+1.001 [+0.063,+1.203] 
+  L     [Si/Mg]   pos_210-230 n=  72 mean=+0.738 std=0.1616 IQR=0.1702 p05=+0.443 p95=+0.993 [+0.372,+1.114] 
+  L     [Si/Mg]   pos_>=230   n= 168 mean=+0.778 std=0.1720 IQR=0.2150 p05=+0.489 p95=+1.039 [+0.326,+1.203] 
+  N     [Ca/Mg]   neg         n=1017 mean=-0.212 std=0.1717 IQR=0.2336 p05=-0.495 p95=+0.064 [-0.886,+0.306] 
+  N     [Ca/Mg]   pos_all     n= 483 mean=+0.838 std=0.2447 IQR=0.3684 p05=+0.461 p95=+1.239 [+0.283,+1.506] 
+  N     [Ca/Mg]   pos_210-230 n=  72 mean=+0.924 std=0.1911 IQR=0.2669 p05=+0.640 p95=+1.252 [+0.555,+1.392] 
+  N     [Ca/Mg]   pos_>=230   n= 168 mean=+1.001 std=0.2090 IQR=0.2964 p05=+0.636 p95=+1.337 [+0.492,+1.506] 
+  N     [Si/Mg]   neg         n=1017 mean=+0.035 std=0.1656 IQR=0.2225 p05=-0.233 p95=+0.326 [-0.462,+0.528] 
+  N     [Si/Mg]   pos_all     n= 483 mean=+0.617 std=0.2028 IQR=0.2707 p05=+0.277 p95=+0.954 [-0.011,+1.193] 
+  N     [Si/Mg]   pos_210-230 n=  72 mean=+0.681 std=0.1764 IQR=0.1940 p05=+0.376 p95=+0.953 [+0.256,+1.108] 
+  N     [Si/Mg]   pos_>=230   n= 168 mean=+0.717 std=0.1890 IQR=0.2503 p05=+0.402 p95=+1.023 [+0.216,+1.193] 
+  Li22  [Ca/Mg]   real        n= 384 mean=-0.025 std=0.2406 IQR=0.2200 p05=-0.368 p95=+0.340 [-1.170,+1.160] 
+  Li22  [Si/Mg]   real        n= 177 mean=+0.068 std=0.1713 IQR=0.2000 p05=-0.214 p95=+0.332 [-0.640,+0.540] 
+
+== near-point check (f=0 std vs 0.1 dex) ==
+  4_3 [Ca/Mg]: f=0 std = 0.1770 dex -> resolved
+  4_3 [Si/Mg]: f=0 std = 0.0820 dex -> resolved
+  5 [Ca/Mg]: f=0 std = 0.0687 dex -> resolved
+  5 [Si/Mg]: f=0 std = 0.0626 dex -> resolved
+  L [Ca/Mg]: f=0 std = 0.2332 dex -> resolved
+  L [Si/Mg]: f=0 std = 0.1957 dex -> resolved
+  N [Ca/Mg]: f=0 std = 0.1717 dex -> resolved
+  N [Si/Mg]: f=0 std = 0.1656 dex -> resolved
+
+== PART B: real-star overlap (frac inside sim envelopes) ==
+  4_3 [Ca/Mg] Li22   n= 384 neg=0.79 pos=0.02 neither=0.19 real mean/std=-0.02/0.24
+  4_3 [Ca/Mg] Xiang  n=  45 neg=0.27 pos=0.11 neither=0.62 real mean/std=-0.08/0.78
+  4_3 [Si/Mg] Li22   n= 177 neg=0.59 pos=0.02 neither=0.40 real mean/std=+0.07/0.17
+  4_3 [Si/Mg] Xiang  n=  45 neg=0.20 pos=0.04 neither=0.76 real mean/std=-0.31/0.54
+  5 [Ca/Mg] Li22   n= 384 neg=0.28 pos=0.03 neither=0.69 real mean/std=-0.02/0.24
+  5 [Ca/Mg] Xiang  n=  45 neg=0.18 pos=0.13 neither=0.69 real mean/std=-0.08/0.78
+  5 [Si/Mg] Li22   n= 177 neg=0.46 pos=0.02 neither=0.52 real mean/std=+0.07/0.17
+  5 [Si/Mg] Xiang  n=  45 neg=0.13 pos=0.09 neither=0.78 real mean/std=-0.31/0.54
+  L [Ca/Mg] Li22   n= 384 neg=0.91 pos=0.03 neither=0.05 real mean/std=-0.02/0.24
+  L [Ca/Mg] Xiang  n=  45 neg=0.44 pos=0.16 neither=0.40 real mean/std=-0.08/0.78
+  L [Si/Mg] Li22   n= 177 neg=0.89 pos=0.04 neither=0.10 real mean/std=+0.07/0.17
+  L [Si/Mg] Xiang  n=  45 neg=0.36 pos=0.09 neither=0.60 real mean/std=-0.31/0.54
+  N [Ca/Mg] Li22   n= 384 neg=0.71 pos=0.04 neither=0.26 real mean/std=-0.02/0.24
+  N [Ca/Mg] Xiang  n=  45 neg=0.33 pos=0.18 neither=0.49 real mean/std=-0.08/0.78
+  N [Si/Mg] Li22   n= 177 neg=0.89 pos=0.08 neither=0.05 real mean/std=+0.07/0.17
+  N [Si/Mg] Xiang  n=  45 neg=0.42 pos=0.09 neither=0.49 real mean/std=-0.31/0.54
+

@@ -1,0 +1,42 @@
+Ratio sensitivity: signal = |d[X/Y]/d f_pisn| over prior width,
+nuisance = sqrt(sum of |d/d f_ratio, tpop2, M_pisn|^2 over prior widths).
+score = signal / nuisance (clean tracer if large).
+
+rank ratio        signal  nuisance   score
+1    [Al/Ca]        2.12      0.46    4.57
+2    [Al/Si]        1.80      0.47    3.87
+3    [Na/Ca]        2.32      0.64    3.61
+4    [Mg/Ca]        1.00      0.31    3.19
+5    [Mg/Al]        1.11      0.37    3.01
+6    [Na/Si]        2.00      0.70    2.85
+7    [Mg/Si]        0.69      0.24    2.85
+8    [C/Ca]         1.91      0.69    2.76
+9    [Ca/Co]        2.17      0.89    2.44
+10   [Na/Ti]        1.51      0.68    2.23
+11   [O/Al]         1.34      0.62    2.17
+12   [Al/Ti]        1.31      0.61    2.15
+13   [Na/Cr]        1.77      0.83    2.13
+14   [Na/Mn]        1.29      0.62    2.09
+15   [Si/Co]        1.85      0.90    2.05
+16   [Ca/Ti]        0.80      0.39    2.05
+17   [C/Si]         1.60      0.78    2.05
+18   [Al/Cr]        1.62      0.79    2.04
+19   [Si/Ca]        0.32      0.16    2.00
+20   [Ca/Mn]        1.06      0.54    1.97
+
+element      signal  nuisance   score
+Ca            20.60     10.51    1.96
+Si            16.66     11.02    1.51
+Na            15.94     11.77    1.35
+Al            14.78     11.26    1.31
+Cr            15.11     12.44    1.22
+Ti            12.74     10.93    1.17
+Co            15.12     13.30    1.14
+Mg            12.52     11.48    1.09
+Mn            12.23     11.34    1.08
+C             13.78     13.51    1.02
+O             14.11     14.30    0.99
+Cu            19.45     20.23    0.96
+Fe            12.88     14.34    0.90
+Ni            12.66     16.45    0.77
+N             18.66     28.98    0.64
